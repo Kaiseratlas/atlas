@@ -1,0 +1,1 @@
+export type LocaleMap = Map<string, Map<string, string>>;
