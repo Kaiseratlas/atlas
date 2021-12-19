@@ -1,0 +1,19 @@
+.country-card {
+  margin: 1em 1.5em;
+  text-align: center;
+  min-width: 120px;
+  &__flag {
+    cursor: pointer;
+    width: 82px;
+    height: 52px;
+    outline: 1px solid #eaeaea;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+  }
+  &__title {
+    cursor: pointer;
+    max-width: 120px;
+    margin: 10px auto;
+  }
+}
