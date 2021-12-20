@@ -8,6 +8,8 @@ import { Mod } from '../../mods/entities/mod.entity';
 import fg from 'fast-glob';
 import fs from 'fs';
 import path from 'path';
+import { CountryPolitics } from '../entities/country-politics';
+import { IdeologiesService } from '../../ideologies/services/ideologies.service';
 
 @Injectable()
 export class CountryHistoryService {
@@ -15,8 +17,11 @@ export class CountryHistoryService {
 
   constructor(
     private modsService: ModsService,
+    private ideologiesService: IdeologiesService,
     @InjectRepository(CountryHistory)
     private countryHistoryRepository: Repository<CountryHistory>,
+    @InjectRepository(CountryPolitics)
+    private countryPoliticsRepository: Repository<CountryPolitics>,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -26,21 +31,49 @@ export class CountryHistoryService {
   async fetch(filepath: string, mod: Mod): Promise<CountryHistory> {
     const data = await fs.promises.readFile(filepath);
     const out = this.parser.parseText(data);
-    console.log('out', out['add_ideas']);
+    //console.log('out', out['add_ideas']);
 
-    // TODO: why set_war_support could be an array?
+    const [, tag] = path.basename(filepath).match(/(\S{3}) - (.*).txt/);
+
+    // TODO: why set_research_slots and set_war_support could be an array?
+    const researchSlots = Array.isArray(out['set_research_slots'])
+      ? out['set_research_slots'][0]
+      : out['set_research_slots'];
+
     const warSupport = Array.isArray(out['set_war_support'])
       ? out['set_war_support'][0]
       : out['set_war_support'];
 
+    if (!out['set_politics']) {
+      return null;
+    }
+
+    const rulingParty = await this.ideologiesService.findByName(
+      out['set_politics']['ruling_party'],
+      mod,
+    );
+
+    if (out['set_politics']['elections_allowed'] === undefined) {
+      console.log(out['set_politics']);
+    }
+
+    const politics = this.countryPoliticsRepository.create({
+      electionFrequency: out['set_politics']['election_frequency'],
+      electionsAllowed: out['set_politics']['elections_allowed'],
+      lastElection: out['set_politics']['last_election'],
+      rulingParty,
+    });
+
     return this.countryHistoryRepository.create({
+      tag,
       capitalId: out['capital'],
-      researchSlots: out['set_research_slots'],
+      researchSlots,
       stability: out['set_stability'],
       warSupport,
       politicalPower: out['add_political_power'],
       convoys: out['set_convoys'],
       mod,
+      politics,
     });
   }
 
@@ -54,7 +87,9 @@ export class CountryHistoryService {
     // console.log('files', files);
     await this.countryHistoryRepository.delete({ mod });
     return this.countryHistoryRepository.save(
-      await Promise.all(files.map(({ path }) => this.fetch(path, mod))),
+      (
+        await Promise.all(files.map(({ path }) => this.fetch(path, mod)))
+      ).filter((h) => !!h),
     );
   }
 }

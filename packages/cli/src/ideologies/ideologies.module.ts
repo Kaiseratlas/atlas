@@ -8,5 +8,6 @@ import { Ideology } from './entities/ideology.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Ideology])],
   providers: [IdeologiesService, IdeologiesCommand, IdeologiesRefreshCommand],
+  exports: [IdeologiesService],
 })
 export class IdeologiesModule {}

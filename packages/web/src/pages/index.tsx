@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.scss";
 import { gql } from "@apollo/client";
 import client from "../../client";
 
@@ -12,9 +11,8 @@ const Home: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
       {ideologies.map((ideology) => {
         return (
           <div
-            className={styles.ideology}
             key={`ideology-${ideology.id}`}
-            style={{ borderLeftColor: `rgb(${ideology.color.join()})` }}
+            style={{ borderLeftColor: ideology.color }}
           >
             <h4 className="bp3-heading">{ideology.name}</h4>
             <p>{ideology.description}</p>
@@ -32,8 +30,6 @@ export async function getStaticProps() {
         ideologies {
           id
           color
-          description
-          grouping
           name
           canBeBoosted
           canCollaborate

@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Mod } from '../../mods/entities/mod.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Ideology } from '../entities/ideology.entity';
 import { Jomini } from 'jomini';
 import fs from 'fs';
@@ -20,6 +20,12 @@ export class IdeologiesService implements OnModuleInit {
 
   async onModuleInit(): Promise<void> {
     this.parser = await Jomini.initialize();
+  }
+
+  async findByName(name: Ideology['name'], mod: Mod): Promise<Ideology> {
+    return this.ideologiesRepository.findOneOrFail({
+      where: { name: ILike(name), mod },
+    });
   }
 
   async refresh(mod: Mod): Promise<Ideology[]> {

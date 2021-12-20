@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Not, Repository } from 'typeorm';
 import { CountryTag } from '../entities/country-tag.entity';
 import { Mod } from '../../mods/entities/mod.entity';
 import { CountryFlag } from '../entities/country-flag.entity';
+import { CountryHistory } from '../entities/country-history.entity';
 
 @Injectable()
 export class CountriesService {
@@ -12,7 +13,18 @@ export class CountriesService {
     private countryFlagRepository: Repository<CountryFlag>,
     @InjectRepository(CountryTag)
     private countryTagsRepository: Repository<CountryTag>,
+    @InjectRepository(CountryHistory)
+    private countryHistoryRepository: Repository<CountryHistory>,
   ) {}
+
+  async fetchHistory(
+    countryTag: CountryTag['tag'],
+    mod: Mod,
+  ): Promise<CountryHistory> {
+    return this.countryHistoryRepository.findOneOrFail({
+      where: { tag: ILike(countryTag), mod },
+    });
+  }
 
   async fetchFlags(mod: Mod): Promise<CountryFlag[]> {
     return this.countryFlagRepository.find({ where: { mod } });
@@ -26,7 +38,9 @@ export class CountriesService {
   }
 
   async fetchTags(mod: Mod): Promise<CountryTag[]> {
-    return this.countryTagsRepository.find({ where: { mod } });
+    return this.countryTagsRepository.find({
+      where: { mod, tag: Not(In(['XXA', 'XXB'])) },
+    });
   }
 
   // async fetchHistory(countyTag: string, countryName: string) {

@@ -1,13 +1,28 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { CountryHistory } from '../entities/country-history.entity';
+import { CountryFlag } from '../entities/country-flag.entity';
+import { CountryName } from '../entities/country-name';
 
 @ObjectType()
 export class Country {
   @Field()
-  tag: string;
+  readonly tag: string;
 
   @Field()
-  name: string;
+  readonly name: string;
+
+  @Field(() => [CountryFlag])
+  readonly flags: CountryFlag[];
+
+  @Field(() => [CountryName])
+  readonly names: CountryName[];
 
   @Field()
-  flagUrl: string;
+  readonly localizedDefaultName?: string;
+
+  @Field(() => CountryHistory)
+  readonly history?: CountryHistory;
+
+  @Field()
+  readonly flagUrl: string;
 }

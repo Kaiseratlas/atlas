@@ -4,6 +4,7 @@ import { SharedModule } from './shared/shared.module';
 import { ModsModule } from './mods/mods.module';
 import { CountriesModule } from './countries/countries.module';
 import { IdeologiesModule } from './ideologies/ideologies.module';
+import { StatesModule } from './states/states.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { IdeologiesModule } from './ideologies/ideologies.module';
     ModsModule,
     CountriesModule,
     IdeologiesModule,
+    StatesModule,
   ],
 })
 export class AppModule {}

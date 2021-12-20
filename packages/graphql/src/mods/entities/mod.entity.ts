@@ -2,6 +2,8 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CountryTag } from '../../countries/entities/country-tag.entity';
 import { Ideology } from '../../ideologies/entities/ideology.entity';
 import { CountryFlag } from '../../countries/entities/country-flag.entity';
+import { CountryHistory } from '../../countries/entities/country-history.entity';
+import { State } from '../../states/models/state.model';
 
 @Entity('mods')
 export class Mod {
@@ -32,6 +34,12 @@ export class Mod {
   @OneToMany(() => CountryFlag, (countryFlag) => countryFlag.mod)
   readonly countryFlags: CountryFlag[];
 
+  @OneToMany(() => CountryHistory, (countryHistory) => countryHistory.mod)
+  readonly countryHistory: CountryHistory[];
+
   @OneToMany(() => Ideology, (ideology) => ideology.mod)
   readonly ideologies: Ideology[];
+
+  @OneToMany(() => State, (state) => state.mod)
+  readonly states: State[];
 }

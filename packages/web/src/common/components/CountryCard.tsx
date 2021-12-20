@@ -10,7 +10,6 @@ interface CountryCardProps {
 
 const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
   const router = useRouter();
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,7 +18,8 @@ const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
     flag.onload = () => setLoading(true);
   }, []);
 
-  const handleClick = () => router.push(`/countries/${country.tag.toLowerCase()}`);
+  const handleClick = () =>
+    router.push(`/countries/${country.tag.toLowerCase()}`);
 
   return (
     <div className={styles["country-card"]}>
@@ -30,8 +30,14 @@ const CountryCard: React.FC<CountryCardProps> = ({ country }) => {
         style={{ backgroundImage: `url(${country.flagUrl})` }}
         onClick={handleClick}
       />
-      <div className={styles["country-card__title"]} onClick={handleClick}>
-        {t(country.name)}
+      <div
+        className={classNames(
+          styles["country-card__title"],
+          "bp3-running-text"
+        )}
+        onClick={handleClick}
+      >
+        {country.name}
       </div>
     </div>
   );

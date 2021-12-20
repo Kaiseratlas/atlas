@@ -10,6 +10,15 @@ export class Ideology {
   @Field()
   readonly name: string;
 
+  @Field()
+  readonly localizedName: string;
+
+  @Field()
+  readonly localizedGrouping: string;
+
+  @Field()
+  readonly localizedDescription: string;
+
   @Field({
     description:
       'RGB ideology colour, used in the political pie chart or next to the chart.',

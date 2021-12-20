@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import client from "../../client";
 import { gql } from "@apollo/client";
 import CountryCard from "../common/components/CountryCard";
@@ -18,12 +18,12 @@ const Countries: NextPage<{ countries: any[] }> = ({ countries }) => {
         </CountryList>
       </div>
 
-      <div className="col-lg-3">1 of 2</div>
+      <div className="col-lg-3"></div>
     </div>
   );
 };
 
-export async function getStaticProps({ locale }) {
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query({
     query: gql`
       query Countries {
@@ -41,6 +41,6 @@ export async function getStaticProps({ locale }) {
       countries: data.countries,
     },
   };
-}
+};
 
 export default Countries;

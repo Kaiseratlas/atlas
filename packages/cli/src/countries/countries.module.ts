@@ -12,10 +12,18 @@ import { CountryHistory } from './entities/country-history.entity';
 import { CountryHistoryService } from './services/country-history.service';
 import { CountryHistoryCommand } from './commands/country-history.command';
 import { CountryHistoryRefreshCommand } from './commands/country-history-refresh-command';
+import { CountryPolitics } from './entities/country-politics';
+import { IdeologiesModule } from '../ideologies/ideologies.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CountryTag, CountryFlag, CountryHistory]),
+    IdeologiesModule,
+    TypeOrmModule.forFeature([
+      CountryTag,
+      CountryFlag,
+      CountryHistory,
+      CountryPolitics,
+    ]),
   ],
   providers: [
     CountryTagsService,

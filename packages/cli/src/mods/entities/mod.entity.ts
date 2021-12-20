@@ -3,6 +3,7 @@ import { CountryTag } from '../../countries/entities/country-tag.entity';
 import { Ideology } from '../../ideologies/entities/ideology.entity';
 import { CountryFlag } from '../../countries/entities/country-flag.entity';
 import { CountryHistory } from '../../countries/entities/country-history.entity';
+import { State } from '../../states/entities/state.entity';
 
 @Entity('mods')
 export class Mod {
@@ -38,4 +39,7 @@ export class Mod {
 
   @OneToMany(() => Ideology, (ideology) => ideology.mod)
   readonly ideologies: Ideology[];
+
+  @OneToMany(() => State, (state) => state.mod)
+  readonly states: State[];
 }
