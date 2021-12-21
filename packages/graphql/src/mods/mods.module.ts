@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Mod } from './entities/mod.entity';
+import { Mod } from './models/mod.model';
 import { ModsResolver } from './resolvers/mods.resolver';
 import { ModsService } from './services/mods.service';
 

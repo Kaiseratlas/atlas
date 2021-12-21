@@ -44,7 +44,7 @@ export class CountriesResolver {
       country.tag,
       mod,
     );
-    return this.i18n.t(`common.${country.tag}_${politics.rulingParty.name}`);
+    return this.i18n.t(`common.${country.tag}_${politics.ideologyName}`);
   }
 
   @ResolveField()

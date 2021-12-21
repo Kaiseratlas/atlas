@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { State } from '../models/state.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Mod } from '../../mods/entities/mod.entity';
+import { Mod } from '../../mods/models/mod.model';
 
 @Injectable()
 export class StatesService {

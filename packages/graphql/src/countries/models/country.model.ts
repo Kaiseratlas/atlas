@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { CountryHistory } from '../entities/country-history.entity';
-import { CountryFlag } from '../entities/country-flag.entity';
-import { CountryName } from '../entities/country-name';
+import { CountryHistory } from './country-history.model';
+import { CountryFlag } from './country-flag.model';
+import { CountryName } from './country-name.model';
 
 @ObjectType()
 export class Country {

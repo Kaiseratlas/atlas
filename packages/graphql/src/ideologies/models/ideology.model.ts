@@ -1,20 +1,29 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { Entity } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Mod } from '../../mods/models/mod.model';
 
 @ObjectType({ description: 'https://hoi4.paradoxwikis.com/Ideology_modding' })
 @Entity('ideologies')
 export class Ideology {
-  @Field(() => ID)
+  @PrimaryGeneratedColumn()
   readonly id: number;
 
   @Field()
+  @Column()
   readonly name: string;
 
   @Field()
-  readonly localizedName: string;
+  readonly localizedName?: string;
 
   @Field()
-  readonly localizedGrouping: string;
+  readonly localizedGrouping?: string;
 
   @Field()
   readonly localizedDescription: string;
@@ -23,6 +32,7 @@ export class Ideology {
     description:
       'RGB ideology colour, used in the political pie chart or next to the chart.',
   })
+  @Column()
   readonly color: string;
 
   @Field(() => Boolean, {
@@ -36,4 +46,13 @@ export class Ideology {
     nullable: true,
   })
   readonly canCollaborate?: boolean;
+
+  @CreateDateColumn()
+  readonly createdAt: string;
+
+  @UpdateDateColumn()
+  readonly updatedAt: string;
+
+  @ManyToOne(() => Mod, (mod) => mod.countryTags, { onDelete: 'CASCADE' })
+  readonly mod: Mod;
 }

@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { CountryTag } from '../../countries/entities/country-tag.entity';
-import { Ideology } from '../../ideologies/entities/ideology.entity';
-import { CountryFlag } from '../../countries/entities/country-flag.entity';
-import { CountryHistory } from '../../countries/entities/country-history.entity';
+import { CountryTag } from '../../countries/models/country-tag.entity';
+import { Ideology } from '../../ideologies/models/ideology.entity';
+import { CountryFlag } from '../../countries/models/country-flag.entity';
+import { CountryHistory } from '../../countries/models/country-history.entity';
 import { State } from '../../states/entities/state.entity';
 
 @Entity('mods')

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Mod } from '../entities/mod.entity';
+import { Mod } from '../models/mod.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -9,6 +9,14 @@ export class ModsService {
     @InjectRepository(Mod)
     private modsRepository: Repository<Mod>,
   ) {}
+
+  async findAll() {
+    return this.modsRepository.find({
+      order: {
+        version: 'DESC',
+      },
+    });
+  }
 
   async findByRemoteId(
     remoteFileId: Mod['remoteFileId'],

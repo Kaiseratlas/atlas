@@ -9,6 +9,8 @@ import { TypeOrmConfigService } from './type-orm-config.service';
 import { GqlConfigService } from './gql-config.service';
 import { ServeStaticConfigService } from './serve-static-config.service';
 
+const isCli = process.env.CLI;
+
 @Global()
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { ServeStaticConfigService } from './serve-static-config.service';
       parser: I18nJsonParser,
       fallbackLanguage: 'english-0_19_2',
       parserOptions: {
-        path: path.resolve('dist/i18n'),
+        path: !isCli ? path.resolve(__dirname, '../../dist/i18n') : '../',
         watch: true,
       },
     }),

@@ -24,6 +24,8 @@ const Countries: NextPage<{ countries: any[] }> = ({ countries }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+
+
   const { data } = await client.query({
     query: gql`
       query Countries {

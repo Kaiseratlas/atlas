@@ -1,8 +1,8 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { CountryHistory } from '../entities/country-history.entity';
+import { CountryHistory } from '../models/country-history.model';
 import { StatesService } from '../../states/services/states.service';
 import { ModsService } from '../../mods/services/mods.service';
-import { CountryPolitics } from '../entities/country-politics';
+import { CountryPolitics } from '../models/country-politics.model';
 import { IdeologiesService } from '../../ideologies/services/ideologies.service';
 
 @Resolver(() => CountryPolitics)

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import styles from "../../common/components/CountryCard.module.scss";
 import { useRouter } from "next/router";
+import CountryLeaderCard from "../../common/components/CountryLeaderCard";
 
 const Country: NextPage<{ country: any }> = ({ country }) => {
   const { push } = useRouter();
@@ -48,6 +49,35 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
           <div className="col-md-10">{country.history.convoys}</div>
         </div>
         <h2>History</h2>
+        <h2>Leaders</h2>
+        <table
+          className="bp3-html-table bp3-interactive bp3-html-table-striped"
+          width="100%"
+        >
+          <thead>
+            <th style={{ width: 0 }}>Image</th>
+            <th style={{ width: "20%" }}>Name</th>
+            <th>Description</th>
+            <th style={{ width: "20%" }}>Ideology</th>
+          </thead>
+          <tbody>
+            {country.history.leaders.map((leader: any) => {
+              return (
+                <tr>
+                  <td>
+                    <img src={leader.pictureUrl} width={82}></img>
+                  </td>
+                  <td>{leader.name}</td>
+                  <td>{leader.description}</td>
+                  <td>{leader.ideology.name}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {/*{country.history.leaders.map((leader: any) => {*/}
+        {/*  return <CountryLeaderCard leader={leader} />;*/}
+        {/*})}*/}
         <h2>Alternative Flags</h2>
         <table
           className="bp3-html-table bp3-interactive bp3-html-table-striped"
@@ -126,6 +156,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // @ts-ignore
   const tag = params["country-tag"];
 
+
+
   const { data } = await client.query({
     query: gql`
       query Country($tag: String!) {
@@ -143,13 +175,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           localizedDefaultName
           tag
           history {
+            leaders {
+              name
+              description
+              expire
+              pictureUrl
+              ideology {
+                name
+              }
+            }
             politics {
               electionFrequency
               electionsAllowed
               lastElection
-              rulingParty {
-                name
-              }
             }
             capital {
               id

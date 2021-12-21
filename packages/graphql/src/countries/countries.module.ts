@@ -2,13 +2,17 @@ import { Module } from '@nestjs/common';
 import { CountriesService } from './services/countries.service';
 import { CountriesResolver } from './resolvers/countries.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CountryTag } from './entities/country-tag.entity';
-import { CountryFlag } from './entities/country-flag.entity';
-import { CountryHistory } from './entities/country-history.entity';
+import { CountryTag } from './models/country-tag.model';
+import { CountryFlag } from './models/country-flag.model';
+import { CountryHistory } from './models/country-history.model';
 import { StatesModule } from '../states/states.module';
 import { CountryHistoryResolver } from './resolvers/country-history.resolver';
 import { IdeologiesModule } from '../ideologies/ideologies.module';
-import { CountryPolitics } from './entities/country-politics';
+import { CountryPolitics } from './models/country-politics.model';
+import * as commands from './commands';
+import * as services from './services';
+import * as resolvers from './resolvers';
+import { CountryLeader } from './models';
 
 @Module({
   imports: [
@@ -17,10 +21,18 @@ import { CountryPolitics } from './entities/country-politics';
       CountryTag,
       CountryHistory,
       CountryPolitics,
+      CountryLeader,
     ]),
     IdeologiesModule,
     StatesModule,
   ],
-  providers: [CountriesService, CountriesResolver, CountryHistoryResolver],
+  providers: [
+    CountriesService,
+    CountriesResolver,
+    CountryHistoryResolver,
+    ...Object.values(commands),
+    ...Object.values(services),
+    ...Object.values(resolvers),
+  ],
 })
 export class CountriesModule {}
