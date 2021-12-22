@@ -1,12 +1,14 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import client from "../../../client";
+import client from "../../../../client";
 import { gql } from "@apollo/client";
 import { Card } from "@blueprintjs/core";
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import styles from "../../common/components/CountryCard.module.scss";
+import styles from "../../../common/components/CountryCard.module.scss";
 import { useRouter } from "next/router";
-import CountryLeaderCard from "../../common/components/CountryLeaderCard";
+import CountryLeaderCard from "../../../common/components/CountryLeaderCard";
+import Link from "next/link";
+import { PieChart } from "react-minimal-pie-chart";
 
 const Country: NextPage<{ country: any }> = ({ country }) => {
   const { push } = useRouter();
@@ -19,11 +21,24 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
     flag.onload = () => setLoading(true);
   }, []);
 
+  const data = country.history.popularities.map((x: any) => ({
+    title: x["ideology"]["name"],
+    key: x["ideology"]["id"],
+    color: x["ideology"]["color"],
+    value: x.value,
+  }));
+
   return (
     <div className="row">
       <div className="col-lg-9">
         <h1>{country.localizedDefaultName}</h1>
         <h2>Politics</h2>
+        <PieChart
+          animate
+          style={{ width: 200, height: 200 }}
+          totalValue={100}
+          data={data}
+        />
         <div className="row mb-md-2">
           <div className="col-md-2">
             <b>Political Power</b>
@@ -48,36 +63,8 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
           </div>
           <div className="col-md-10">{country.history.convoys}</div>
         </div>
+        <Link href={`/countries/${country.tag}/leaders`}>Leaders</Link>
         <h2>History</h2>
-        <h2>Leaders</h2>
-        <table
-          className="bp3-html-table bp3-interactive bp3-html-table-striped"
-          width="100%"
-        >
-          <thead>
-            <th style={{ width: 0 }}>Image</th>
-            <th style={{ width: "20%" }}>Name</th>
-            <th>Description</th>
-            <th style={{ width: "20%" }}>Ideology</th>
-          </thead>
-          <tbody>
-            {country.history.leaders.map((leader: any) => {
-              return (
-                <tr>
-                  <td>
-                    <img src={leader.pictureUrl} width={82}></img>
-                  </td>
-                  <td>{leader.name}</td>
-                  <td>{leader.description}</td>
-                  <td>{leader.ideology.name}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {/*{country.history.leaders.map((leader: any) => {*/}
-        {/*  return <CountryLeaderCard leader={leader} />;*/}
-        {/*})}*/}
         <h2>Alternative Flags</h2>
         <table
           className="bp3-html-table bp3-interactive bp3-html-table-striped"
@@ -156,8 +143,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // @ts-ignore
   const tag = params["country-tag"];
 
-
-
   const { data } = await client.query({
     query: gql`
       query Country($tag: String!) {
@@ -175,6 +160,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           localizedDefaultName
           tag
           history {
+            popularities {
+              ideology {
+                id
+                name
+                color
+              }
+              value
+            }
             leaders {
               name
               description

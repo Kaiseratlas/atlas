@@ -13,20 +13,18 @@ import { Mod } from '../../mods/models/mod.model';
 @Entity('ideologies')
 export class Ideology {
   @PrimaryGeneratedColumn()
-  readonly id: number;
+  @Field(() => ID)
+  readonly id: number | string;
 
   @Field()
   @Column()
   readonly name: string;
 
   @Field()
-  readonly localizedName?: string;
+  readonly grouping?: string;
 
   @Field()
-  readonly localizedGrouping?: string;
-
-  @Field()
-  readonly localizedDescription: string;
+  readonly description: string;
 
   @Field({
     description:

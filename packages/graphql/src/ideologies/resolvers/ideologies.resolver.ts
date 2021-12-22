@@ -19,25 +19,27 @@ export class IdeologiesResolver {
   }
 
   @ResolveField()
-  async localizedName(
-    @Parent() ideology: Ideology,
-  ): Promise<Ideology['localizedName']> {
+  id(@Parent() ideology: Ideology): Ideology['id'] {
+    const { name } = ideology;
+    return name;
+  }
+
+  @ResolveField()
+  async name(@Parent() ideology: Ideology): Promise<Ideology['name']> {
     const { name } = ideology;
     return this.i18n.t(`common.${name}`);
   }
 
   @ResolveField()
-  async localizedGrouping(
-    @Parent() ideology: Ideology,
-  ): Promise<Ideology['localizedGrouping']> {
+  async grouping(@Parent() ideology: Ideology): Promise<Ideology['grouping']> {
     const { name } = ideology;
     return this.i18n.t(`common.${name}_desc`);
   }
 
   @ResolveField()
-  async localizedDescription(
+  async description(
     @Parent() ideology: Ideology,
-  ): Promise<Ideology['localizedDescription']> {
+  ): Promise<Ideology['description']> {
     const { name } = ideology;
     return this.i18n.t(`common.${name}_subtype_desc`);
   }

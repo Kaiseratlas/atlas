@@ -9,7 +9,13 @@ import fg from 'fast-glob';
 import fs from 'fs';
 import path from 'path';
 import { CountryPolitics } from '../models/country-politics.model';
-import { CountryLeader } from '../models';
+import {
+  CountryFieldMarshal,
+  CountryLeader,
+  CountryPopularity,
+} from '../models';
+import { CountryCorpsCommandersService } from './country-corps-commanders.service';
+import { CountryNavyLeadersService } from './country-navy-leaders.service';
 
 @Injectable()
 export class CountryHistoryService {
@@ -23,6 +29,12 @@ export class CountryHistoryService {
     private countryPoliticsRepository: Repository<CountryPolitics>,
     @InjectRepository(CountryLeader)
     private countryLeadersRepository: Repository<CountryLeader>,
+    @InjectRepository(CountryPopularity)
+    private countryPopularitiesRepository: Repository<CountryPopularity>,
+    @InjectRepository(CountryFieldMarshal)
+    private CountryFieldMarshalsRepository: Repository<CountryFieldMarshal>,
+    private countryCorpsCommanderService: CountryCorpsCommandersService,
+    private countryNavyLeadersService: CountryNavyLeadersService,
   ) {}
 
   async findAll(mod: Mod) {
@@ -88,6 +100,42 @@ export class CountryHistoryService {
           });
         });
 
+    const popularities = Object.entries(out['set_popularities']).map(
+      ([ideologyName, value]) =>
+        this.countryPopularitiesRepository.create({
+          ideologyName,
+          value: value as number,
+        }),
+    );
+
+    if (
+      out['create_field_marshal'] &&
+      !Array.isArray(out['create_field_marshal'])
+    ) {
+      out['create_field_marshal'] = [out['create_field_marshal']];
+    }
+
+    const fieldMarshals = out['create_field_marshal']
+      ? out['create_field_marshal'].map((fieldMarshal) => {
+          return this.CountryFieldMarshalsRepository.create({
+            name: fieldMarshal['name'],
+            portraitPath: fieldMarshal['portrait_path'],
+            skill: fieldMarshal['skill'],
+            attackSkill: fieldMarshal['attack_skill'],
+            defenseSkill: fieldMarshal['defense_skill'],
+            logisticsSkill: fieldMarshal['logistics_skill'],
+            planningSkill: fieldMarshal['planning_skill'],
+          });
+        })
+      : [];
+
+    const corpsCommanders = this.countryCorpsCommanderService.parse(
+      out['create_corps_commander'],
+    );
+    const navyLeaders = this.countryNavyLeadersService.parse(
+      out['create_navy_leader'],
+    );
+
     return this.countryHistoryRepository.create({
       tag,
       capitalId: out['capital'],
@@ -99,6 +147,10 @@ export class CountryHistoryService {
       mod,
       politics,
       leaders,
+      popularities,
+      fieldMarshals,
+      corpsCommanders,
+      navyLeaders,
     });
   }
 

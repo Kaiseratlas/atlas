@@ -30,8 +30,8 @@ export class CountryHistoryCommand implements CommandRunner {
       options?.version,
     );
 
-    //await this.countryHistoryService.refresh(mod);
-    await this.countryLeadersService.refreshPortraits(mod);
+    await this.countryHistoryService.refresh(mod);
+    //await this.countryLeadersService.refreshPortraits(mod);
   }
 
   async runWithAll() {}

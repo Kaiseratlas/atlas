@@ -14,6 +14,10 @@ import { Field, ID, Int, Float, ObjectType } from '@nestjs/graphql';
 import { State } from '../../states/models/state.model';
 import { CountryPolitics } from './country-politics.model';
 import { CountryLeader } from './country-leader.model';
+import { CountryPopularity } from './country-popularity.model';
+import { CountryFieldMarshal } from './country-field-marshal.model';
+import { CountryCorpsCommander } from './country-corps-commander.model';
+import { CountryNavyLeader } from './country-navy-leader.model';
 
 @ObjectType()
 @Entity('country_history')
@@ -67,9 +71,54 @@ export class CountryHistory {
 
   @OneToMany(() => CountryLeader, (countryLeader) => countryLeader.history, {
     cascade: true,
+    lazy: true,
   })
   @Field(() => [CountryLeader])
   readonly leaders: CountryLeader[];
+
+  @OneToMany(
+    () => CountryPopularity,
+    (countryPopularity) => countryPopularity.history,
+    {
+      cascade: true,
+      lazy: true,
+    },
+  )
+  @Field(() => [CountryPopularity])
+  readonly popularities: CountryPopularity[];
+
+  @OneToMany(
+    () => CountryFieldMarshal,
+    (countryFieldMarshal) => countryFieldMarshal.history,
+    {
+      cascade: true,
+      lazy: true,
+    },
+  )
+  @Field(() => [CountryFieldMarshal])
+  readonly fieldMarshals: CountryFieldMarshal[];
+
+  @OneToMany(
+    () => CountryCorpsCommander,
+    (countryCorpsCommander) => countryCorpsCommander.history,
+    {
+      cascade: true,
+      lazy: true,
+    },
+  )
+  @Field(() => [CountryCorpsCommander])
+  readonly corpsCommanders: CountryCorpsCommander[];
+
+  @OneToMany(
+    () => CountryNavyLeader,
+    (countryNavyLeader) => countryNavyLeader.history,
+    {
+      cascade: true,
+      lazy: true,
+    },
+  )
+  @Field(() => [CountryNavyLeader])
+  readonly navyLeaders: CountryNavyLeader[];
 
   @ManyToOne(() => Mod, (mod) => mod.countryHistory, { onDelete: 'CASCADE' })
   readonly mod: Mod;

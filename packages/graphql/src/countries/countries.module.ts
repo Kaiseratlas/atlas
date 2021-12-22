@@ -12,7 +12,13 @@ import { CountryPolitics } from './models/country-politics.model';
 import * as commands from './commands';
 import * as services from './services';
 import * as resolvers from './resolvers';
-import { CountryLeader } from './models';
+import {
+  CountryLeader,
+  CountryPopularity,
+  CountryFieldMarshal,
+  CountryCorpsCommander,
+  CountryNavyLeader,
+} from './models';
 
 @Module({
   imports: [
@@ -22,6 +28,10 @@ import { CountryLeader } from './models';
       CountryHistory,
       CountryPolitics,
       CountryLeader,
+      CountryPopularity,
+      CountryFieldMarshal,
+      CountryCorpsCommander,
+      CountryNavyLeader,
     ]),
     IdeologiesModule,
     StatesModule,
@@ -36,3 +46,4 @@ import { CountryLeader } from './models';
   ],
 })
 export class CountriesModule {}
+
