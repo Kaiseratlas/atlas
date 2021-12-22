@@ -2,13 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CountryNavyLeader } from '../models';
+import { Mod } from '../../mods/models/mod.model';
+import { CountryMilitaryCommandersService } from './country-military-commanders.service';
 
 @Injectable()
-export class CountryNavyLeadersService {
+export class CountryNavyLeadersService extends CountryMilitaryCommandersService {
   constructor(
     @InjectRepository(CountryNavyLeader)
     private countryNavyLeadersRepository: Repository<CountryNavyLeader>,
-  ) {}
+  ) {
+    super();
+  }
+
+  async updateById(id, data) {
+    return this.countryNavyLeadersRepository.save({ id, ...data });
+  }
+
+  async findAll(mod: Mod): Promise<CountryNavyLeader[]> {
+    return this.countryNavyLeadersRepository
+      .createQueryBuilder('navy_leader')
+      .leftJoinAndSelect('navy_leader.history', 'history')
+      .leftJoin('history.mod', 'mod')
+      .where('mod.id = :modId', { modId: mod.id })
+      .getMany();
+  }
 
   private serialize(out: unknown): CountryNavyLeader {
     return this.countryNavyLeadersRepository.create({

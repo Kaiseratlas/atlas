@@ -64,6 +64,7 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
           <div className="col-md-10">{country.history.convoys}</div>
         </div>
         <Link href={`/countries/${country.tag}/leaders`}>Leaders</Link>
+        <Link href={`/countries/${country.tag}/commanders`}>Commanders</Link>
         <h2>History</h2>
         <h2>Alternative Flags</h2>
         <table

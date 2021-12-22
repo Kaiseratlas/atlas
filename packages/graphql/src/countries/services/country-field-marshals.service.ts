@@ -1,37 +1,35 @@
+import { CountryMilitaryCommandersService } from './country-military-commanders.service';
 import { Injectable } from '@nestjs/common';
+import { CountryCorpsCommander, CountryFieldMarshal } from '../models';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CountryCorpsCommander } from '../models';
 import { Mod } from '../../mods/models/mod.model';
-import { CountryMilitaryCommandersService } from './country-military-commanders.service';
 
 @Injectable()
-export class CountryCorpsCommandersService extends CountryMilitaryCommandersService {
+export class CountryFieldMarshalsService extends CountryMilitaryCommandersService {
   constructor(
-    @InjectRepository(CountryCorpsCommander)
-    private countryCorpsCommandersRepository: Repository<CountryCorpsCommander>,
+    @InjectRepository(CountryFieldMarshal)
+    private countryFieldMarshalsRepository: Repository<CountryFieldMarshal>,
   ) {
     super();
   }
 
   async updateById(id, data) {
-    return this.countryCorpsCommandersRepository.save({ id, ...data });
+    return this.countryFieldMarshalsRepository.save({ id, ...data });
   }
 
-  async findAll(mod: Mod): Promise<CountryCorpsCommander[]> {
-    return this.countryCorpsCommandersRepository
-      .createQueryBuilder('corps_commander')
-      .leftJoinAndSelect('corps_commander.history', 'history')
+  async findAll(mod: Mod): Promise<CountryFieldMarshal[]> {
+    return this.countryFieldMarshalsRepository
+      .createQueryBuilder('field_marshal')
+      .leftJoinAndSelect('field_marshal.history', 'history')
       .leftJoin('history.mod', 'mod')
       .where('mod.id = :modId', { modId: mod.id })
       .getMany();
   }
 
-  private serialize(out: unknown): CountryCorpsCommander {
-    return this.countryCorpsCommandersRepository.create({
-      commanderId: out['id'],
+  private serialize(out: unknown): CountryFieldMarshal {
+    return this.countryFieldMarshalsRepository.create({
       name: out['name'],
-      description: out['desc'],
       portraitPath: out['portrait_path'],
       skill: out['skill'],
       attackSkill: out['attack_skill'],

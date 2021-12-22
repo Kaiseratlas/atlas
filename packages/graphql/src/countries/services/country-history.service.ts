@@ -16,6 +16,7 @@ import {
 } from '../models';
 import { CountryCorpsCommandersService } from './country-corps-commanders.service';
 import { CountryNavyLeadersService } from './country-navy-leaders.service';
+import { CountryFieldMarshalsService } from './country-field-marshals.service';
 
 @Injectable()
 export class CountryHistoryService {
@@ -31,8 +32,8 @@ export class CountryHistoryService {
     private countryLeadersRepository: Repository<CountryLeader>,
     @InjectRepository(CountryPopularity)
     private countryPopularitiesRepository: Repository<CountryPopularity>,
-    @InjectRepository(CountryFieldMarshal)
-    private CountryFieldMarshalsRepository: Repository<CountryFieldMarshal>,
+
+    private countryFieldMarshalsService: CountryFieldMarshalsService,
     private countryCorpsCommanderService: CountryCorpsCommandersService,
     private countryNavyLeadersService: CountryNavyLeadersService,
   ) {}
@@ -108,27 +109,9 @@ export class CountryHistoryService {
         }),
     );
 
-    if (
-      out['create_field_marshal'] &&
-      !Array.isArray(out['create_field_marshal'])
-    ) {
-      out['create_field_marshal'] = [out['create_field_marshal']];
-    }
-
-    const fieldMarshals = out['create_field_marshal']
-      ? out['create_field_marshal'].map((fieldMarshal) => {
-          return this.CountryFieldMarshalsRepository.create({
-            name: fieldMarshal['name'],
-            portraitPath: fieldMarshal['portrait_path'],
-            skill: fieldMarshal['skill'],
-            attackSkill: fieldMarshal['attack_skill'],
-            defenseSkill: fieldMarshal['defense_skill'],
-            logisticsSkill: fieldMarshal['logistics_skill'],
-            planningSkill: fieldMarshal['planning_skill'],
-          });
-        })
-      : [];
-
+    const fieldMarshals = this.countryFieldMarshalsService.parse(
+      out['create_field_marshal'],
+    );
     const corpsCommanders = this.countryCorpsCommanderService.parse(
       out['create_corps_commander'],
     );

@@ -12,12 +12,15 @@ export abstract class CountryMilitaryCommander {
   readonly id: number;
 
   @Column({ type: 'numeric', nullable: true })
-  @Field(() => ID, { name: 'id', nullable: true })
+  @Field(() => ID, { nullable: true })
   readonly commanderId: number;
 
   @Column()
   @Field()
   readonly name: string;
+
+  @Field({ nullable: true })
+  readonly portraitUrl: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
@@ -25,6 +28,9 @@ export abstract class CountryMilitaryCommander {
 
   @Column({ nullable: true })
   readonly portraitPath: string;
+
+  @Column({ nullable: true })
+  readonly pictureHash: string;
 
   @Column({ type: 'numeric', default: 0 })
   @Field(() => Int)

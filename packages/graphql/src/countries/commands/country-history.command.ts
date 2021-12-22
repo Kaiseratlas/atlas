@@ -1,7 +1,13 @@
 import { CommandRunner, Option, Command } from 'nest-commander';
 import { Mod } from '../../mods/models/mod.model';
 import { ModsService } from '../../mods/services/mods.service';
-import { CountryHistoryService, CountryLeadersService } from '../services';
+import {
+  CountryCorpsCommandersService,
+  CountryFieldMarshalsService,
+  CountryHistoryService,
+  CountryLeadersService,
+  CountryNavyLeadersService,
+} from '../services';
 
 interface CountryHistoryCommandOptions
   extends Partial<Pick<Mod, 'remoteFileId' | 'version'>> {
@@ -13,6 +19,9 @@ export class CountryHistoryCommand implements CommandRunner {
   constructor(
     private countryHistoryService: CountryHistoryService,
     private countryLeadersService: CountryLeadersService,
+    private countryNavyLeadersService: CountryNavyLeadersService,
+    private countryFieldMarshalsService: CountryFieldMarshalsService,
+    private countryCorpsCommandersService: CountryCorpsCommandersService,
     private modsService: ModsService,
   ) {}
 
@@ -30,8 +39,13 @@ export class CountryHistoryCommand implements CommandRunner {
       options?.version,
     );
 
-    await this.countryHistoryService.refresh(mod);
+    //await this.countryHistoryService.refresh(mod);
     //await this.countryLeadersService.refreshPortraits(mod);
+    await Promise.all([
+      this.countryNavyLeadersService.refreshPortraits(mod),
+      this.countryFieldMarshalsService.refreshPortraits(mod),
+      this.countryCorpsCommandersService.refreshPortraits(mod),
+    ]);
   }
 
   async runWithAll() {}
