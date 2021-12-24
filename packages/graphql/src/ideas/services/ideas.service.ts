@@ -24,6 +24,10 @@ export class IdeasService {
     this.parser = await Jomini.initialize();
   }
 
+  async findByName(name: Idea['name'], mod: Mod): Promise<Idea> {
+    return this.ideasRepository.findOne({ where: { name, mod } });
+  }
+
   async find(mod: Mod) {
     return this.ideasRepository.find({ where: { mod } });
   }
@@ -80,16 +84,36 @@ export class IdeasService {
       return [];
     }
 
-    return Object.entries(out['ideas']).flatMap(([slot, slotData]) =>
-      Object.entries(slotData).map(([name, idea]) =>
-        this.ideasRepository.create({
-          name,
-          slot,
-          picture: idea['picture'] ?? null,
-          mod,
+    const ff = path.basename(filepath);
+
+    return Object.entries(out['ideas']).flatMap(([slot, slotData]) => {
+      if (ff === '_Ministers_ideas.txt') {
+        console.log('slot', slot);
+        //console.log('slotData', slotData);
+      }
+
+      if (!Array.isArray(slotData)) {
+        return Object.entries(slotData).map(([name, idea]) => {
+          return this.ideasRepository.create({
+            name,
+            slot,
+            picture: idea['picture'] ?? null,
+            mod,
+          });
+        });
+      }
+
+      return slotData.flatMap((data) =>
+        Object.entries(data).map(([name, idea]) => {
+          return this.ideasRepository.create({
+            name,
+            slot,
+            picture: idea['picture'] ?? null,
+            mod,
+          });
         }),
-      ),
-    );
+      );
+    });
   }
 
   async fetch(mod: Mod): Promise<Idea[]> {

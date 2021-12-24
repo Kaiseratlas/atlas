@@ -9,7 +9,10 @@ import {
   CountryLeader,
   CountryNavyLeader,
   CountryCorpsCommander,
+  CountryIdea, CountryEvent,
 } from '../models';
+import { IdeasService } from '../../ideas/services/ideas.service';
+import { Idea } from '../../ideas/models/idea.model';
 
 @Resolver(() => CountryHistory)
 export class CountryHistoryResolver {
@@ -17,7 +20,26 @@ export class CountryHistoryResolver {
     private statesService: StatesService,
     private countryLeadersService: CountryLeadersService,
     private modsService: ModsService,
+    private ideasService: IdeasService,
   ) {}
+
+  @ResolveField(() => [Idea], { name: 'ideas' })
+  async getIdeas(@Parent() countryHistory: CountryHistory) {
+    const mod = await this.modsService.findByRemoteId(1521695605);
+    const countryIdeas = (await countryHistory.ideas) as CountryIdea[];
+    return Promise.all(
+      countryIdeas.map((countryIdea) =>
+        this.ideasService.findByName(countryIdea.ideaName, mod),
+      ),
+    );
+  }
+
+  @ResolveField(() => [CountryEvent], { name: 'events' })
+  async getEvents(
+    @Parent() countryHistory: CountryHistory,
+  ): Promise<CountryHistory['events']> {
+    return countryHistory.events;
+  }
 
   @ResolveField(() => [CountryPopularity], { name: 'popularities' })
   async getPopularities(

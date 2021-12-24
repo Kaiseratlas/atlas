@@ -18,7 +18,10 @@ import {
   CountryFieldMarshal,
   CountryCorpsCommander,
   CountryNavyLeader,
+  CountryIdea,
+  CountryEvent,
 } from './models';
+import { IdeasModule } from '../ideas/ideas.module';
 
 @Module({
   imports: [
@@ -32,8 +35,11 @@ import {
       CountryFieldMarshal,
       CountryCorpsCommander,
       CountryNavyLeader,
+      CountryIdea,
+      CountryEvent,
     ]),
     IdeologiesModule,
+    IdeasModule,
     StatesModule,
   ],
   providers: [

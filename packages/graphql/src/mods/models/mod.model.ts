@@ -6,6 +6,7 @@ import { CountryHistory } from '../../countries/models/country-history.model';
 import { State } from '../../states/models/state.model';
 import { Idea } from '../../ideas/models/idea.model';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Event } from '../../events/models/event.model';
 
 @Entity('mods')
 @ObjectType()
@@ -51,4 +52,7 @@ export class Mod {
 
   @OneToMany(() => Idea, (idea) => idea.mod)
   readonly ideas: Idea[];
+
+  @OneToMany(() => Event, (event) => event.mod)
+  readonly events: Event[];
 }

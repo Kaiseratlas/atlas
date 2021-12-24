@@ -39,13 +39,13 @@ export class CountryHistoryCommand implements CommandRunner {
       options?.version,
     );
 
-    //await this.countryHistoryService.refresh(mod);
+    await this.countryHistoryService.refresh(mod);
     //await this.countryLeadersService.refreshPortraits(mod);
-    await Promise.all([
-      this.countryNavyLeadersService.refreshPortraits(mod),
-      this.countryFieldMarshalsService.refreshPortraits(mod),
-      this.countryCorpsCommandersService.refreshPortraits(mod),
-    ]);
+    // await Promise.all([
+    //   this.countryNavyLeadersService.refreshPortraits(mod),
+    //   this.countryFieldMarshalsService.refreshPortraits(mod),
+    //   this.countryCorpsCommandersService.refreshPortraits(mod),
+    // ]);
   }
 
   async runWithAll() {}

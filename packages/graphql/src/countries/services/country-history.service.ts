@@ -9,14 +9,12 @@ import fg from 'fast-glob';
 import fs from 'fs';
 import path from 'path';
 import { CountryPolitics } from '../models/country-politics.model';
-import {
-  CountryFieldMarshal,
-  CountryLeader,
-  CountryPopularity,
-} from '../models';
+import { CountryLeader, CountryPopularity } from '../models';
 import { CountryCorpsCommandersService } from './country-corps-commanders.service';
 import { CountryNavyLeadersService } from './country-navy-leaders.service';
 import { CountryFieldMarshalsService } from './country-field-marshals.service';
+import { CountryIdeasService } from './country-ideas.service';
+import { CountryEventsService } from './country-events.service';
 
 @Injectable()
 export class CountryHistoryService {
@@ -36,6 +34,9 @@ export class CountryHistoryService {
     private countryFieldMarshalsService: CountryFieldMarshalsService,
     private countryCorpsCommanderService: CountryCorpsCommandersService,
     private countryNavyLeadersService: CountryNavyLeadersService,
+
+    private countryIdeasService: CountryIdeasService,
+    private countryEventsService: CountryEventsService,
   ) {}
 
   async findAll(mod: Mod) {
@@ -118,6 +119,8 @@ export class CountryHistoryService {
     const navyLeaders = this.countryNavyLeadersService.parse(
       out['create_navy_leader'],
     );
+    const ideas = this.countryIdeasService.parse(out['add_ideas']);
+    const events = this.countryEventsService.parse(out['country_event']);
 
     return this.countryHistoryRepository.create({
       tag,
@@ -134,6 +137,8 @@ export class CountryHistoryService {
       fieldMarshals,
       corpsCommanders,
       navyLeaders,
+      ideas,
+      events,
     });
   }
 

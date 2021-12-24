@@ -18,6 +18,9 @@ import { CountryPopularity } from './country-popularity.model';
 import { CountryFieldMarshal } from './country-field-marshal.model';
 import { CountryCorpsCommander } from './country-corps-commander.model';
 import { CountryNavyLeader } from './country-navy-leader.model';
+import { CountryIdea } from './country-idea.model';
+import { Idea } from '../../ideas/models/idea.model';
+import { CountryEvent } from './country-event.model';
 
 @ObjectType()
 @Entity('country_history')
@@ -119,6 +122,20 @@ export class CountryHistory {
   )
   @Field(() => [CountryNavyLeader])
   readonly navyLeaders: CountryNavyLeader[];
+
+  @OneToMany(() => CountryIdea, (countryIdea) => countryIdea.history, {
+    cascade: true,
+    lazy: true,
+  })
+  @Field(() => [Idea])
+  readonly ideas: CountryIdea[] | Idea[];
+
+  @OneToMany(() => CountryEvent, (countryEvent) => countryEvent.history, {
+    cascade: true,
+    lazy: true,
+  })
+  @Field(() => [CountryEvent])
+  readonly events: CountryEvent[];
 
   @ManyToOne(() => Mod, (mod) => mod.countryHistory, { onDelete: 'CASCADE' })
   readonly mod: Mod;
