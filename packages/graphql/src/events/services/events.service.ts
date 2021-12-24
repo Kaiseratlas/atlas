@@ -24,6 +24,15 @@ export class EventsService implements OnModuleInit {
 
   private parser: Jomini;
 
+  findById(eventId: Event['eventId'], mod: Mod): Promise<Event> {
+    return this.eventsRepository.findOneOrFail({
+      where: {
+        eventId,
+        mod,
+      },
+    });
+  }
+
   async onModuleInit(): Promise<void> {
     this.parser = await Jomini.initialize();
   }

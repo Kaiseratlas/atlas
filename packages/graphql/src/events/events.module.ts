@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { EventsService } from './services/events.service';
-import { EventsResolver } from './resolvers/events.resolver';
+import * as resolvers from './resolvers';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Event } from './models/event.model';
+import * as models from './models';
 import { EventsCommand } from './commands/events.command';
-import { EventText } from './models/event-text.model';
-import { EventOption } from './models/event-option.model';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Event, EventText, EventOption])],
-  providers: [EventsService, EventsResolver, EventsCommand],
+  imports: [TypeOrmModule.forFeature(Object.values(models))],
+  providers: [EventsService, ...Object.values(resolvers), EventsCommand],
 })
 export class EventsModule {}
