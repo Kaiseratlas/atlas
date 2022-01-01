@@ -9,6 +9,7 @@ import {
 import { Expose } from 'class-transformer';
 import { CountryHistory } from './country-history.model';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Event } from '../../events/models';
 
 @Entity('country_events')
 @ObjectType()
@@ -43,6 +44,9 @@ export class CountryEvent {
 
   @UpdateDateColumn()
   readonly updatedAt: string;
+
+  @Field(() => Event)
+  readonly event: Event;
 
   @ManyToOne(() => CountryHistory, (countryHistory) => countryHistory.events, {
     onDelete: 'CASCADE',

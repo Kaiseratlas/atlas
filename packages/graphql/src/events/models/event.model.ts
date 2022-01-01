@@ -11,8 +11,9 @@ import { Mod } from '../../mods/models/mod.model';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
 import { EventType } from '../enums/event-type.enum';
-import { EventText } from './event-text.model';
 import { EventOption } from './event-option.model';
+import { EventDescription } from './event-description.model';
+import { EventTitle } from './event-title.model';
 
 @Entity('events')
 @ObjectType()
@@ -34,26 +35,30 @@ export class Event {
   @Column({ enum: EventType, enumName: 'event_type' })
   readonly type: EventType;
 
-  @OneToMany(() => EventText, (eventText) => eventText.event, {
+  @OneToMany(() => EventTitle, (eventTitle) => eventTitle.events, {
     cascade: true,
-    lazy: true,
+    eager: true,
   })
-  @Field(() => [EventText], {
+  @Field(() => [EventTitle], {
     description: "A plain localization key for the event's title",
     nullable: true,
   })
-  readonly titles: EventText[];
+  readonly titles: EventTitle[];
 
-  @OneToMany(() => EventText, (eventText) => eventText.event, {
-    cascade: true,
-    lazy: true,
-  })
-  @Field(() => [EventText], {
+  @OneToMany(
+    () => EventDescription,
+    (eventDescription) => eventDescription.events,
+    {
+      cascade: true,
+      eager: true,
+    },
+  )
+  @Field(() => [EventDescription], {
     description: "Defines the event's description text.",
     nullable: true,
   })
   @Expose({ name: 'desc', groups: ['parsing'] })
-  readonly descriptions: EventText[];
+  readonly descriptions: EventDescription[];
 
   @Column({ nullable: true })
   readonly picture: string | null;
@@ -114,7 +119,7 @@ export class Event {
 
   @OneToMany(() => EventOption, (eventOption) => eventOption.event, {
     cascade: true,
-    lazy: true,
+    eager: true,
   })
   @Field(() => [EventOption])
   readonly options: EventOption[];

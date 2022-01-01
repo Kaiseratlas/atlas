@@ -1,20 +1,11 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Mod } from '../../mods/models/mod.model';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @ObjectType()
 @Entity('states')
-export class State {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class State extends BaseEntity {
   @Field(() => ID, { name: 'id' })
   @Column('numeric')
   readonly stateId: number;
@@ -28,12 +19,6 @@ export class State {
   @Column({ type: 'numeric', default: 0 })
   @Field(() => Int)
   readonly manpower: number;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 
   @ManyToOne(() => Mod, (mod) => mod.states, { onDelete: 'CASCADE' })
   readonly mod: Mod;

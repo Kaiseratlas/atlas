@@ -2,6 +2,24 @@ import { GetStaticProps, NextPage } from "next";
 import client from "../../client";
 import { gql } from "@apollo/client";
 import Countries from "./countries";
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  OutlinedInput,
+  Select,
+  Typography,
+  FormControl,
+  MenuItem,
+} from "@mui/material";
+import React from "react";
 
 const Ideologies: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
   const ideologiesMap = new Map();
@@ -15,25 +33,62 @@ const Ideologies: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
     ideologiesMap.set(ideology.grouping, grouping);
   });
 
+  const [selectedIdeologies, setSelectedIdeologies] = React.useState<string[]>(
+    []
+  );
+
+  const handleChange = React.useCallback((e) => {
+    console.log("e", e);
+  });
+
+  // @ts-ignore
   return (
-    <div className="row">
-      <div className="col-lg-9">
-        <h1>Political Ideologies</h1>
+    <Grid container spacing={2}>
+      <Grid item lg={3}>
+        <FormControl fullWidth>
+          <InputLabel id="ideologies-checkbox-label">Ideologies</InputLabel>
+          <Select
+            labelId="ideologies-checkbox-label"
+            id="ideologies-checkbox"
+            multiple
+            value={ideologies}
+            onChange={handleChange}
+            input={<OutlinedInput label="Ideology" />}
+            // renderValue={(selected: any) => {
+            //   console.log('selected', selected)
+            //   return selected.name.join(', ');
+            // }}
+          >
+            {ideologies.map((name) => (
+              <MenuItem key={name} value={name.id}>
+                <Checkbox />
+                <ListItemText primary={name.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item lg={9}>
+        <Typography variant="h3" component="h1" gutterBottom>
+          Political Ideologies
+        </Typography>
         {Array.from(ideologiesMap).map(([, ideologies]) => {
           return ideologies.map((ideology: any) => {
             console.log("ideology", ideology);
             return (
               <div key={`ideology-${ideology.name}`}>
-                <h2>{ideology.localizedName}</h2>
-                <p className="bp3-running-text">
-                  {ideology.localizedDescription}
-                </p>
+                <Typography variant="h4" component="h2" gutterBottom>
+                  {ideology.name}
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  <Typography paragraph>{ideology.description}</Typography>
+                </Typography>
               </div>
             );
           });
         })}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -45,9 +100,8 @@ export const getStaticProps: GetStaticProps = async () => {
           id
           color
           name
-          localizedName
-          localizedGrouping
-          localizedDescription
+          grouping
+          description
           canBeBoosted
           canCollaborate
         }

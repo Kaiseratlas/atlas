@@ -8,17 +8,17 @@ const Home: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
   console.log("ideologies", ideologies);
   return (
     <div className="container-fluid">
-      {ideologies.map((ideology) => {
-        return (
-          <div
-            key={`ideology-${ideology.id}`}
-            style={{ borderLeftColor: ideology.color }}
-          >
-            <h4 className="bp3-heading">{ideology.name}</h4>
-            <p>{ideology.description}</p>
-          </div>
-        );
-      })}
+      {/*{ideologies.map((ideology) => {*/}
+      {/*  return (*/}
+      {/*    <div*/}
+      {/*      key={`ideology-${ideology.id}`}*/}
+      {/*      style={{ borderLeftColor: ideology.color }}*/}
+      {/*    >*/}
+      {/*      <h4 className="bp3-heading">{ideology.name}</h4>*/}
+      {/*      <p>{ideology.description}</p>*/}
+      {/*    </div>*/}
+      {/*  );*/}
+      {/*})}*/}
     </div>
   );
 };
@@ -26,7 +26,7 @@ const Home: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-      query Ideologies {
+      query Events {
         ideologies {
           id
           color

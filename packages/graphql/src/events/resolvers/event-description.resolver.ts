@@ -1,13 +1,16 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { EventText } from '../models/event-text.model';
+import { EventDescription } from '../models';
 import { I18nService } from 'nestjs-i18n';
 
-@Resolver(() => EventText)
-export class EventTextsResolver {
+@Resolver(() => EventDescription)
+export class EventDescriptionResolver {
   constructor(private i18n: I18nService) {}
 
   @ResolveField(() => String, { name: 'text', nullable: true })
-  getText(@Parent() eventText: EventText): Promise<EventText['text']> {
+  getText(
+    @Parent() eventText: EventDescription,
+  ): Promise<EventDescription['text']> {
+    console.log('eventText', eventText);
     return this.i18n.t(`common.${eventText.text}`);
   }
 }

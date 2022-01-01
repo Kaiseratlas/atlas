@@ -8,5 +8,6 @@ import { EventsCommand } from './commands/events.command';
 @Module({
   imports: [TypeOrmModule.forFeature(Object.values(models))],
   providers: [EventsService, ...Object.values(resolvers), EventsCommand],
+  exports: [EventsService],
 })
 export class EventsModule {}

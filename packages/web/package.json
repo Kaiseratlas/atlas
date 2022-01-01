@@ -10,6 +10,10 @@
   "dependencies": {
     "@apollo/client": "^3.5.6",
     "@blueprintjs/core": "^3.52.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@fontsource/roboto": "^4.5.1",
+    "@mui/material": "^5.2.5",
     "bootstrap": "4.6.1",
     "classnames": "^2.3.1",
     "graphql": "^16.1.0",

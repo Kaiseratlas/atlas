@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { CountryTag } from '../../countries/models/country-tag.model';
 import { Ideology } from '../../ideologies/models/ideology.model';
 import { CountryFlag } from '../../countries/models/country-flag.model';
@@ -6,14 +6,14 @@ import { CountryHistory } from '../../countries/models/country-history.model';
 import { State } from '../../states/models/state.model';
 import { Idea } from '../../ideas/models/idea.model';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Event } from '../../events/models/event.model';
+import { Event } from '../../events/models';
+import { Sprite } from '../../sprites/models/sprite.model';
+import { FocusTree } from '../../focuses/models/focus-tree.model';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('mods')
 @ObjectType()
-export class Mod {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class Mod extends BaseEntity {
   @Column()
   @Field()
   readonly name: string;
@@ -55,4 +55,10 @@ export class Mod {
 
   @OneToMany(() => Event, (event) => event.mod)
   readonly events: Event[];
+
+  @OneToMany(() => Sprite, (sprite) => sprite.mod)
+  readonly sprites: Sprite[];
+
+  @OneToMany(() => FocusTree, (focusTree) => focusTree.mod)
+  readonly focusTrees: FocusTree[];
 }

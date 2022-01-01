@@ -9,9 +9,9 @@ import {
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Event } from './event.model';
 
-@Entity('event_texts')
+@Entity('event_descriptions')
 @ObjectType()
-export class EventText {
+export class EventDescription {
   @PrimaryGeneratedColumn()
   readonly id: number;
 
@@ -31,8 +31,5 @@ export class EventText {
   @ManyToOne(() => Event, (event) => event.descriptions, {
     onDelete: 'CASCADE',
   })
-  @ManyToOne(() => Event, (event) => event.titles, {
-    onDelete: 'CASCADE',
-  })
-  readonly event: Event;
+  readonly events: Event;
 }

@@ -15,4 +15,10 @@ export class EventsResolver {
     const mod = await this.modsService.findByRemoteId(1521695605);
     return this.eventsService.findById(eventId, mod);
   }
+
+  @Query(() => [Event], { name: 'events' })
+  async getEvents(): Promise<Event[]> {
+    const mod = await this.modsService.findByRemoteId(1521695605);
+    return this.eventsService.findAll(mod);
+  }
 }

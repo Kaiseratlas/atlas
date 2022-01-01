@@ -5,19 +5,19 @@ import path from 'path';
 import fs from 'fs';
 import { Jomini } from 'jomini';
 import { plainToClass, plainToInstance } from 'class-transformer';
-import { Event } from '../models/event.model';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EventText } from '../models/event-text.model';
-import { EventOption } from '../models/event-option.model';
+import { Event, EventTitle, EventDescription, EventOption } from '../models';
 
 @Injectable()
 export class EventsService implements OnModuleInit {
   constructor(
     @InjectRepository(Event)
     private readonly eventsRepository: Repository<Event>,
-    @InjectRepository(EventText)
-    private readonly eventTextsRepository: Repository<EventText>,
+    @InjectRepository(EventTitle)
+    private readonly eventTitlesRepository: Repository<EventTitle>,
+    @InjectRepository(EventDescription)
+    private readonly eventDescriptionsRepository: Repository<EventDescription>,
     @InjectRepository(EventOption)
     private readonly eventOptionRepository: Repository<EventOption>,
   ) {}
@@ -31,6 +31,10 @@ export class EventsService implements OnModuleInit {
         mod,
       },
     });
+  }
+
+  findAll(mod: Mod): Promise<Event[]> {
+    return this.eventsRepository.find({ where: { mod } });
   }
 
   async onModuleInit(): Promise<void> {
@@ -51,23 +55,43 @@ export class EventsService implements OnModuleInit {
     );
   }
 
-  private serializeText(out: unknown): EventText[] {
+  private serializeText(
+    out: unknown,
+    key: string,
+    event: Event,
+  ): EventDescription[] | EventTitle[] {
     if (!out) {
       return [];
     }
 
     switch (typeof out) {
       case 'string': {
-        return [this.eventTextsRepository.create({ text: out })];
+        return [
+          this[
+            key === 'title'
+              ? 'eventTitlesRepository'
+              : 'eventDescriptionsRepository'
+          ].create({ text: out }),
+        ];
       }
 
       default: {
         if (!Array.isArray(out)) {
-          return [this.eventTextsRepository.create({ text: out['text'] })];
+          return [
+            this[
+              key === 'title'
+                ? 'eventTitlesRepository'
+                : 'eventDescriptionsRepository'
+            ].create({ text: out[key] }),
+          ];
         }
 
         return out.map((o) =>
-          this.eventTextsRepository.create({ text: o['text'] }),
+          this[
+            key === 'title'
+              ? 'eventTitlesRepository'
+              : 'eventDescriptionsRepository'
+          ].create({ text: o[key] }),
         );
       }
     }
@@ -77,11 +101,10 @@ export class EventsService implements OnModuleInit {
     if (!!out['desc'] && typeof out['desc'] !== 'string') {
       console.log('out', out);
     }
-    const titles = this.serializeText(out['title']);
-    const descriptions = this.serializeText(out['desc']);
-    const options = this.serializeOption(out['option']);
-
     const event = plainToClass(Event, out, { groups: ['parsing'] });
+    const titles = this.serializeText(out['title'], 'title', event);
+    const descriptions = this.serializeText(out['desc'], 'desc', event);
+    const options = this.serializeOption(out['option']);
 
     return this.eventsRepository.create({
       ...event,
@@ -143,7 +166,8 @@ export class EventsService implements OnModuleInit {
 
   async refresh(mod: Mod) {
     const events = await this.fetchAll(mod);
-    console.log('events', events);
+    //console.log('events', events);
+    await this.eventsRepository.delete({});
     await this.eventsRepository.delete({ mod });
     await this.eventsRepository.save(events);
   }

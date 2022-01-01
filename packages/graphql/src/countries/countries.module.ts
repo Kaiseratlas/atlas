@@ -22,6 +22,7 @@ import {
   CountryEvent,
 } from './models';
 import { IdeasModule } from '../ideas/ideas.module';
+import { EventsModule } from '../events/events.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { IdeasModule } from '../ideas/ideas.module';
     IdeologiesModule,
     IdeasModule,
     StatesModule,
+    EventsModule,
   ],
   providers: [
     CountriesService,
