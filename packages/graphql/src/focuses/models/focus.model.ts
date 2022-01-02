@@ -23,7 +23,7 @@ export class Focus extends BaseEntity {
   @Column()
   readonly icon: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly iconUrl: string;
 
   @Column({ type: 'numeric' })
@@ -48,9 +48,11 @@ export class Focus extends BaseEntity {
     eager: true,
   })
   @Expose({ name: 'prerequisite', groups: ['parsing'] })
-  @Transform(({ value }) => convertToArray(value), { groups: ['parsing'] })
+  @Transform(({ value }) => convertToArray(value), {
+    groups: ['parsing'],
+  })
   @Type(() => FocusPrerequisite)
-  @Field(() => [ID], { nullable: true })
+  @Field(() => [ID])
   readonly prerequisite: FocusPrerequisite[];
 
   @ManyToOne(() => FocusTree, (tree) => tree.focuses, { onDelete: 'CASCADE' })

@@ -5,17 +5,14 @@ import { CountryFlag } from '../../countries/models/country-flag.model';
 import { CountryHistory } from '../../countries/models/country-history.model';
 import { State } from '../../states/models/state.model';
 import { Idea } from '../../ideas/models/idea.model';
-import { Field, ObjectType } from '@nestjs/graphql';
 import { Event } from '../../events/models';
 import { Sprite } from '../../sprites/models/sprite.model';
 import { FocusTree } from '../../focuses/models/focus-tree.model';
 import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('mods')
-@ObjectType()
 export class Mod extends BaseEntity {
   @Column()
-  @Field()
   readonly name: string;
 
   @Column()
@@ -25,11 +22,9 @@ export class Mod extends BaseEntity {
   readonly picture: string;
 
   @Column()
-  @Field()
   readonly version: string;
 
   @Column()
-  @Field()
   readonly supportedVersion: string;
 
   @Column('numeric')

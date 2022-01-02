@@ -9,6 +9,9 @@ import { BaseEntity } from '../../shared/models/base-entity.model';
 @Entity('focus_trees')
 @ObjectType()
 export class FocusTree extends BaseEntity {
+  @Field()
+  readonly title: string;
+
   @Field(() => ID, {
     name: 'id',
     description:

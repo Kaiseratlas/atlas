@@ -23,6 +23,10 @@ export class FocusTreesService {
     return this.focusTreesRepository.findOneOrFail({ where: { treeId, mod } });
   }
 
+  async findAll(mod: Mod) {
+    return this.focusTreesRepository.find({ where: { mod } });
+  }
+
   async fetchAll(mod: Mod): Promise<FocusTree[]> {
     const focusesPath = path.resolve(mod.path, 'common', 'national_focus');
     const files = await fg('**/*.txt', {

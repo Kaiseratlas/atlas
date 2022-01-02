@@ -18,6 +18,10 @@ export class ModsService {
     });
   }
 
+  async findAllByRemoteId(remoteFileId: Mod['remoteFileId']): Promise<Mod[]> {
+    return this.modsRepository.find({ where: { remoteFileId } });
+  }
+
   async findByRemoteId(
     remoteFileId: Mod['remoteFileId'],
     version?: Mod['version'],

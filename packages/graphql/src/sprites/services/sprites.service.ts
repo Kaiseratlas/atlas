@@ -43,6 +43,10 @@ export class SpritesService {
     }
   }
 
+  async findByName(name: Sprite['name'], mod: Mod) {
+    return this.spritesRepository.findOneOrFail({ where: { name, mod } });
+  }
+
   async fetchAll(mod: Mod) {
     const files = await fg('**/*.gfx', {
       cwd: mod.path,
@@ -77,7 +81,7 @@ export class SpritesService {
           const textureFilePath = path.resolve(mod.path, sprite.textureFile);
 
           if (!fs.existsSync(textureFilePath)) {
-            return { ...sprite, textureHash: null };
+            return { ...sprite, textureHash: null, mod };
           }
 
           const textureFile = await fs.promises.readFile(textureFilePath);
@@ -87,7 +91,7 @@ export class SpritesService {
             .digest('hex');
           const filePath = path.resolve(spritesPath, `${hash}.png`);
           await fs.promises.writeFile(filePath, textureFile);
-          return { ...sprite, textureHash: hash };
+          return { ...sprite, textureHash: hash, mod };
         }),
     );
 

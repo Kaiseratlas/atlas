@@ -7,8 +7,11 @@ import classNames from "classnames";
 import styles from "../../../common/components/CountryCard.module.scss";
 import { useRouter } from "next/router";
 import CountryLeaderCard from "../../../common/components/CountryLeaderCard";
-import Link from "next/link";
 import { PieChart } from "react-minimal-pie-chart";
+import { Typography } from "@mui/material";
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
+import AppNav from '../../../common/components/AppNav';
 
 const Country: NextPage<{ country: any }> = ({ country }) => {
   const { push } = useRouter();
@@ -30,9 +33,26 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
 
   return (
     <div className="row">
+      <AppNav />
       <div className="col-lg-9">
-        <h1>{country.localizedDefaultName}</h1>
-        <h2>Politics</h2>
+              <Breadcrumbs aria-label="breadcrumb">
+        <Link color="inherit" href="/">
+          MUI
+        </Link>
+        <Link
+          color="inherit"
+          href="/getting-started/installation/"
+        >
+          Core
+        </Link>
+        <Typography color="text.primary">Breadcrumbs</Typography>
+      </Breadcrumbs>
+        <Typography variant="h3" component="h1" gutterBottom>
+          {country.localizedDefaultName}
+        </Typography>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Politics
+        </Typography>
         <PieChart
           animate
           style={{ width: 200, height: 200 }}
@@ -63,8 +83,8 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
           </div>
           <div className="col-md-10">{country.history.convoys}</div>
         </div>
-        <Link href={`/countries/${country.tag}/leaders`}>Leaders</Link>
-        <Link href={`/countries/${country.tag}/commanders`}>Commanders</Link>
+        {/*<Link href={`/countries/${country.tag}/leaders`}>Leaders</Link>*/}
+        {/*<Link href={`/countries/${country.tag}/commanders`}>Commanders</Link>*/}
         <h2>History</h2>
         <h2>Alternative Flags</h2>
         <table
@@ -123,7 +143,7 @@ const Country: NextPage<{ country: any }> = ({ country }) => {
                 href="#"
                 onClick={() => push(`/states/${country.history.capital.id}`)}
               >
-                {country.history.capital.localizedName}
+                {country.history.capital?.localizedName}
               </a>
             </div>
           </div>
@@ -183,10 +203,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
               electionsAllowed
               lastElection
             }
-            capital {
-              id
-              localizedName
-            }
+
             convoys
             politicalPower
             researchSlots

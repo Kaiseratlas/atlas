@@ -19,22 +19,22 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
+import AppNav from '../common/components/AppNav';
 
 const Countries: NextPage<{ countries: any[] }> = ({ countries }) => {
+  console.log('countries', countries)
   const characters = Array(26)
     .fill("")
     .map((_, i) => String.fromCharCode("A".charCodeAt(0) + i));
 
-  const [chars, setChars] = useState<string[]>([]);
-  const [selectedChars, setSelectedChars] = useState<string[]>([]);
+  const [chars, setChars] = useState(new Set());
+  const [selectedChars, setSelectedChars] = useState(new Map());
 
   useEffect(() => {
     setChars(
-      Array.from(
         new Set(
           countries.map((country) => country.name[0].toUpperCase()).sort()
         )
-      )
     );
   }, [countries]);
 
@@ -56,24 +56,7 @@ const Countries: NextPage<{ countries: any[] }> = ({ countries }) => {
 
   return (
     <Box>
-      <AppBar position="fixed">
-        <Toolbar>
-          <FormControl fullWidth>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={10}
-              label="Age"
-              //onChange={handleChange}
-              variant="standard"
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </Toolbar>
-      </AppBar>
+      <AppNav />
       <Toolbar />
       <Grid container spacing={2}>
         <Grid item xs={8}>
@@ -142,6 +125,8 @@ const Countries: NextPage<{ countries: any[] }> = ({ countries }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+
+
   const { data } = await client.query({
     query: gql`
       query Countries {
