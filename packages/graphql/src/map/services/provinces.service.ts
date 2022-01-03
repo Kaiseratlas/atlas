@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { parse, Parser as CsvParser } from 'csv-parse';
 import { Mod } from '../../mods/models/mod.model';
 import fs from 'fs';
@@ -20,19 +20,21 @@ type ProvinceCsvRecord = [
 ];
 
 @Injectable()
-export class ProvincesService implements OnModuleInit {
-  private csvParser: CsvParser;
+export class ProvincesService {
+  private readonly csvParser: CsvParser;
 
   constructor(
     @InjectRepository(Province)
     private provincesRepository: Repository<Province>,
-  ) {}
-
-  onModuleInit(): void {
+  ) {
     this.csvParser = parse({
       delimiter: ';',
       autoParse: true,
     });
+  }
+
+  async findAll(mod: Mod) {
+    return this.provincesRepository.find({ where: { mod } });
   }
 
   async fetchAll(mod: Mod) {

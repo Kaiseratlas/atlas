@@ -42,6 +42,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "sqlite3": "^5.0.2",
+    "svgson": "^5.2.1",
     "tga": "^1.0.4",
     "typeorm": "^0.2.41",
     "typeorm-naming-strategies": "^2.0.0"
