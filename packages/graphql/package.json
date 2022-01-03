@@ -29,6 +29,7 @@
     "apollo-server-express": "^3.5.0",
     "bitmap2vector": "^0.0.4",
     "class-transformer": "^0.5.1",
+    "csv-parse": "^5.0.4",
     "fast-glob": "^3.2.7",
     "graphql": "^15",
     "jomini": "^0.5.3",

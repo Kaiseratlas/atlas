@@ -9,6 +9,8 @@ import { Event } from '../../events/models';
 import { Sprite } from '../../sprites/models/sprite.model';
 import { FocusTree } from '../../focuses/models/focus-tree.model';
 import { BaseEntity } from '../../shared/models/base-entity.model';
+import { Continent } from '../../map/models/continent.model';
+import { Province } from '../../map/models';
 
 @Entity('mods')
 export class Mod extends BaseEntity {
@@ -56,4 +58,10 @@ export class Mod extends BaseEntity {
 
   @OneToMany(() => FocusTree, (focusTree) => focusTree.mod)
   readonly focusTrees: FocusTree[];
+
+  @OneToMany(() => Continent, (continent) => continent.mod)
+  readonly continents: Continent[];
+
+  @OneToMany(() => Province, (province) => province.mod)
+  readonly provinces: Province[];
 }
