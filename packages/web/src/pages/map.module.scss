@@ -6,6 +6,16 @@
   left: 0;
 }
 
+//.location {
+//  fill: #e0e0e0;
+//  stroke: #ffffff;
+//  stroke-width: 0.15px;
+//
+//  &:hover {
+//    fill: #e5e5e5;
+//  }
+//}
+
 .location {
   fill: #e0e0e0;
   stroke: #ffffff;
@@ -13,6 +23,10 @@
 
   &:hover {
     fill: #e5e5e5;
+  }
+
+  &[aria-label=POR] {
+      fill: #885d5d;
   }
 }
 

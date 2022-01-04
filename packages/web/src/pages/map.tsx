@@ -15,6 +15,7 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
       locations {
         id
         path
+        name
       }
       provinces {
         id
@@ -38,12 +39,12 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
         locationClassName={styles.location}
         locationRole="province"
         map={{
-          //locations: data.locations,
-          locations: data.locations.filter((x) => {
-            const p = provincesMap.get(x.id);
-            //console.log("p", p);
-            return p.type === "LAND";
-          }),
+          locations: data.locations,
+          // locations: data.locations.filter((x) => {
+          //   const p = provincesMap.get(x.id);
+          //   //console.log("p", p);
+          //   return p.type === "LAND";
+          // }),
           viewBox: `0 0 5632 2048`,
         }}
         onLocationClick={(args) => {

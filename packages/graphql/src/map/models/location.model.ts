@@ -7,4 +7,7 @@ export class Location {
 
   @Field()
   readonly path: string;
+
+  @Field()
+  readonly name: string;
 }

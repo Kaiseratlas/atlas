@@ -7,9 +7,10 @@ import { ProvincesService } from './services/provinces.service';
 import { MapsService } from './services/maps.service';
 import { SvgService } from './services/svg.service';
 import * as resolvers from './resolvers';
+import { StatesModule } from '../states/states.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature(Object.values(models))],
+  imports: [TypeOrmModule.forFeature(Object.values(models)), StatesModule],
   providers: [
     MapCommand,
     ...Object.values(resolvers),
