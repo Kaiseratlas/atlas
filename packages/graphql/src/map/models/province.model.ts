@@ -3,12 +3,17 @@ import { Field, ID, Int } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { ProvinceType } from '../enums/province-type.enum';
 import { Mod } from '../../mods/models/mod.model';
+import rgb2hex from 'rgb2hex';
 
 @Entity('map_provinces')
 export class Province extends BaseEntity {
   @Field(() => ID, { name: 'id' })
   @Column({ type: 'numeric' })
   readonly provinceId: number;
+
+  get colorHex(): string {
+    return rgb2hex(`rgb(${[this.red, this.green, this.blue].join()})`).hex;
+  }
 
   @Field(() => Int)
   @Column({ type: 'numeric' })
