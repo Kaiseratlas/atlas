@@ -6,11 +6,13 @@ import { ContinentsService } from './services/continents.service';
 import { ProvincesService } from './services/provinces.service';
 import { MapsService } from './services/maps.service';
 import { SvgService } from './services/svg.service';
+import * as resolvers from './resolvers';
 
 @Module({
   imports: [TypeOrmModule.forFeature(Object.values(models))],
   providers: [
     MapCommand,
+    ...Object.values(resolvers),
     ContinentsService,
     ProvincesService,
     MapsService,

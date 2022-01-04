@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { stringify, INode } from 'svgson';
+import { stringify, INode, parse } from 'svgson';
 import { Mod } from '../../mods/models/mod.model';
 import path from 'path';
-import fs from 'fs';
 import { ProvincesService } from './provinces.service';
 import { SvgService } from './svg.service';
 
@@ -33,7 +32,7 @@ export class MapsService {
       if (!n) {
         map.set(colorHex, node);
       } else {
-        console.log('attributes', n);
+        //console.log('attributes', n);
         node.attributes['d'] = n.attributes['d'] + ' ' + node.attributes['d'];
         map.set(colorHex, node);
       }
@@ -49,35 +48,20 @@ export class MapsService {
     const map = this.createProvincesMap(svg);
     // console.log('map', map);
 
-    provinces.map((p) => {
-      const node = map.get(p.colorHex);
-
-      if (node) {
-        node.attributes['id'] = String(p.provinceId);
-      }
-
-      if (p.type !== 'land') {
-        // const xxx = nodes.map((n) => {
-        //   n.attributes['style'] = `fill:black; stroke:none;`;
-        //   return n;
-        // });
-        map.delete(p.colorHex);
-      } else {
+    const locations = provinces
+      .map((province) => {
+        const node = map.get(province.colorHex);
         if (!node) {
-          console.log(node, p);
-        } else {
-          node.attributes['style'] = `fill:#e0e0e0; stroke:white;`;
-          map.set(p.colorHex, node);
+          return null;
         }
-      }
-    });
-    //
-    // console.log('map.children', map.children.length);
-    // console.log('map.children', Array.from(nodesMap.values()).flat().length);
-    //
-    svg.children = Array.from(map.values());
-    const u = stringify(svg);
 
-    await fs.promises.writeFile('test.svg', u);
+        const id = province.provinceId;
+        const path = node.attributes['d'];
+
+        return { id, path };
+      })
+      .filter((location) => !!location);
+
+    return locations;
   }
 }

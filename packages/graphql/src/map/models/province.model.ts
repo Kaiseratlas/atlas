@@ -1,11 +1,12 @@
 import { BaseEntity } from '../../shared/models/base-entity.model';
-import { Field, ID, Int } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { ProvinceType } from '../enums/province-type.enum';
 import { Mod } from '../../mods/models/mod.model';
 import rgb2hex from 'rgb2hex';
 
 @Entity('map_provinces')
+@ObjectType()
 export class Province extends BaseEntity {
   @Field(() => ID, { name: 'id' })
   @Column({ type: 'numeric' })
@@ -27,6 +28,7 @@ export class Province extends BaseEntity {
   @Column({ type: 'numeric' })
   readonly blue: number;
 
+  @Field(() => ProvinceType)
   @Column({ enum: Province, enumName: 'province_type' })
   readonly type: ProvinceType;
 
