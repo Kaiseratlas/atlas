@@ -1,5 +1,5 @@
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { State } from '../models/state.model';
+import { State } from '../models';
 import { StatesService } from '../services/states.service';
 import { I18nService } from 'nestjs-i18n';
 import { ModsService } from '../../mods/services/mods.service';
@@ -19,9 +19,7 @@ export class StatesResolver {
   }
 
   @ResolveField()
-  async localizedName(
-    @Parent() { name }: State,
-  ): Promise<State['localizedName']> {
+  async name(@Parent() { name }: State): Promise<State['name']> {
     return this.i18n.t(`common.${name}`);
   }
 }

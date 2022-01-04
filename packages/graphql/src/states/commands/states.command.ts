@@ -1,15 +1,15 @@
-import { CommandRunner, Option, SubCommand } from 'nest-commander';
-import { Mod } from '../../mods/entities/mod.entity';
-import { ModsService } from '../../mods/services/mods.service';
+import { CommandRunner, Option, Command } from 'nest-commander';
+import { Mod } from '../../mods/models/mod.model';
 import { StatesService } from '../services/states.service';
+import { ModsService } from '../../mods/services/mods.service';
 
-interface StateRefreshCommandOptions
+interface StatesCommandOptions
   extends Partial<Pick<Mod, 'remoteFileId' | 'version'>> {
   all?: boolean;
 }
 
-@SubCommand({ name: 'refresh' })
-export class StateRefreshCommand implements CommandRunner {
+@Command({ name: 'states' })
+export class StatesCommand implements CommandRunner {
   constructor(
     private statesService: StatesService,
     private modsService: ModsService,
@@ -17,7 +17,7 @@ export class StateRefreshCommand implements CommandRunner {
 
   async run(
     passedParam: string[],
-    options?: StateRefreshCommandOptions,
+    options?: StatesCommandOptions,
   ): Promise<void> {
     if (options?.all) {
       await this.runWithAll();
