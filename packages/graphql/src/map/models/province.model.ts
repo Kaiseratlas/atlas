@@ -44,6 +44,10 @@ export class Province extends BaseEntity {
   @Column({ type: 'numeric' })
   readonly continentId: number;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  readonly path: string | null;
+
   @ManyToOne(() => Mod, (mod) => mod.provinces, { onDelete: 'CASCADE' })
   readonly mod: Mod;
 }

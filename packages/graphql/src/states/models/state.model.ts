@@ -48,6 +48,7 @@ export class State extends BaseEntity {
     cascade: true,
     eager: true,
   })
+  @Field(() => [ID])
   @Transform(
     ({ value }) =>
       convertToArray(value).map<DeepPartial<StateProvince>>((provinceId) => ({

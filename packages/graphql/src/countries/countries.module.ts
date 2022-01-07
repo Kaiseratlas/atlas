@@ -20,6 +20,7 @@ import {
   CountryNavyLeader,
   CountryIdea,
   CountryEvent,
+  CountryColor,
 } from './models';
 import { IdeasModule } from '../ideas/ideas.module';
 import { EventsModule } from '../events/events.module';
@@ -38,6 +39,7 @@ import { EventsModule } from '../events/events.module';
       CountryNavyLeader,
       CountryIdea,
       CountryEvent,
+      CountryColor,
     ]),
     IdeologiesModule,
     IdeasModule,
@@ -54,4 +56,3 @@ import { EventsModule } from '../events/events.module';
   ],
 })
 export class CountriesModule {}
-

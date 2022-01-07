@@ -9,6 +9,12 @@ export class Country {
   readonly tag: string;
 
   @Field()
+  readonly color: string;
+
+  @Field()
+  readonly colorUi: string;
+
+  @Field()
   readonly name: string;
 
   @Field(() => [CountryFlag])

@@ -10,6 +10,7 @@ import { convertToArray } from '../../parser/services/parser.service';
 @ObjectType()
 export class StateHistory extends BaseEntity {
   @Column()
+  @Field({ name: 'ownerTag' })
   readonly owner: string;
 
   @OneToMany(() => StateCore, (stateCore) => stateCore.history, {

@@ -5,3 +5,4 @@ export * from './country-corps-commander.model';
 export * from './country-navy-leader.model';
 export * from './country-idea.model';
 export * from './country-event.model';
+export * from './country-color.model';

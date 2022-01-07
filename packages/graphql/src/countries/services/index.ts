@@ -7,3 +7,4 @@ export * from './country-navy-leaders.service';
 export * from './country-field-marshals.service';
 export * from './country-ideas.service';
 export * from './country-events.service';
+export * from './country-colors.service';

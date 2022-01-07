@@ -4,6 +4,7 @@ import { ContinentsService } from '../services/continents.service';
 import { ModsService } from '../../mods/services/mods.service';
 import { ProvincesService } from '../services/provinces.service';
 import { MapsService } from '../services/maps.service';
+import { SvgService } from '../services/svg.service';
 
 interface IdeologiesCommandOptions
   extends Partial<Pick<Mod, 'remoteFileId' | 'version'>> {
@@ -15,6 +16,7 @@ export class MapCommand implements CommandRunner {
   constructor(
     private continentsService: ContinentsService,
     private provincesService: ProvincesService,
+    private svgService: SvgService,
     private mapsService: MapsService,
     private modsService: ModsService,
   ) {}
@@ -34,8 +36,8 @@ export class MapCommand implements CommandRunner {
     );
 
     //await this.continentsService.refresh(mod);
-    // await this.provincesService.refresh(mod);
-    await this.mapsService.test(mod);
+    await this.provincesService.refresh(mod);
+    //await this.mapsService.test(mod);
   }
 
   async runWithAll() {}

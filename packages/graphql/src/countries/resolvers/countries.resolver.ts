@@ -12,6 +12,7 @@ import { I18n, I18nContext, I18nService } from 'nestjs-i18n';
 import { ModsService } from '../../mods/services/mods.service';
 import { StatesService } from '../../states/services/states.service';
 import { IdeologiesService } from '../../ideologies/services/ideologies.service';
+import { CountryColorsService } from '../services';
 
 @Resolver(() => Country)
 export class CountriesResolver {
@@ -21,6 +22,7 @@ export class CountriesResolver {
     private modsService: ModsService,
     private ideologiesService: IdeologiesService,
     private countriesService: CountriesService,
+    private countryColorsService: CountryColorsService,
   ) {}
 
   @Query(() => Country, { name: 'country' })
@@ -35,6 +37,18 @@ export class CountriesResolver {
       name: '',
       flagUrl: `http://localhost:3000/static/gfx/flags/${flagUrl.sha256}.png`,
     };
+  }
+
+  @ResolveField()
+  async color(@Parent() country: Country) {
+    const mod = await this.modsService.findByRemoteId(1521695605);
+    return this.countryColorsService.findByTag(country.tag, mod);
+  }
+
+  @ResolveField()
+  async colorUi(@Parent() country: Country) {
+    const mod = await this.modsService.findByRemoteId(1521695605);
+    return this.countryColorsService.findUiByTag(country.tag, mod);
   }
 
   @ResolveField()

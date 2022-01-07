@@ -8,6 +8,8 @@ import fg from 'fast-glob';
 import { ParserService } from '../../parser/services/parser.service';
 import { plainToInstance } from 'class-transformer';
 
+type StateMap = Map<State['stateId'], State>;
+
 @Injectable()
 export class StatesService {
   constructor(
@@ -16,8 +18,13 @@ export class StatesService {
     private parserService: ParserService,
   ) {}
 
-  findAll(mod: Mod) {
+  findAll(mod: Mod): Promise<State[]> {
     return this.statesRepository.find({ where: { mod } });
+  }
+
+  async findAllAsMap(mod: Mod): Promise<StateMap> {
+    const states = await this.findAll(mod);
+    return new Map(states.map((state) => [state.stateId, state]));
   }
 
   findById(stateId: State['stateId'], mod: Mod) {
