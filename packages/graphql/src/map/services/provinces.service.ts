@@ -60,7 +60,7 @@ export class ProvincesService {
   }
 
   async fetchSvgMap(mod: Mod) {
-    const mapPath = path.resolve(mod.path, 'map', 'provinces_backup.svg');
+    const mapPath = path.resolve(mod.path, 'map', 'provinces.svg');
     const svg = await this.svgService.readSvgFile(mapPath);
     const map = new Map<string, INode>();
     for (const node of svg.children) {

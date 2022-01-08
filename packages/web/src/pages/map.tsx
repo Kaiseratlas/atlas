@@ -6,18 +6,15 @@ import m from "../common/test";
 import styles from "./map.module.scss";
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { Box } from "@mui/material";
+import { Box, Drawer, Typography } from "@mui/material";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { styled } from "@mui/system";
+import Color from "color";
+import StateInfo from "../common/components/StateInfo";
+import Country from "../common/components/Country";
 
 const Path = styled("path")({
-  fill: "#e0e0e0",
-  stroke: "#e0e0e0",
-  strokeWidth: "0.5px",
-  ":hover": {
-    fill: "#e9e9e9",
-    stroke: "#e9e9e9",
-  },
+  transition: "0.25s",
 });
 
 const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
@@ -27,6 +24,7 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
         tag
         name
         color
+        flagUrl
       }
       states {
         id
@@ -50,6 +48,16 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
     }
   `);
 
+  const [openw, setOpen] = React.useState(false);
+  const [currentState, setCurrentState] = React.useState<any | null>(null);
+  const [currentCountry, setCurrentCountry] = React.useState<any | null>(null);
+
+  React.useEffect(() => {
+    if (!!currentCountry) {
+      setCurrentState(null);
+    }
+  }, [currentCountry]);
+
   const r = React.useCallback(() => {
     if (!data) {
       return null;
@@ -71,9 +79,15 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
     console.log("countriesMap", countriesMap);
 
     return Array.from(countriesMap).map(([countryTag, states]) => {
-      console.log("states", states);
+      //console.log("states", states);
+      const country = cMap.get(countryTag) as any;
       return (
-        <g key={`country-${countryTag.toLowerCase()}`} data-role="country">
+        <g
+          key={`country-${countryTag.toLowerCase()}`}
+          data-id={country.id}
+          data-tag={country.tag}
+          data-role="country"
+        >
           {states.map((s: any) => {
             const d = s.provinces.map((pid: any) => {
               const p = provincesMap.get(pid);
@@ -83,6 +97,10 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
               return p.path;
             });
 
+            const color = Color((cMap.get(countryTag) as any).color);
+
+            //return  ''
+
             return (
               <Path
                 key={s.id}
@@ -90,11 +108,29 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
                 d={d.join(" ")}
                 onClick={() => {
                   console.log(s);
+                  setOpen(true);
+                  setCurrentState(s);
                 }}
-                style={{
-                  fill: (cMap.get(countryTag) as any).color,
-                  stroke: (cMap.get(countryTag) as any).color,
+                sx={{
+                  fill: color.hex(),
+                  stroke: color.hex(),
+                  ":hover": {
+                    fill: color.isDark()
+                      ? color.lighten(0.2).hex()
+                      : color.darken(0.2).hex(),
+                    stroke: color.isDark()
+                      ? color.lighten(0.2).hex()
+                      : color.darken(0.2).hex(),
+                  },
                 }}
+                style={
+                  {
+                    //stroke: 'white',
+                    // filter: `drop-shadow( 0px 0px 10px ${
+                    //   (cMap.get(countryTag) as any).color
+                    // })`,
+                  }
+                }
               />
             );
           })}
@@ -105,6 +141,24 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
 
   return (
     <div>
+      <Drawer
+        // anchor={anchor}
+        open={openw}
+        onClose={(event, reason) => {
+          setOpen(false);
+          setCurrentState(null)
+          setCurrentCountry(null)
+        }}
+      >
+        {currentState && (
+          <StateInfo
+            state={currentState}
+            countries={data.countries}
+            setCurrentCountry={setCurrentCountry}
+          />
+        )}
+        {currentCountry && <Country tag={currentCountry} countries={data.countries} />}
+      </Drawer>
       <TransformWrapper
         // initialScale={1}
         initialPositionX={-2000}
@@ -132,6 +186,7 @@ const WorldMap: NextPage<{ ideologies: any[] }> = ({ ideologies }) => {
                   //xmlns="http://www.w3.org/2000/svg"
                   style={{
                     shapeRendering: "optimizeSpeed",
+                    background: "#42bfed",
                   }}
                 >
                   {r()}

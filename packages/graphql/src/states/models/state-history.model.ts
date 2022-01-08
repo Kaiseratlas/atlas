@@ -5,6 +5,7 @@ import { StateCore } from './state-core.model';
 import { StateClaim } from './state-claim.model';
 import { Expose, Transform } from 'class-transformer';
 import { convertToArray } from '../../parser/services/parser.service';
+import { Country } from '../../countries/models/country.model';
 
 @Entity('state_history')
 @ObjectType()
@@ -13,12 +14,15 @@ export class StateHistory extends BaseEntity {
   @Field({ name: 'ownerTag' })
   readonly owner: string;
 
+  @Field(() => Country, { name: 'owner' })
+  readonly ownerCountry: Country;
+
   @OneToMany(() => StateCore, (stateCore) => stateCore.history, {
     cascade: true,
     eager: true,
   })
   @Expose({ name: 'add_core_of', groups: ['parsing'] })
-  @Field(() => [String])
+  @Field(() => [String], { name: 'cores' })
   @Transform(
     ({ value }) =>
       convertToArray(value).map<DeepPartial<StateCore>>((tag) => ({ tag })),
@@ -36,6 +40,6 @@ export class StateHistory extends BaseEntity {
       convertToArray(value).map<DeepPartial<StateClaim>>((tag) => ({ tag })),
     { groups: ['parsing'] },
   )
-  @Field(() => [String])
+  @Field(() => [String], { name: 'claims' })
   readonly addClaimBy: StateClaim[];
 }

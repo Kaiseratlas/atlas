@@ -27,18 +27,14 @@ export class MapsService {
   ) {}
 
   async test(mod: Mod) {
-    // const mapPath = path.resolve(
-    //   __dirname,
-    //   '..',
-    //   '..',
-    //   '..',
-    //   'client',
-    //   'maps',
-    //   'map.svg',
-    // );
-    // const mapPath = path.resolve(__dirname, '../../', 'o2.svg');
-    // const statesMap = await this.statesService.findAllAsMap(mod);
-    // const svg = await this.svgService.readSvgFile(mapPath);
+    const mapPath = path.resolve(
+      mod.path,
+      'map',
+      'provinces.svg',
+    );
+    //const mapPath = path.resolve(__dirname, '../../', 'o2.svg');
+    //const statesMap = await this.statesService.findAllAsMap(mod);
+    const svg = await this.svgService.readSvgFile2(mapPath);
     // const map = this.createProvincesMap(svg);
     //
     // const provincesMap = await this.provincesService.findAllAsMap(mod);

@@ -55,9 +55,9 @@ export class SvgService {
       };
     });
 
-    const xxx = optimize(stringify(svg), {  });
+   // const xxx = optimize(stringify(svg), {  });
 
-    await fs.promises.writeFile('o2.svg', xxx.data);
+    await fs.promises.writeFile('o2.svg', stringify(svg));
 
     return svg;
   }

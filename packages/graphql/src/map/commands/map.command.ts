@@ -36,8 +36,8 @@ export class MapCommand implements CommandRunner {
     );
 
     //await this.continentsService.refresh(mod);
-    await this.provincesService.refresh(mod);
-    //await this.mapsService.test(mod);
+    //await this.provincesService.refresh(mod);
+    await this.mapsService.test(mod);
   }
 
   async runWithAll() {}
