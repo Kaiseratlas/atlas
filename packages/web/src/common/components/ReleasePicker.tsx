@@ -42,7 +42,7 @@ const ReleasePicker: React.FC = () => {
         {data?.releases[0].version}
       </LoadingButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {data?.releases.map((release) => (
+        {data?.releases.map((release: any) => (
           <MenuItem key={`release-${release.version}`}>
             {release.version}
           </MenuItem>

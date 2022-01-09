@@ -1,16 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column } from 'typeorm';
 import { Field, ID, Int, InterfaceType } from '@nestjs/graphql';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @InterfaceType()
-export abstract class CountryMilitaryCommander {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export abstract class CountryMilitaryCommander extends BaseEntity {
   @Column({ type: 'numeric', nullable: true })
   @Field(() => ID, { nullable: true })
   readonly commanderId: number;
@@ -43,10 +36,4 @@ export abstract class CountryMilitaryCommander {
   @Column({ type: 'numeric', default: 0 })
   @Field(() => Int)
   readonly defenseSkill: number;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 }

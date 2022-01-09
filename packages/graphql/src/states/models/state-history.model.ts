@@ -6,6 +6,7 @@ import { StateClaim } from './state-claim.model';
 import { Expose, Transform } from 'class-transformer';
 import { convertToArray } from '../../parser/services/parser.service';
 import { Country } from '../../countries/models/country.model';
+import { StateVictoryPoints } from './state-victory-points.model';
 
 @Entity('state_history')
 @ObjectType()
@@ -16,6 +17,42 @@ export class StateHistory extends BaseEntity {
 
   @Field(() => Country, { name: 'owner' })
   readonly ownerCountry: Country;
+
+  @OneToMany(
+    () => StateVictoryPoints,
+    (stateVictoryPoints) => stateVictoryPoints.history,
+    {
+      cascade: true,
+      eager: true,
+      nullable: true,
+    },
+  )
+  @Expose({ name: 'victory_points', groups: ['parsing'] })
+  @Field(() => [StateVictoryPoints])
+  @Transform(
+    ({ value }) => {
+      if (!value) {
+        return null;
+      }
+      if (Array.isArray(value[0])) {
+        return value.map(([provinceId, value]) => ({ provinceId, value }));
+      }
+      const [provinceId, points] = value;
+      return [{ provinceId, value: points }];
+    },
+    { groups: ['parsing'] },
+  )
+  readonly victoryPoints: StateVictoryPoints[];
+
+  get capitalVictoryPoints(): StateVictoryPoints | null {
+    if (!this.victoryPoints) {
+      return null;
+    }
+
+    return this.victoryPoints.reduce((prev, current) =>
+      prev.value > current.value ? prev : current,
+    );
+  }
 
   @OneToMany(() => StateCore, (stateCore) => stateCore.history, {
     cascade: true,

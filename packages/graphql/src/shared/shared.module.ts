@@ -8,12 +8,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './type-orm-config.service';
 import { GqlConfigService } from './gql-config.service';
 import { ServeStaticConfigService } from './serve-static-config.service';
+import { ConfigModule } from '@nestjs/config';
 
 const isCli = process.env.CLI;
 
 @Global()
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     I18nModule.forRoot({
       parser: I18nJsonParser,
       fallbackLanguage: 'english-0_19_2',

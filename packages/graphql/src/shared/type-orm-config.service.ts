@@ -10,7 +10,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'sqlite',
-      database: path.resolve(__dirname, `../../../../data/db.sqlite`),
+      database: path.resolve(__dirname, `../../data/db.sqlite`),
       autoLoadEntities: true,
       synchronize: true,
       logging: !!isCli,

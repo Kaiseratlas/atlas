@@ -1,19 +1,13 @@
 import { Module } from '@nestjs/common';
-import { StatesResolver } from './resolvers/states.resolver';
 import { StatesService } from './services/states.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as models from './models';
+import * as resolvers from './resolvers';
 import { StatesCommand } from './commands/states.command';
-import { StateHistoryResolver } from './resolvers/state-history.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature(Object.values(models))],
-  providers: [
-    StatesCommand,
-    StatesResolver,
-    StateHistoryResolver,
-    StatesService,
-  ],
+  providers: [StatesCommand, ...Object.values(resolvers), StatesService],
   exports: [StatesService],
 })
 export class StatesModule {}

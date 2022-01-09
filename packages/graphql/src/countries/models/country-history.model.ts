@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { Mod } from '../../mods/models/mod.model';
 import { Field, ID, Int, Float, ObjectType } from '@nestjs/graphql';
-import { State } from '../../states/models/state.model';
 import { CountryPolitics } from './country-politics.model';
 import { CountryLeader } from './country-leader.model';
 import { CountryPopularity } from './country-popularity.model';
@@ -21,6 +20,7 @@ import { CountryNavyLeader } from './country-navy-leader.model';
 import { CountryIdea } from './country-idea.model';
 import { Idea } from '../../ideas/models/idea.model';
 import { CountryEvent } from './country-event.model';
+import { StateVictoryPoints } from '../../states/models';
 
 @ObjectType()
 @Entity('country_history')
@@ -35,8 +35,8 @@ export class CountryHistory {
   @Field(() => ID)
   readonly capitalId: number;
 
-  @Field(() => State)
-  readonly capital?: State;
+  @Field(() => StateVictoryPoints)
+  readonly capital?: StateVictoryPoints;
 
   @Field(() => Int)
   @Column('numeric', { default: 0 })

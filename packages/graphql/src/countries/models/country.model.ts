@@ -1,11 +1,11 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { CountryHistory } from './country-history.model';
 import { CountryFlag } from './country-flag.model';
 import { CountryName } from './country-name.model';
 
 @ObjectType()
 export class Country {
-  @Field()
+  @Field(() => ID)
   readonly tag: string;
 
   @Field()

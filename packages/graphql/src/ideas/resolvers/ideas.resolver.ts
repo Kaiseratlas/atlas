@@ -21,6 +21,6 @@ export class IdeasResolver {
     if (!idea.picture) {
       return null;
     }
-    return `http://localhost:3000/static/gfx/ideas/${idea.pictureHash}.png`;
+    return `${process.env.HOST}/static/gfx/ideas/${idea.pictureHash}.png`;
   }
 }

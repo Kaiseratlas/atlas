@@ -16,7 +16,7 @@ import {
   Button,
 } from "@mui/material";
 
-var cumulativeOffset = function (element) {
+var cumulativeOffset = function (element: any) {
   var top = 0,
     left = 0;
   do {
@@ -40,7 +40,7 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 
 const FocusTree: NextPage<{ focusTree: any }> = ({ focusTree }) => {
   //console.log("focusTree", focusTree);
-  const [currentFocus, setCurrentFocus] = useState(null);
+  const [currentFocus, setCurrentFocus] = useState<any>(null);
   const f = focusTree.focuses.filter((f: any) => !f.relativePositionId);
   //console.log("f", f);
   console.log("currentFocus", currentFocus);
@@ -68,12 +68,12 @@ const FocusTree: NextPage<{ focusTree: any }> = ({ focusTree }) => {
 
         // if (focus.prerequisite.length === 1) {
         // console.log("focus", focus);
-        const m = focus.prerequisite.map((n) => refsMap.get(n));
-        m.map((v) => {
+        const m = focus.prerequisite.map((n: any) => refsMap.get(n));
+        m.map((v: any) => {
           const par = cumulativeOffset(v);
           const ch = cumulativeOffset(el);
 
-          const d = focusTree.focuses.some((f) =>
+          const d = focusTree.focuses.some((f: any) =>
             f.prerequisite.includes(focusId)
           );
 

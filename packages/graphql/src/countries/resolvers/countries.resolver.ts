@@ -35,7 +35,7 @@ export class CountriesResolver {
     return {
       tag,
       name: '',
-      flagUrl: `http://localhost:3000/static/gfx/flags/${flagUrl.sha256}.png`,
+      flagUrl: `${process.env.HOST}/static/gfx/flags/${flagUrl.sha256}.png`,
     };
   }
 
@@ -85,7 +85,7 @@ export class CountriesResolver {
     const flags = await this.countriesService.fetchFlagsByTag(tag, mod);
     return flags.map((flag) => ({
       ...flag,
-      url: `http://localhost:3000/static/gfx/flags/${flag.sha256}.png`,
+      url: `${process.env.HOST}/static/gfx/flags/${flag.sha256}.png`,
     }));
   }
 
@@ -119,7 +119,7 @@ export class CountriesResolver {
           .find((flag) => flag.tag === tag);
         return {
           tag,
-          flagUrl: `http://localhost:3000/static/gfx/flags/${flagUrl.sha256}.png`,
+          flagUrl: `${process.env.HOST}/static/gfx/flags/${flagUrl.sha256}.png`,
         };
       }),
     );

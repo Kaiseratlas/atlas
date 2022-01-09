@@ -35,6 +35,6 @@ export class CountryLeadersResolver {
   getPictureUrl(
     @Parent() countryLeader: CountryLeader,
   ): CountryLeader['pictureUrl'] {
-    return `http://localhost:3000/static/gfx/leaders/${countryLeader.pictureHash}.png`;
+    return `${process.env.HOST}/static/gfx/leaders/${countryLeader.pictureHash}.png`;
   }
 }

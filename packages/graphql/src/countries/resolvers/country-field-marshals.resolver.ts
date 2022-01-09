@@ -21,6 +21,6 @@ export class CountryFieldMarshalsResolver {
   getPortraitUrl(
     @Parent() countryFieldMarshal: CountryFieldMarshal,
   ): CountryFieldMarshal['portraitUrl'] {
-    return `http://localhost:3000/static/gfx/leaders/${countryFieldMarshal.pictureHash}.png`;
+    return `${process.env.HOST}/static/gfx/leaders/${countryFieldMarshal.pictureHash}.png`;
   }
 }

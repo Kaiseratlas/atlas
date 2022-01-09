@@ -1,0 +1,9 @@
+env: standard
+runtime: nodejs14
+service: default
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
+env_variables:
+  NEXT_PUBLIC_API_URL: "https://api-dot-kr-atlas.uc.r.appspot.com/graphql"

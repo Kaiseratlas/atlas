@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Mod } from '../../mods/models/mod.model';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Expose } from 'class-transformer';
@@ -14,14 +6,12 @@ import { EventType } from '../enums/event-type.enum';
 import { EventOption } from './event-option.model';
 import { EventDescription } from './event-description.model';
 import { EventTitle } from './event-title.model';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('events')
 @ObjectType()
-export class Event {
+export class Event extends BaseEntity {
   static readonly Type = EventType;
-
-  @PrimaryGeneratedColumn()
-  readonly id: number;
 
   @Field(() => ID, {
     name: 'id',
@@ -110,12 +100,6 @@ export class Event {
   })
   @Column({ type: 'boolean', default: false })
   readonly major: boolean;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 
   @OneToMany(() => EventOption, (eventOption) => eventOption.event, {
     cascade: true,

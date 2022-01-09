@@ -24,7 +24,7 @@ export class FocusesResolver {
     try {
       const mod = await this.modsService.findByRemoteId(1521695605);
       const sprite = await this.spritesService.findByName(focus.icon, mod);
-      return `http://localhost:3000/static/gfx/sprites/${sprite.textureHash}.png`;
+      return `${process.env.HOST}/static/gfx/sprites/${sprite.textureHash}.png`;
     } catch (e) {
       return null;
     }

@@ -1,21 +1,12 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Event } from './event.model';
 import { Expose } from 'class-transformer';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('event_options')
 @ObjectType()
-export class EventOption {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class EventOption extends BaseEntity {
   @Column({ nullable: true })
   @Field({ description: "The localization key of the option's name." })
   readonly name: string | null;
@@ -27,12 +18,6 @@ export class EventOption {
   @Column({ type: 'boolean', default: false })
   @Expose({ name: 'original_recipient_only', groups: ['parsing'] })
   readonly originalRecipientOnly: boolean;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 
   @ManyToOne(() => Event, (event) => event.options, {
     onDelete: 'CASCADE',

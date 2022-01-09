@@ -1,22 +1,13 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Expose } from 'class-transformer';
 import { CountryHistory } from './country-history.model';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Event } from '../../events/models';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('country_events')
 @ObjectType()
-export class CountryEvent {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class CountryEvent extends BaseEntity {
   @Column()
   @Field(() => ID, { name: 'id' })
   @Expose({ name: 'id', groups: ['parsing'] })
@@ -38,12 +29,6 @@ export class CountryEvent {
   @Column({ type: 'numeric', default: 0 })
   @Expose({ name: 'random_days', groups: ['parsing'] })
   readonly randomDays: number;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 
   @Field(() => Event)
   readonly event: Event;

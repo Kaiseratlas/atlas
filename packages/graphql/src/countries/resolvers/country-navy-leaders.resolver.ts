@@ -17,6 +17,6 @@ export class CountryNavyLeadersResolver {
   getPortraitUrl(
     @Parent() countryNavyLeader: CountryNavyLeader,
   ): CountryNavyLeader['portraitUrl'] {
-    return `http://localhost:3000/static/gfx/leaders/${countryNavyLeader.pictureHash}.png`;
+    return `${process.env.HOST}/static/gfx/leaders/${countryNavyLeader.pictureHash}.png`;
   }
 }

@@ -106,7 +106,7 @@ const StateInfo: React.FC<{
         {!!data?.state.history.claims.length && (
           <ListSubheader>Claims</ListSubheader>
         )}
-        {data?.state.history.claims.map((tag) => {
+        {data?.state.history.claims.map((tag: any) => {
           const country = countries.find((c) => c.tag === tag);
           console.log("data?.state.history.cores", data?.state.history.cores);
           return (

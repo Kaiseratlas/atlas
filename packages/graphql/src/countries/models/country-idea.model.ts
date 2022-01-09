@@ -1,18 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { CountryHistory } from './country-history.model';
+import { BaseEntity } from '../../shared/models/base-entity.model';
 
 @Entity('country_ideas')
-export class CountryIdea {
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class CountryIdea extends BaseEntity {
   @Column()
   readonly ideaName: string;
 
@@ -20,10 +11,4 @@ export class CountryIdea {
     onDelete: 'CASCADE',
   })
   readonly history: CountryHistory;
-
-  @CreateDateColumn()
-  readonly createdAt: string;
-
-  @UpdateDateColumn()
-  readonly updatedAt: string;
 }

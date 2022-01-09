@@ -17,6 +17,6 @@ export class CountryCorpsCommandersResolver {
   getPortraitUrl(
     @Parent() countryCorpsCommander: CountryCorpsCommander,
   ): CountryCorpsCommander['portraitUrl'] {
-    return `http://localhost:3000/static/gfx/leaders/${countryCorpsCommander.pictureHash}.png`;
+    return `${process.env.HOST}/static/gfx/leaders/${countryCorpsCommander.pictureHash}.png`;
   }
 }

@@ -9,7 +9,8 @@ import {
   CountryLeader,
   CountryNavyLeader,
   CountryCorpsCommander,
-  CountryIdea, CountryEvent,
+  CountryIdea,
+  CountryEvent,
 } from '../models';
 import { IdeasService } from '../../ideas/services/ideas.service';
 import { Idea } from '../../ideas/models/idea.model';
@@ -74,7 +75,12 @@ export class CountryHistoryResolver {
     @Parent() countryHistory: CountryHistory,
   ): Promise<CountryHistory['capital']> {
     const mod = await this.modsService.findByRemoteId(1521695605);
-    return this.statesService.findById(countryHistory.capitalId, mod);
+    const state = await this.statesService.findById(
+      countryHistory.capitalId,
+      mod,
+    );
+    const capital = state.history.capitalVictoryPoints;
+    return capital;
   }
 
   @ResolveField(() => [CountryLeader], { name: 'leaders' })
