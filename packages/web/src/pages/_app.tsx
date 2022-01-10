@@ -5,6 +5,7 @@ import { appWithTranslation } from "next-i18next";
 import Layout from "../common/components/Layout";
 import { ApolloProvider } from "@apollo/client";
 import client from "../../client";
+import { wrapper } from "../common/store";
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
@@ -16,4 +17,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default appWithTranslation(App);
+export default appWithTranslation(wrapper.withRedux(App));
