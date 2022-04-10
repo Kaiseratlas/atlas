@@ -1,29 +1,29 @@
 import { Module } from '@nestjs/common';
 import { CountriesModule } from './countries/countries.module';
-import { SharedModule } from './shared/shared.module';
-import { ModsModule } from './mods/mods.module';
-import { IdeologiesModule } from './ideologies/ideologies.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { StatesModule } from './states/states.module';
-import { IdeasModule } from './ideas/ideas.module';
-import { EventsModule } from './events/events.module';
-import { SpritesModule } from './sprites/sprites.module';
-import { MapModule } from './map/map.module';
-import { FocusesModule } from './focuses/focuses.module';
+import { StateCategoriesModule } from './state-categories/state-categories.module';
 import { ParserModule } from './parser/parser.module';
+import { EventsModule } from './events/events.module';
+import { CountryFlagsModule } from './country-flags/country-flags.module';
 
 @Module({
   imports: [
     CountriesModule,
-    SharedModule,
-    ModsModule,
-    IdeologiesModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+    }),
+    ParserModule.forRootAsync({
+      useFactory: () => ({
+        gamePath: 'C:\\Games\\Hearts of Iron IV No Step Back',
+      }),
+    }),
     StatesModule,
-    IdeasModule,
+    StateCategoriesModule,
     EventsModule,
-    SpritesModule,
-    MapModule,
-    FocusesModule,
-    ParserModule,
+    CountryFlagsModule,
   ],
 })
 export class AppModule {}

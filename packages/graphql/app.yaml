@@ -1,6 +1,0 @@
-service: api
-runtime: nodejs14
-instance_class: F4
-
-env_variables:
-  HOST: "https://api-dot-kr-atlas.uc.r.appspot.com/"
