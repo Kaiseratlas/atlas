@@ -1,14 +1,22 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, ID, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Country } from './country.model';
-import { Field, ID, Int, Query } from '@nestjs/graphql';
+import { Int, Query } from '@nestjs/graphql';
 import Parser from '@kaiseratlas/parser';
-import { OnModuleInit } from '@nestjs/common';
 import { InjectParser } from '../parser/parser.module';
 import { CountryFlag } from '../country-flags/country-flag.model';
+import { CountryFlagsService } from '../country-flags/country-flags.service';
 
 @Resolver(() => Country)
 export class CountriesResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
+  constructor(
+    @InjectParser() protected parser: Parser,
+    private countryFlagsService: CountryFlagsService,
+  ) {}
+
+  @Query(() => Country, { name: 'country' })
+  async getCountry(@Args('tag', { type: () => ID }) tag: string) {
+    return this.parser.common.countries.get(tag);
+  }
 
   @Query(() => [Country], { name: 'countries' })
   async getCountries() {
@@ -18,10 +26,27 @@ export class CountriesResolver {
     );
   }
 
-  @ResolveField(() => String, { name: 'name' })
-  async getCurrentName(@Parent() country: Country) {
+  @ResolveField(() => String, { name: 'currentFlag' })
+  async getCurrentFlag(@Parent() country: Country) {
+    // @ts-ignore
+    const flag = await country.flags.getCurrent();
+    return this.countryFlagsService.getUrl(flag);
+  }
+
+  @ResolveField(() => String, { name: 'formalName' })
+  async getFormalName(@Parent() country: Country) {
     // @ts-ignore
     const localisation = await country.getCurrentName();
+    if (!localisation) {
+      return country.tag;
+    }
+    return localisation.value;
+  }
+
+  @ResolveField(() => String, { name: 'name' })
+  async getDefaultName(@Parent() country: Country) {
+    // @ts-ignore
+    const localisation = await country.getDefaultName();
     if (!localisation) {
       return country.tag;
     }
@@ -37,5 +62,12 @@ export class CountriesResolver {
   async getFlags(@Parent() country: Country) {
     // @ts-ignore
     return country.flags.load();
+  }
+
+  @ResolveField(() => Int, { name: 'researchSlots' })
+  async getResearchSlots(@Parent() country: Country) {
+    // @ts-ignore
+    const history = await country.getHistory();
+    return history.researchSlots;
   }
 }

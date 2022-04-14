@@ -2,21 +2,17 @@ import { ResolveField, Resolver, Parent } from '@nestjs/graphql';
 import { InjectParser } from '../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
 import { CountryFlag } from './country-flag.model';
+import { CountryFlagsService } from './country-flags.service';
 
 @Resolver(() => CountryFlag)
 export class CountryFlagsResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
+  constructor(
+    @InjectParser() protected parser: Parser,
+    private countryFlagsService: CountryFlagsService,
+  ) {}
 
   @ResolveField(() => String, { name: 'url' })
   getUrl(@Parent() countryFlag: CountryFlag) {
-    const flagUrl = new URL(
-      `/flags/${countryFlag['country']['tag']}`,
-      'http://localhost:3000',
-    );
-    if (countryFlag.variant) {
-      flagUrl.searchParams.append('variant', countryFlag.variant);
-    }
-
-    return flagUrl.toString();
+    return this.countryFlagsService.getUrl(countryFlag);
   }
 }

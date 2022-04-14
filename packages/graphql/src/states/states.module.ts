@@ -2,6 +2,6 @@ import { Module } from '@nestjs/common';
 import { StatesResolver } from './states.resolver';
 
 @Module({
-  providers: [StatesResolver]
+  providers: [StatesResolver],
 })
 export class StatesModule {}

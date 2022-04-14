@@ -7,6 +7,10 @@ import { StateCategoriesModule } from './state-categories/state-categories.modul
 import { ParserModule } from './parser/parser.module';
 import { EventsModule } from './events/events.module';
 import { CountryFlagsModule } from './country-flags/country-flags.module';
+import { IdeologiesModule } from './ideologies/ideologies.module';
+import { CharactersModule } from './characters/characters.module';
+import { ProvincesModule } from './provinces/provinces.module';
+import { ContinentsModule } from './continents/continents.module';
 
 @Module({
   imports: [
@@ -24,6 +28,10 @@ import { CountryFlagsModule } from './country-flags/country-flags.module';
     StateCategoriesModule,
     EventsModule,
     CountryFlagsModule,
+    IdeologiesModule,
+    CharactersModule,
+    ProvincesModule,
+    ContinentsModule,
   ],
 })
 export class AppModule {}

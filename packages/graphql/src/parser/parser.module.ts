@@ -50,6 +50,9 @@ export class ParserModule {
         await Promise.all([
           kr.i18n.load(),
           // Common
+          kr.common.characters.load(),
+          kr.common.countries.load(),
+          kr.common.ideologies.load(),
           kr.common.stateCategories.load(),
           // Events
           kr.events.load(),
