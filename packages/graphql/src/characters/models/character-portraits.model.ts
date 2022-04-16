@@ -1,12 +1,12 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { CharacterPortrait } from './character-portrait.model';
 
 @ObjectType()
 export class CharacterPortraits {
-  @Field(() => CharacterPortrait)
+  @Field(() => CharacterPortrait, { nullable: true })
   readonly civilian: CharacterPortrait;
-  @Field(() => CharacterPortrait)
+  @Field(() => CharacterPortrait, { nullable: true })
   readonly army: CharacterPortrait;
-  @Field(() => CharacterPortrait)
+  @Field(() => CharacterPortrait, { nullable: true })
   readonly navy: CharacterPortrait;
 }

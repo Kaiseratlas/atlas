@@ -1,9 +1,9 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { InjectParser } from '../parser/parser.module';
+import { InjectParser } from '../../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
-import { Province } from './province.model';
-import { Continent } from '../continents/continent.model';
-import { State } from '../states/state.model';
+import { Province } from '../models/province.model';
+import { Continent } from '../../continents/continent.model';
+import { State } from '../../states/state.model';
 
 @Resolver(() => Province)
 export class ProvincesResolver {

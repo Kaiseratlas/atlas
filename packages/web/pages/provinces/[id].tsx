@@ -8,7 +8,7 @@ import ProvinceGrid from "../../components/ProvinceGrid";
 const ProvinceInfo: NextPage<any> = ({ province }) => {
   return (
     <Container maxWidth="lg">
-      {/*<ProvinceGrid rows={provinces} pageSize={10} autoHeight />*/}
+      {/*<ProvinceGrid rows={resolvers} pageSize={10} autoHeight />*/}
     </Container>
   )
 }

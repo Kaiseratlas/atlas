@@ -18,6 +18,7 @@ export class ParserConstants {
 
 interface ParserModuleOptions {
   gamePath: string;
+  modPath: string;
 }
 
 export type ParserModuleOptionsAsyncOptions = {
@@ -45,7 +46,9 @@ export class ParserModule {
       inject: [ParserConstants.PARSER_MODULE_OPTIONS],
       provide: ParserConstants.PARSER_INSTANCE,
       useFactory: async (options: ParserModuleOptions) => {
-        const hoi4 = Game.fromPath(options.gamePath);
+        const hoi4 = Game.fromPath(options.gamePath, {
+          modPath: options.modPath,
+        });
         const kr = await Parser.initialize(hoi4);
         await Promise.all([
           kr.i18n.load(),

@@ -1,0 +1,11 @@
+query Ideologies {
+  ideologies {
+    id
+    name
+    color
+    grouping
+    icon
+    canBeBoosted
+    canCollaborate
+  }
+}

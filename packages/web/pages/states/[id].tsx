@@ -17,11 +17,6 @@ const StateInfo: NextPage<any> = ({ state }) => {
   console.log('state', state);
   return (
     <>
-      <AppBar>
-        <Toolbar>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
       <Container maxWidth="lg">
         <Grid container>
           <Grid item md={3}>

@@ -4,6 +4,7 @@ import { InjectParser } from '../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
 import { CharacterRole } from './unions/character-role.union';
 import { CharacterPortraits } from './models/character-portraits.model';
+import { CountryLeader } from './models/country-leader.model';
 
 @Resolver(() => Character)
 export class CharactersResolver {
@@ -16,7 +17,6 @@ export class CharactersResolver {
 
   @ResolveField(() => String, { name: 'name' })
   async getName(@Parent() character: Character) {
-    // @ts-ignore
     const localisation = await character.getName();
     if (!localisation) {
       return character['name'];
@@ -27,11 +27,11 @@ export class CharactersResolver {
   @ResolveField(() => [CharacterRole], { name: 'roles' })
   getRoles(@Parent() character: Character) {
     return [];
+    return character.roles;
   }
 
   @ResolveField(() => CharacterPortraits, { name: 'portraits' })
   getPortraits(@Parent() character: Character) {
-    // @ts-ignore
     return character.portraits;
   }
 }

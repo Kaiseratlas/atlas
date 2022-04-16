@@ -2,10 +2,6 @@
   "name": "kaiserreich-atlas",
   "version": "1.0.0",
   "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "dev": "concurrently \"pnpm graphql:dev\" \"pnpm web:dev\"",
     "graphql:dev": "pnpm -C packages/graphql start:dev",

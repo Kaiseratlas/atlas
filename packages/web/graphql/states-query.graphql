@@ -1,0 +1,23 @@
+query States {
+  states {
+    id
+    category {
+      id
+      name
+    }
+    controller {
+      tag
+      currentFlag
+      name
+    }
+    coreOf {
+      tag
+      currentFlag
+      name
+    }
+    name
+    manpower
+    impassable
+    buildingsMaxLevelFactor
+  }
+}

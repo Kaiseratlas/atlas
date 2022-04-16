@@ -1,5 +1,9 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { ProvinceType, Color, Province as _Province } from '@kaiseratlas/parser';
+import {
+  ProvinceType,
+  Color,
+  Province as _Province,
+} from '@kaiseratlas/parser';
 
 registerEnumType(ProvinceType, {
   name: 'ProvinceType',

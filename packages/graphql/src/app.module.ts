@@ -11,6 +11,10 @@ import { IdeologiesModule } from './ideologies/ideologies.module';
 import { CharactersModule } from './characters/characters.module';
 import { ProvincesModule } from './provinces/provinces.module';
 import { ContinentsModule } from './continents/continents.module';
+import { SpritesModule } from './sprites/sprites.module';
+import { CharacterPortraitsModule } from './character-portraits/character-portraits.module';
+import { BuildingsModule } from './buildings/buildings.module';
+import { IntelligenceAgenciesModule } from './intelligence-agencies/intelligence-agencies.module';
 
 @Module({
   imports: [
@@ -21,7 +25,8 @@ import { ContinentsModule } from './continents/continents.module';
     }),
     ParserModule.forRootAsync({
       useFactory: () => ({
-        gamePath: 'C:\\Games\\Hearts of Iron IV No Step Back',
+        gamePath: '/Volumes/Windows/Games/Hearts of Iron IV No Step Back',
+        modPath: '/Volumes/Windows/Users/pstra/Documents/Paradox Interactive/Hearts of Iron IV/mod'
       }),
     }),
     StatesModule,
@@ -32,6 +37,10 @@ import { ContinentsModule } from './continents/continents.module';
     CharactersModule,
     ProvincesModule,
     ContinentsModule,
+    SpritesModule,
+    CharacterPortraitsModule,
+    BuildingsModule,
+    IntelligenceAgenciesModule,
   ],
 })
 export class AppModule {}

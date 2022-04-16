@@ -11,7 +11,7 @@ import type Parser from '@kaiseratlas/parser';
 import { InjectParser } from '../parser/parser.module';
 import { StateCategory } from '../state-categories/state-category.model';
 import { Country } from '../countries/country.model';
-import { Province } from '../provinces/province.model';
+import { Province } from '../provinces/models/province.model';
 
 @Resolver(() => State)
 export class StatesResolver {

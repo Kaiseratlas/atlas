@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CountryFlag } from './country-flag.model';
+import { CountryFlag } from '../models/country-flag.model';
 
 @Injectable()
 export class CountryFlagsService {
