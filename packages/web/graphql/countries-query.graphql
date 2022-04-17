@@ -1,0 +1,8 @@
+query CountriesQuery {
+  countries {
+    currentFlag
+    tag
+    name
+    manpower
+  }
+}

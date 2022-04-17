@@ -4,6 +4,7 @@ import Parser from '@kaiseratlas/parser';
 import { Province } from '../models/province.model';
 import { Continent } from '../../continents/continent.model';
 import { State } from '../../states/state.model';
+import { TerrainCategory } from '../../terrain-categories/models/terrain-category.model';
 
 @Resolver(() => Province)
 export class ProvincesResolver {
@@ -22,5 +23,10 @@ export class ProvincesResolver {
   @ResolveField(() => State, { name: 'state', nullable: true })
   async getState(@Parent() province: Province) {
     return province.getState();
+  }
+
+  @ResolveField(() => TerrainCategory, { name: 'terrainCategory' })
+  async getTerrainCategory(@Parent() province: Province) {
+    return province.getTerrainCategory();
   }
 }

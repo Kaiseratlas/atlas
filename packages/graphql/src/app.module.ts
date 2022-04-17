@@ -15,6 +15,10 @@ import { SpritesModule } from './sprites/sprites.module';
 import { CharacterPortraitsModule } from './character-portraits/character-portraits.module';
 import { BuildingsModule } from './buildings/buildings.module';
 import { IntelligenceAgenciesModule } from './intelligence-agencies/intelligence-agencies.module';
+import { ResourcesModule } from './resources/resources.module';
+import { TerrainCategoriesModule } from './terrain-categories/terrain-categories.module';
+import { ProductsModule } from './products/products.module';
+import { GamesModule } from './games/games.module';
 
 @Module({
   imports: [
@@ -41,6 +45,10 @@ import { IntelligenceAgenciesModule } from './intelligence-agencies/intelligence
     CharacterPortraitsModule,
     BuildingsModule,
     IntelligenceAgenciesModule,
+    ResourcesModule,
+    TerrainCategoriesModule,
+    ProductsModule,
+    GamesModule,
   ],
 })
 export class AppModule {}

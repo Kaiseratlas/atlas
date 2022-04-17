@@ -74,7 +74,7 @@ const CountryInfo: NextPage<any> = ({ country, ideologies }) => {
     setValue(newValue);
   };
   return (
-    <>
+    <React.Fragment>
       <img src={country.currentFlag} />
       <Typography variant="h3">{country.name}</Typography>
       <TabContext value={value}>

@@ -28,6 +28,15 @@ const columns: GridColDef[] = [
     ),
   },
   {
+    field: 'terrainCategory',
+    headerName: 'Terrain Category',
+    renderCell: ({ value }) => (
+      <Link href={`/terrain/category/${value.id}`}>
+        <a>{value.name}</a>
+      </Link>
+    ),
+  },
+  {
     field: 'state',
     headerName: 'State',
     renderCell: ({ value }) =>

@@ -1,38 +1,20 @@
-import {GetStaticProps, NextPage} from "next";
-import {useRouter} from "next/router";
-import {Avatar, Chip, Container} from "@mui/material";
-import client from "../../apollo-client";
-import {gql} from "@apollo/client";
-import ProvinceGrid from "../../components/ProvinceGrid";
+import { GetStaticProps, NextPage } from 'next';
+import { Container } from '@mui/material';
+import client from '../../apollo-client';
+import ProvinceGrid from '../../components/ProvinceGrid';
+import ProvincesQuery from '../../graphql/provinces-query.graphql';
 
 const Provinces: NextPage<any> = ({ provinces }) => {
   return (
-    <Container maxWidth="lg">
+    <>
       <ProvinceGrid rows={provinces} pageSize={10} autoHeight />
-    </Container>
-  )
-}
+    </>
+  );
+};
 
-export const getStaticProps: GetStaticProps = async ()  => {
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await client.query({
-    query: gql`
-        query Provinces {
-  provinces {
-    id
-    color
-    type
-    isCoastal
-     state {
-      id
-      name
-    }
-    continent {
-      id
-      name
-    }
-  }
-}
-      `,
+    query: ProvincesQuery,
   });
 
   return {
@@ -40,7 +22,6 @@ export const getStaticProps: GetStaticProps = async ()  => {
       provinces: data.provinces,
     },
   };
-}
-
+};
 
 export default Provinces;

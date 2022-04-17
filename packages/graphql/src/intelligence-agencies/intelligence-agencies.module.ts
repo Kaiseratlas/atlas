@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { IntelligenceAgenciesResolver } from './intelligence-agencies.resolver';
+import { IntelligenceAgenciesResolver } from './resolvers/intelligence-agencies.resolver';
 
 @Module({
-  providers: [IntelligenceAgenciesResolver]
+  providers: [IntelligenceAgenciesResolver],
 })
 export class IntelligenceAgenciesModule {}

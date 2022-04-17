@@ -1,0 +1,9 @@
+query ResourcesQuery {
+  resources {
+    id
+    name
+    description
+    CIC
+    convoys
+  }
+}

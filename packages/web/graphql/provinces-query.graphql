@@ -1,0 +1,20 @@
+query ProvincesQuery {
+  provinces {
+    id
+    color
+    type
+    isCoastal
+    terrainCategory {
+      id
+      name
+    }
+    state {
+      id
+      name
+    }
+    continent {
+      id
+      name
+    }
+  }
+}

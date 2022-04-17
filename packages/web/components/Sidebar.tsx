@@ -157,6 +157,14 @@ const Sidebar: React.FC = () => {
                 <Chip label={10} size="small" />
               </ListItemSecondaryAction>
             </ListItemButton>
+            <ListItemButton
+              selected={router.pathname === '/resources'}
+              onClick={async () => {
+                await router.push('/resources');
+              }}
+            >
+              <ListItemText>Resources</ListItemText>
+            </ListItemButton>
           </List>
           <List
             dense
