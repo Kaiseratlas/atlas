@@ -5,10 +5,15 @@ import {
   Inject,
   Module,
   ModuleMetadata,
+  OnModuleInit,
   Provider,
   Type,
 } from '@nestjs/common';
 import Parser, { Game } from '@kaiseratlas/parser';
+import { ProductsService } from '../products/services/products.service';
+import { ProductsModule } from '../products/products.module';
+import { ParserService } from './services/parser.service';
+import { GamesService } from '../games/services/games.service';
 
 export class ParserConstants {
   public static readonly PARSER_INSTANCE = 'PARSER_INSTANCE';
@@ -39,8 +44,36 @@ export function InjectParser() {
 }
 
 @Global()
-@Module({})
-export class ParserModule {
+@Module({
+  imports: [ProductsModule],
+  providers: [ParserService],
+})
+export class ParserModule implements OnModuleInit {
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly gamesService: GamesService,
+    private readonly parserService: ParserService,
+  ) {}
+
+  async onModuleInit(): Promise<void> {
+    const products = await this.productsService.findAll();
+    const games = await this.gamesService.findAll();
+
+    console.log('products[0]', products[0].versions[0]);
+    console.log(
+      'products[0].versions[0].game.id;',
+      games.find((game) => products[0].versions[0].game.id === game.id),
+    );
+    const parser = await Parser.initialize(
+      games.find((game) => products[0].versions[0].game.id === game.id),
+      products[0].versions[0].dependencies,
+    );
+    console.log('parser', await parser.map.continents.load())
+    // const games = await this.gamesService.findAll();
+    // const mods = await games[0].mods.load();
+    // console.log('games', mods);
+  }
+
   static forRootAsync(options: ParserModuleOptionsAsyncOptions): DynamicModule {
     const mwnProvider: Provider = {
       inject: [ParserConstants.PARSER_MODULE_OPTIONS],
@@ -50,22 +83,22 @@ export class ParserModule {
           modPath: options.modPath,
         });
         const kr = await Parser.initialize(hoi4);
-        await Promise.all([
-          kr.i18n.load(),
-          // Common
-          kr.common.characters.load(),
-          kr.common.countries.load(),
-          kr.common.ideologies.load(),
-          kr.common.stateCategories.load(),
-          // Events
-          kr.events.load(),
-          // History
-          kr.history.countries.load(),
-          kr.history.states.load(),
-          // Map
-          kr.map.continents.load(),
-          kr.map.provinces.load(),
-        ]);
+        // await Promise.all([
+        //   kr.i18n.load(),
+        //   // Common
+        //   kr.common.characters.load(),
+        //   kr.common.countries.load(),
+        //   kr.common.ideologies.load(),
+        //   kr.common.stateCategories.load(),
+        //   // Events
+        //   kr.events.load(),
+        //   // History
+        //   kr.history.countries.load(),
+        //   kr.history.states.load(),
+        //   // Map
+        //   kr.map.continents.load(),
+        //   kr.map.provinces.load(),
+        // ]);
         console.log('loaded');
         return kr;
       },

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ContinentsResolver } from './continents.resolver';
+import { ContinentsResolver } from './resolvers/continents.resolver';
 
 @Module({
-  providers: [ContinentsResolver]
+  providers: [ContinentsResolver],
 })
 export class ContinentsModule {}

@@ -1,15 +1,18 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { TerrainCategory } from '../models/terrain-category.model';
 import { InjectParser } from '../../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => TerrainCategory)
-export class TerrainCategoriesResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => [TerrainCategory], { name: 'terrainCategories' })
-  getTerrainCategories(): Promise<TerrainCategory[]> {
-    return this.parser.common.terrain.categories.load();
+export class TerrainCategoriesResolver extends ProductEntitiesResolver(
+  TerrainCategory,
+  {
+    plural: 'terrainCategories',
+  },
+) {
+  constructor(@InjectParser() protected parser: Parser) {
+    super(parser.common.terrain.categories);
   }
 
   @ResolveField(() => String, { name: 'name' })

@@ -1,15 +1,15 @@
-import { Query, ResolveField, Resolver, Parent } from '@nestjs/graphql';
+import { ResolveField, Resolver, Parent } from '@nestjs/graphql';
 import { InjectParser } from '../../parser/parser.module';
-import Parser from '@kaiseratlas/parser';
+import type Parser from '@kaiseratlas/parser';
 import { Resource } from '../model/resource.model';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => Resource)
-export class ResourcesResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => [Resource], { name: 'resources' })
-  getResources(): Promise<Resource[]> {
-    return this.parser.common.resources.load();
+export class ResourcesResolver extends ProductEntitiesResolver(Resource, {
+  plural: 'resources',
+}) {
+  constructor(@InjectParser() protected parser: Parser) {
+    super(parser.common.resources);
   }
 
   @ResolveField(() => String, { name: 'name' })
@@ -21,6 +21,6 @@ export class ResourcesResolver {
   @ResolveField(() => String, { name: 'description' })
   async getDescription(@Parent() resource: Resource) {
     const localisation = await resource.getDescription();
-    return localisation.value;;
+    return localisation.value;
   }
 }

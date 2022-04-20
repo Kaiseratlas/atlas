@@ -1,18 +1,17 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Character } from './models/character.model';
 import { InjectParser } from '../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
 import { CharacterRole } from './unions/character-role.union';
 import { CharacterPortraits } from './models/character-portraits.model';
-import { CountryLeader } from './models/country-leader.model';
+import { ProductEntitiesResolver } from '../shared/resolvers';
 
 @Resolver(() => Character)
-export class CharactersResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => [Character], { name: 'characters' })
-  getCharacters() {
-    return this.parser.common.characters.load();
+export class CharactersResolver extends ProductEntitiesResolver(Character, {
+  plural: 'characters',
+}) {
+  constructor(@InjectParser() protected parser: Parser) {
+    super(parser.common.characters);
   }
 
   @ResolveField(() => String, { name: 'name' })

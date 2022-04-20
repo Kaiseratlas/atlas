@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { StatesResolver } from './states.resolver';
+import { StatesResolver } from './resolvers/states.resolver';
 
 @Module({
   providers: [StatesResolver],

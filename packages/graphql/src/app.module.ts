@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { CountriesModule } from './countries/countries.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { StatesModule } from './states/states.module';
 import { StateCategoriesModule } from './state-categories/state-categories.module';
 import { ParserModule } from './parser/parser.module';
@@ -19,14 +17,16 @@ import { ResourcesModule } from './resources/resources.module';
 import { TerrainCategoriesModule } from './terrain-categories/terrain-categories.module';
 import { ProductsModule } from './products/products.module';
 import { GamesModule } from './games/games.module';
+import { SharedModule } from './shared/shared.module';
+import { StrategicRegionsModule } from './strategic-regions/strategic-regions.module';
+import { AutonomousStatesModule } from './autonomous-states/autonomous-states.module';
+import { AbilitiesModule } from './abilities/abilities.module';
+import { FocusTreesModule } from './focus-trees/focus-trees.module';
+import { ModsModule } from './mods/mods.module';
 
 @Module({
   imports: [
     CountriesModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
-    }),
     ParserModule.forRootAsync({
       useFactory: () => ({
         gamePath: '/Volumes/Windows/Games/Hearts of Iron IV No Step Back',
@@ -49,6 +49,12 @@ import { GamesModule } from './games/games.module';
     TerrainCategoriesModule,
     ProductsModule,
     GamesModule,
+    SharedModule,
+    StrategicRegionsModule,
+    AutonomousStatesModule,
+    AbilitiesModule,
+    FocusTreesModule,
+    ModsModule,
   ],
 })
 export class AppModule {}

@@ -1,15 +1,15 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Event } from '../event.model';
 import { InjectParser } from '../../parser/parser.module';
 import type Parser from '@kaiseratlas/parser';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => Event)
-export class EventsResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => [Event], { name: 'events' })
-  getEvents() {
-    return this.parser.events.load();
+export class EventsResolver extends ProductEntitiesResolver(Event, {
+  plural: 'events',
+}) {
+  constructor(@InjectParser() protected parser: Parser) {
+    super(parser.events);
   }
 
   @ResolveField(() => String, { name: 'title' })

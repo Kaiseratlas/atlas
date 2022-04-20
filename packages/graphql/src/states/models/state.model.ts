@@ -1,8 +1,8 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { State as _State } from '@kaiseratlas/parser';
+import * as Parser from '@kaiseratlas/parser';
 
 @ObjectType()
-export class State extends _State {
+export class State extends Parser.State {
   @Field(() => ID)
   readonly id: number;
   @Field(() => Int)

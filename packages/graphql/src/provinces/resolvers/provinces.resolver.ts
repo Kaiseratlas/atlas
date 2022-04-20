@@ -1,18 +1,18 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectParser } from '../../parser/parser.module';
 import Parser from '@kaiseratlas/parser';
 import { Province } from '../models/province.model';
-import { Continent } from '../../continents/continent.model';
-import { State } from '../../states/state.model';
+import { Continent } from '../../continents/models/continent.model';
+import { State } from '../../states/models/state.model';
 import { TerrainCategory } from '../../terrain-categories/models/terrain-category.model';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => Province)
-export class ProvincesResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => [Province], { name: 'provinces' })
-  getProvinces() {
-    return this.parser.map.provinces.load();
+export class ProvincesResolver extends ProductEntitiesResolver(Province, {
+  plural: 'provinces',
+}) {
+  constructor(@InjectParser() protected parser: Parser) {
+    super(parser.map.provinces);
   }
 
   @ResolveField(() => Continent, { name: 'continent', nullable: true })

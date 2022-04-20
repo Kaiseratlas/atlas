@@ -1,30 +1,18 @@
-import {
-  Args,
-  ID,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { State } from './state.model';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { State } from '../models/state.model';
 import type Parser from '@kaiseratlas/parser';
-import { InjectParser } from '../parser/parser.module';
-import { StateCategory } from '../state-categories/state-category.model';
-import { Country } from '../countries/country.model';
-import { Province } from '../provinces/models/province.model';
+import { InjectParser } from '../../parser/parser.module';
+import { StateCategory } from '../../state-categories/models/state-category.model';
+import { Country } from '../../countries/country.model';
+import { Province } from '../../provinces/models/province.model';
+import { ProductEntitiesResolver } from '../../shared/resolvers/product-entities.resolver';
 
 @Resolver(() => State)
-export class StatesResolver {
-  constructor(@InjectParser() protected parser: Parser) {}
-
-  @Query(() => State, { name: 'state' })
-  async getState(@Args('id', { type: () => ID }) id: number) {
-    return this.parser.history.states.get(+id);
-  }
-
-  @Query(() => [State], { name: 'states' })
-  getStates() {
-    return this.parser.history.states.load();
+export class StatesResolver extends ProductEntitiesResolver(State, {
+  plural: 'states',
+}) {
+  constructor(@InjectParser() private parser: Parser) {
+    super(parser.history.states);
   }
 
   @ResolveField(() => String, { name: 'name' })
