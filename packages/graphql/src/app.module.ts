@@ -22,6 +22,7 @@ import { AutonomousStatesModule } from './autonomous-states/autonomous-states.mo
 import { AbilitiesModule } from './abilities/abilities.module';
 import { FocusTreesModule } from './focus-trees/focus-trees.module';
 import { ModsModule } from './mods/mods.module';
+import { DecisionsModule } from './decisions/decisions.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { ModsModule } from './mods/mods.module';
     AbilitiesModule,
     FocusTreesModule,
     ModsModule,
+    DecisionsModule,
   ],
 })
 export class AppModule {}
