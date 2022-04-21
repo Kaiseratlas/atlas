@@ -5,5 +5,4 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Building)
 export class BuildingsResolver extends ProductEntitiesResolver(Building, {
   plural: 'buildings',
-  getManager: (parser) => parser.common.buildings,
 }) {}

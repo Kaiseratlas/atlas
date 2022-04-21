@@ -7,6 +7,5 @@ export class AutonomousStatesResolver extends ProductEntitiesResolver(
   AutonomyState,
   {
     plural: 'autonomousStates',
-    getManager: (parser) => parser.common.autonomousStates,
   },
 ) {}

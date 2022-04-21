@@ -1,12 +1,20 @@
 import type { Type } from '@nestjs/common';
-import { Resolver, Query, ObjectType, Args, ID } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  ObjectType,
+  Args,
+  ID,
+  Context,
+} from '@nestjs/graphql';
 import type { ProductEntity } from '@kaiseratlas/parser';
 import { IEdgeType, Paginated } from '../paginatied.function';
 import { PaginationArgs } from '../dto/pagination.args';
 import { PageInfo } from '../models/page-info.model';
 import type { ProductEntitiesResolverOptions } from '../options/product-entities-resolver.options';
 import { camelize } from '../shared.utils';
-import { ParserService } from '../../parser/services/parser.service';
+import { ParserService } from '../../parser';
+import type { Request } from 'express';
 
 export function ProductEntitiesResolver<T extends ProductEntity>(
   classRef: Type<T>,
@@ -20,26 +28,38 @@ export function ProductEntitiesResolver<T extends ProductEntity>(
     protected constructor(private readonly parserService: ParserService) {}
 
     @Query(() => classRef, { name: camelize(classRef.name) })
-    async findById(@Args('id', { type: () => ID }) id: T['id']): Promise<T> {
-      const parser = this.parserService.get('kaiserreich', '0.20.1');
-      const manager = options.getManager(parser);
+    async findById(
+      @Context('req') req: Request,
+      @Args('id', { type: () => ID }) id: T['id'],
+    ): Promise<T> {
+      const productName = req.get('x-product-name');
+      const productVersion = req.get('x-product-version');
+      const parser = this.parserService.get(productName, productVersion);
+      const manager = parser.getManager<T>(classRef);
       return manager.get(id);
     }
 
     protected transformToEdge(entity: T): IEdgeType<T> {
-      const idProperty = options?.getIdProperty?.(entity) ?? 'id';
+      const id = options?.getIdProperty?.(entity) ?? entity['id'];
+      const cursor = Buffer.from(`${id}`).toString('base64');
       return {
         node: entity,
-        cursor: Buffer.from(`${entity[idProperty]}`).toString('base64'),
+        cursor,
       };
     }
 
     @Query(() => PaginatedEntity, { name: options.plural })
     async findAll(
+      @Context('req') req: Request,
       @Args() { before, first, last, after }: PaginationArgs,
     ): Promise<PaginatedEntity> {
-      const parser = this.parserService.get('kaiserreich', '0.20.1');
-      const manager = options.getManager(parser);
+      if (!first && !last) {
+        first = 10;
+      }
+      const productName = req.get('x-product-name');
+      const productVersion = req.get('x-product-version');
+      const parser = this.parserService.get(productName, productVersion);
+      const manager = parser.getManager<T>(classRef);
       const entities = await manager.load();
       const edges = entities.map(this.transformToEdge);
       let slicedEdges = [];

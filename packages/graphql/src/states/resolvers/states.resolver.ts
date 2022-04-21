@@ -1,14 +1,13 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { State } from '../models/state.model';
 import { StateCategory } from '../../state-categories/models/state-category.model';
-import { Country } from '../../countries/country.model';
+import { Country } from '../../countries/models/country.model';
 import { Province } from '../../provinces/models/province.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => State)
 export class StatesResolver extends ProductEntitiesResolver(State, {
   plural: 'states',
-  getManager: (parser) => parser.history.states,
 }) {
   @ResolveField(() => String, { name: 'name' })
   async getCurrentName(@Parent() state: State) {

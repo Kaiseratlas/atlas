@@ -5,5 +5,4 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Sprite)
 export class SpritesResolver extends ProductEntitiesResolver(Sprite, {
   plural: 'sprites',
-  getManager: (parser) => parser.interface.sprites,
 }) {}

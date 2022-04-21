@@ -7,7 +7,6 @@ export class TerrainCategoriesResolver extends ProductEntitiesResolver(
   TerrainCategory,
   {
     plural: 'terrainCategories',
-    getManager: (parser) => parser.common.terrain.categories,
   },
 ) {
   @ResolveField(() => String, { name: 'name' })

@@ -5,5 +5,4 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => FocusTree)
 export class FocusTreesResolver extends ProductEntitiesResolver(FocusTree, {
   plural: 'focusTrees',
-  getManager: (parser) => parser.common.goals,
 }) {}

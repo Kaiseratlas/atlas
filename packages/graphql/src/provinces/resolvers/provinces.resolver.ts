@@ -8,7 +8,6 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Province)
 export class ProvincesResolver extends ProductEntitiesResolver(Province, {
   plural: 'provinces',
-  getManager: (parser) => parser.map.provinces,
 }) {
   @ResolveField(() => Continent, { name: 'continent', nullable: true })
   async getContinent(@Parent() province: Province) {

@@ -1,17 +1,16 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { Country } from '../country.model';
+import { Country } from '../models/country.model';
 import { Int, Query } from '@nestjs/graphql';
 import { CountryFlag } from '../../country-flags/models/country-flag.model';
 import { CountryFlagsService } from '../../country-flags/services/country-flags.service';
 import { State } from '../../states/models/state.model';
 import { Character } from '../../characters/models/character.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
-import { ParserService } from '../../parser/services/parser.service';
+import { ParserService } from '../../parser';
 
 @Resolver(() => Country)
 export class CountriesResolver extends ProductEntitiesResolver(Country, {
   plural: 'countries',
-  getManager: (parser) => parser.common.countries,
   getIdProperty: (country) => country.tag,
 }) {
   constructor(
@@ -19,14 +18,6 @@ export class CountriesResolver extends ProductEntitiesResolver(Country, {
     private readonly countryFlagsService: CountryFlagsService,
   ) {
     super(parserService);
-  }
-
-  @Query(() => [Country], { name: 'countries' })
-  async getCountries() {
-    const countries = await this.parser.common.countries.load();
-    return countries.filter(
-      (country) => !country.isDynamic && !['XXA', 'XXB'].includes(country.tag),
-    );
   }
 
   @ResolveField(() => String, { name: 'currentFlag' })

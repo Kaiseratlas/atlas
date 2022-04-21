@@ -5,7 +5,6 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Event)
 export class EventsResolver extends ProductEntitiesResolver(Event, {
   plural: 'events',
-  getManager: (parser) => parser.events,
 }) {
   @ResolveField(() => String, { name: 'title' })
   async getTitle(@Parent() event: Event) {

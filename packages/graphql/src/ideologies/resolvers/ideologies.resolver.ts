@@ -5,7 +5,6 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Ideology)
 export class IdeologiesResolver extends ProductEntitiesResolver(Ideology, {
   plural: 'ideologies',
-  getManager: (parser) => parser.common.ideologies,
 }) {
   @ResolveField(() => String, { name: 'icon' })
   async getIcon(@Parent() ideology: Ideology) {

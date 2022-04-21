@@ -1,13 +1,12 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { Character } from './models/character.model';
-import { CharacterRole } from './unions/character-role.union';
-import { CharacterPortraits } from './models/character-portraits.model';
-import { ProductEntitiesResolver } from '../shared/resolvers';
+import { Character } from '../models/character.model';
+import { CharacterRole } from '../unions/character-role.union';
+import { CharacterPortraits } from '../models/character-portraits.model';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
 
 @Resolver(() => Character)
 export class CharactersResolver extends ProductEntitiesResolver(Character, {
   plural: 'characters',
-  getManager: (parser) => parser.common.characters,
 }) {
   @ResolveField(() => String, { name: 'name' })
   async getName(@Parent() character: Character) {

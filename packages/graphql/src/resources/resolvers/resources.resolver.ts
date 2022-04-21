@@ -5,7 +5,6 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Resource)
 export class ResourcesResolver extends ProductEntitiesResolver(Resource, {
   plural: 'resources',
-  getManager: (parser) => parser.common.resources,
 }) {
   @ResolveField(() => String, { name: 'name' })
   async getName(@Parent() resource: Resource) {

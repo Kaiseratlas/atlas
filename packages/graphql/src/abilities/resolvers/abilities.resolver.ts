@@ -5,7 +5,6 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Ability)
 export class AbilitiesResolver extends ProductEntitiesResolver(Ability, {
   plural: 'abilities',
-  getManager: (parser) => parser.common.abilities,
 }) {
   @ResolveField(() => String, { name: 'name' })
   async getName(@Parent() ability: Ability) {

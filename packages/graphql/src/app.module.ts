@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CountriesModule } from './countries/countries.module';
 import { StatesModule } from './states/states.module';
-import { StateCategoriesModule } from './state-categories/state-categories.module';
-import { ParserModule } from './parser/parser.module';
+import { ParserModule } from './parser';
 import { EventsModule } from './events/events.module';
 import { CountryFlagsModule } from './country-flags/country-flags.module';
 import { IdeologiesModule } from './ideologies/ideologies.module';
@@ -29,7 +28,6 @@ import { ModsModule } from './mods/mods.module';
     CountriesModule,
     ParserModule,
     StatesModule,
-    StateCategoriesModule,
     EventsModule,
     CountryFlagsModule,
     IdeologiesModule,

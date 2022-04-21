@@ -6,6 +6,8 @@ import { GqlConfigService } from './services/gql-config.service';
 import { TypeOrmConfigService } from './services/type-orm-config.service';
 import { ConfigModule } from '@nestjs/config';
 import databaseConfig from '../config/database.config';
+import { RouterModule } from '@nestjs/core';
+import { ROUTES } from './routes.const';
 
 @Global()
 @Module({
@@ -21,6 +23,7 @@ import databaseConfig from '../config/database.config';
       driver: ApolloDriver,
       useClass: GqlConfigService,
     }),
+    RouterModule.register(ROUTES),
   ],
 })
 export class SharedModule {}

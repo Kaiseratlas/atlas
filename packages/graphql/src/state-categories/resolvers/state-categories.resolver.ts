@@ -7,7 +7,6 @@ export class StateCategoriesResolver extends ProductEntitiesResolver(
   StateCategory,
   {
     plural: 'stateCategories',
-    getManager: (parser) => parser.common.stateCategories,
   },
 ) {
   @ResolveField(() => String, { name: 'name' })

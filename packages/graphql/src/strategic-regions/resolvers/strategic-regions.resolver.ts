@@ -7,6 +7,5 @@ export class StrategicRegionsResolver extends ProductEntitiesResolver(
   StrategicRegion,
   {
     plural: 'strategicRegions',
-    getManager: (parser) => parser.map.strategicRegions,
   },
 ) {}
