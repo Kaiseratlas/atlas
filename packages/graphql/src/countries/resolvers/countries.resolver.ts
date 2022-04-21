@@ -1,4 +1,4 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Country } from '../models/country.model';
 import { Int, Query } from '@nestjs/graphql';
 import { CountryFlag } from '../../country-flags/models/country-flag.model';
@@ -7,6 +7,7 @@ import { State } from '../../states/models/state.model';
 import { Character } from '../../characters/models/character.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 import { ParserService } from '../../parser';
+import { Request } from 'express';
 
 @Resolver(() => Country)
 export class CountriesResolver extends ProductEntitiesResolver(Country, {
@@ -21,9 +22,14 @@ export class CountriesResolver extends ProductEntitiesResolver(Country, {
   }
 
   @ResolveField(() => String, { name: 'currentFlag' })
-  async getCurrentFlag(@Parent() country: Country) {
-    const flag = await country.flags.getCurrent();
-    return this.countryFlagsService.getUrl(flag);
+  async getCurrentFlag(
+    @Context('req') req: Request,
+    @Parent() country: Country,
+  ) {
+    const productName = req.get('x-product-name');
+    const productVersion = req.get('x-product-version');
+    const flag = await country.getCurrentFlag();
+    return this.countryFlagsService.getUrl(productName, productVersion, flag);
   }
 
   @ResolveField(() => String, { name: 'formalName' })
@@ -50,7 +56,7 @@ export class CountriesResolver extends ProductEntitiesResolver(Country, {
   }
   @ResolveField(() => [CountryFlag], { name: 'flags' })
   async getFlags(@Parent() country: Country) {
-    return country.flags.load();
+    return country.getFlags();
   }
 
   @ResolveField(() => [State], { name: 'states' })
