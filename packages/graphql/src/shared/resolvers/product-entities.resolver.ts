@@ -1,11 +1,12 @@
 import type { Type } from '@nestjs/common';
 import { Resolver, Query, ObjectType, Args, ID } from '@nestjs/graphql';
-import type { GenericManager, ProductEntity } from '@kaiseratlas/parser';
+import type { ProductEntity } from '@kaiseratlas/parser';
 import { IEdgeType, Paginated } from '../paginatied.function';
 import { PaginationArgs } from '../dto/pagination.args';
 import { PageInfo } from '../models/page-info.model';
 import type { ProductEntitiesResolverOptions } from '../options/product-entities-resolver.options';
 import { camelize } from '../shared.utils';
+import { ParserService } from '../../parser/services/parser.service';
 
 export function ProductEntitiesResolver<T extends ProductEntity>(
   classRef: Type<T>,
@@ -16,11 +17,13 @@ export function ProductEntitiesResolver<T extends ProductEntity>(
 
   @Resolver({ isAbstract: true })
   abstract class BaseResolverHost {
-    protected constructor(protected readonly manager: GenericManager<T>) {}
+    protected constructor(private readonly parserService: ParserService) {}
 
     @Query(() => classRef, { name: camelize(classRef.name) })
     async findById(@Args('id', { type: () => ID }) id: T['id']): Promise<T> {
-      return this.manager.get(id);
+      const parser = this.parserService.get('kaiserreich', '0.20.1');
+      const manager = options.getManager(parser);
+      return manager.get(id);
     }
 
     protected transformToEdge(entity: T): IEdgeType<T> {
@@ -35,7 +38,9 @@ export function ProductEntitiesResolver<T extends ProductEntity>(
     async findAll(
       @Args() { before, first, last, after }: PaginationArgs,
     ): Promise<PaginatedEntity> {
-      const entities = await this.manager.load();
+      const parser = this.parserService.get('kaiserreich', '0.20.1');
+      const manager = options.getManager(parser);
+      const entities = await manager.load();
       const edges = entities.map(this.transformToEdge);
       let slicedEdges = [];
       if (first) {

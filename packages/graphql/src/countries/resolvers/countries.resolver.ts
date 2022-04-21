@@ -1,24 +1,24 @@
-import { Args, ID, Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Country } from '../country.model';
 import { Int, Query } from '@nestjs/graphql';
-import type Parser from '@kaiseratlas/parser';
-import { InjectParser } from '../../parser/parser.module';
 import { CountryFlag } from '../../country-flags/models/country-flag.model';
 import { CountryFlagsService } from '../../country-flags/services/country-flags.service';
 import { State } from '../../states/models/state.model';
 import { Character } from '../../characters/models/character.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
+import { ParserService } from '../../parser/services/parser.service';
 
 @Resolver(() => Country)
 export class CountriesResolver extends ProductEntitiesResolver(Country, {
   plural: 'countries',
+  getManager: (parser) => parser.common.countries,
   getIdProperty: (country) => country.tag,
 }) {
   constructor(
-    @InjectParser() protected parser: Parser,
-    private countryFlagsService: CountryFlagsService,
+    private readonly parserService: ParserService,
+    private readonly countryFlagsService: CountryFlagsService,
   ) {
-    super(parser.common.countries);
+    super(parserService);
   }
 
   @Query(() => [Country], { name: 'countries' })

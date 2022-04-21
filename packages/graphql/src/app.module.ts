@@ -27,12 +27,7 @@ import { ModsModule } from './mods/mods.module';
 @Module({
   imports: [
     CountriesModule,
-    ParserModule.forRootAsync({
-      useFactory: () => ({
-        gamePath: '/Volumes/Windows/Games/Hearts of Iron IV No Step Back',
-        modPath: '/Volumes/Windows/Users/pstra/Documents/Paradox Interactive/Hearts of Iron IV/mod'
-      }),
-    }),
+    ParserModule,
     StatesModule,
     StateCategoriesModule,
     EventsModule,

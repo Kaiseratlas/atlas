@@ -1,11 +1,10 @@
 import { Controller, Get, Param, Query, Res } from '@nestjs/common';
-import { InjectParser } from '../parser/parser.module';
-import Parser from '@kaiseratlas/parser';
 import type { Response } from 'express';
+import { ParserService } from '../parser/services/parser.service';
 
 @Controller('flags')
 export class FlagsController {
-  constructor(@InjectParser() protected parser: Parser) {}
+  constructor(private readonly parserService: ParserService) {}
 
   @Get(':country_tag')
   async getFlag(
@@ -15,7 +14,8 @@ export class FlagsController {
     @Query('variant') variant = null,
   ) {
     //this.parser.common.countries.get();
-    const country = await this.parser.common.countries.get(countryTag);
+    const parser = this.parserService.get('kaiserreich', '0.20.1');
+    const country = await parser.common.countries.get(countryTag);
     const flag = await country.flags.get(variant);
     const buffer = await flag[size].png.toBuffer();
     res.set({ 'Content-Length': buffer.length });

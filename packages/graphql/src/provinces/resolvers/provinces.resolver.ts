@@ -1,6 +1,4 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { InjectParser } from '../../parser/parser.module';
-import Parser from '@kaiseratlas/parser';
 import { Province } from '../models/province.model';
 import { Continent } from '../../continents/models/continent.model';
 import { State } from '../../states/models/state.model';
@@ -10,11 +8,8 @@ import { ProductEntitiesResolver } from '../../shared/resolvers';
 @Resolver(() => Province)
 export class ProvincesResolver extends ProductEntitiesResolver(Province, {
   plural: 'provinces',
+  getManager: (parser) => parser.map.provinces,
 }) {
-  constructor(@InjectParser() protected parser: Parser) {
-    super(parser.map.provinces);
-  }
-
   @ResolveField(() => Continent, { name: 'continent', nullable: true })
   async getContinent(@Parent() province: Province) {
     return province.getContinent();

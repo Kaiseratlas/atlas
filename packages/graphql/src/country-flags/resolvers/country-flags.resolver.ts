@@ -1,14 +1,13 @@
 import { ResolveField, Resolver, Parent } from '@nestjs/graphql';
-import { InjectParser } from '../../parser/parser.module';
-import Parser from '@kaiseratlas/parser';
 import { CountryFlag } from '../models/country-flag.model';
 import { CountryFlagsService } from '../services/country-flags.service';
+import { ParserService } from '../../parser/services/parser.service';
 
 @Resolver(() => CountryFlag)
 export class CountryFlagsResolver {
   constructor(
-    @InjectParser() protected parser: Parser,
-    private countryFlagsService: CountryFlagsService,
+    private readonly parserService: ParserService,
+    private readonly countryFlagsService: CountryFlagsService,
   ) {}
 
   @ResolveField(() => String, { name: 'url' })

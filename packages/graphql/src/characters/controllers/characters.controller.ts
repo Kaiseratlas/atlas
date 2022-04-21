@@ -1,12 +1,11 @@
 import { Controller, Get, Param, Res } from '@nestjs/common';
 import { Response } from 'express';
-import Parser from '@kaiseratlas/parser';
-import { InjectParser } from '../../parser/parser.module';
 import { Character } from '../models/character.model';
+import { ParserService } from '../../parser/services/parser.service';
 
 @Controller('characters')
 export class CharactersController {
-  constructor(@InjectParser() private parser: Parser) {}
+  constructor(private readonly parserService: ParserService) {}
 
   @Get(':id/:type/:size')
   async getPortrait(
@@ -15,7 +14,8 @@ export class CharactersController {
     @Param('type') type: string,
     @Param('size') size: string,
   ) {
-    const character = await this.parser.common.characters.get(id);
+    const parser = this.parserService.get('kaiserreich', '0.20.1');
+    const character = await parser.common.characters.get(id);
     const portrait = character.portraits[type];
     const buffer = await portrait[size].png.toBuffer();
     res.set({ 'Content-Length': buffer.length });

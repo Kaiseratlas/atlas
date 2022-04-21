@@ -1,15 +1,24 @@
 import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { InjectParser } from '../../parser/parser.module';
-import type Parser from '@kaiseratlas/parser';
 import { IntelligenceAgency } from '../models/intelligence-agency.model';
 import { SpritesService } from '../../sprites/services/sprites.service';
+import { ProductEntitiesResolver } from '../../shared/resolvers';
+import { ParserService } from '../../parser/services/parser.service';
 
 @Resolver(() => IntelligenceAgency)
-export class IntelligenceAgenciesResolver {
+export class IntelligenceAgenciesResolver extends ProductEntitiesResolver(
+  IntelligenceAgency,
+  {
+    plural: 'intelligenceAgencies',
+    getManager: (parser) => parser.common.IA,
+    getIdProperty: (ia) => ia['picture'],
+  },
+) {
   constructor(
-    @InjectParser() protected parser: Parser,
+    private readonly parserService: ParserService,
     private readonly spritesService: SpritesService,
-  ) {}
+  ) {
+    super(parserService);
+  }
 
   @Query(() => [IntelligenceAgency], { name: 'intelligenceAgencies' })
   getIntelligenceAgencies(): Promise<IntelligenceAgency[]> {
