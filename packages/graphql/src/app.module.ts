@@ -25,6 +25,7 @@ import { ModsModule } from './mods/mods.module';
 import { DecisionsModule } from './decisions/decisions.module';
 import { TechnologiesModule } from './technologies/technologies.module';
 import { GameRulesModule } from './game-rules/game-rules.module';
+import { DifficultySettingsModule } from './difficulty-settings/difficulty-settings.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { GameRulesModule } from './game-rules/game-rules.module';
     DecisionsModule,
     TechnologiesModule,
     GameRulesModule,
+    DifficultySettingsModule,
   ],
 })
 export class AppModule {}
