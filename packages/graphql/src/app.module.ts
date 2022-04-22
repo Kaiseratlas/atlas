@@ -23,6 +23,8 @@ import { AbilitiesModule } from './abilities/abilities.module';
 import { FocusTreesModule } from './focus-trees/focus-trees.module';
 import { ModsModule } from './mods/mods.module';
 import { DecisionsModule } from './decisions/decisions.module';
+import { TechnologiesModule } from './technologies/technologies.module';
+import { GameRulesModule } from './game-rules/game-rules.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { DecisionsModule } from './decisions/decisions.module';
     FocusTreesModule,
     ModsModule,
     DecisionsModule,
+    TechnologiesModule,
+    GameRulesModule,
   ],
 })
 export class AppModule {}

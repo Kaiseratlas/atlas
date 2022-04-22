@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { DecisionsResolver } from './resolvers/decisions.resolver';
-import { DecisionCategoriesModule } from '../decision-categories/decision-categories.module';
+import { DecisionCategoriesResolver } from './resolvers/decision-categories.resolver';
 
 @Module({
-  imports: [DecisionCategoriesModule],
-  providers: [DecisionsResolver],
+  providers: [DecisionsResolver, DecisionCategoriesResolver],
 })
 export class DecisionsModule {}

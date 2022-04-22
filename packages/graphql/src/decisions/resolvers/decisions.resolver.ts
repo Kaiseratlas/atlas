@@ -1,7 +1,7 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 import { Decision } from '../models/decision.model';
-import { DecisionCategory } from '../../decision-categories/models/decision-category.model';
+import { DecisionCategory } from '../models/decision-category.model';
 
 @Resolver(() => Decision)
 export class DecisionsResolver extends ProductEntitiesResolver(Decision, {
