@@ -21,6 +21,11 @@ export class CountriesResolver extends ProductEntitiesResolver(Country, {
     super(parserService);
   }
 
+  @ResolveField(() => String, { name: 'currentTag' })
+  getCurrentTag(@Parent() country: Country) {
+    return country.getCurrentTag();
+  }
+
   @ResolveField(() => String, { name: 'currentFlag' })
   async getCurrentFlag(
     @Context('req') req: Request,

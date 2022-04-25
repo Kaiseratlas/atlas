@@ -26,6 +26,8 @@ import { DecisionsModule } from './decisions/decisions.module';
 import { TechnologiesModule } from './technologies/technologies.module';
 import { GameRulesModule } from './game-rules/game-rules.module';
 import { DifficultySettingsModule } from './difficulty-settings/difficulty-settings.module';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { UnitsModule } from './units/units.module';
 
 @Module({
   imports: [
@@ -56,6 +58,8 @@ import { DifficultySettingsModule } from './difficulty-settings/difficulty-setti
     TechnologiesModule,
     GameRulesModule,
     DifficultySettingsModule,
+    BookmarksModule,
+    UnitsModule,
   ],
 })
 export class AppModule {}
