@@ -1,0 +1,19 @@
+query WarGoalsQuery {
+  warGoals {
+    edges {
+      cursor
+      node {
+        id
+        name
+        shortDescription
+        description
+        generateBaseCost
+        generatePerStateCost
+        takeStatesCost
+        takeStatesLimit
+        threat
+        expire
+      }
+    }
+  }
+}

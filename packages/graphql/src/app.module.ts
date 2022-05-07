@@ -28,6 +28,9 @@ import { GameRulesModule } from './game-rules/game-rules.module';
 import { DifficultySettingsModule } from './difficulty-settings/difficulty-settings.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { UnitsModule } from './units/units.module';
+import { DivisionsModule } from './divisions/divisions.module';
+import { WarGoalsModule } from './war-goals/war-goals.module';
+import { FocusesModule } from './focuses/focuses.module';
 
 @Module({
   imports: [
@@ -60,6 +63,9 @@ import { UnitsModule } from './units/units.module';
     DifficultySettingsModule,
     BookmarksModule,
     UnitsModule,
+    DivisionsModule,
+    WarGoalsModule,
+    FocusesModule,
   ],
 })
 export class AppModule {}

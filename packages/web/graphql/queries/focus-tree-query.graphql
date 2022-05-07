@@ -1,0 +1,31 @@
+{
+  focusTree(id: "albanian_focus") {
+    id
+    name
+    focuses {
+      id
+      name
+      description
+      iconUrl
+      x
+      y
+      cost
+      prerequisite {
+        id
+      }
+      availableIfCapitulated
+      cancelIfInvalid
+      continueIfInvalid
+      relativePositionFocus {
+        id
+      }
+      mutuallyExclusiveFocus {
+        id
+      }
+      searchFilters {
+        id
+        name
+      }
+    }
+  }
+}

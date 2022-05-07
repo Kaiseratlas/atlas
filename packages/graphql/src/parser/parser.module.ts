@@ -2,7 +2,7 @@ import { Global, Module, OnModuleInit } from '@nestjs/common';
 import Parser from '@kaiseratlas/parser';
 import { ProductsService } from '../products/services/products.service';
 import { ProductsModule } from '../products/products.module';
-import { ParserService } from './services/parser.service';
+import { ParserService } from './services';
 import { GamesService } from '../games/services/games.service';
 
 @Global()
@@ -36,17 +36,22 @@ export class ParserModule implements OnModuleInit {
         await Promise.all(
           parsers.map(async (parser) => {
             await Promise.all([
-              parser.i18n.load(),
               // Common
               parser.common.characters.load(),
               parser.common.countries.load(),
               parser.common.ideologies.load(),
               parser.common.stateCategories.load(),
+              parser.common.units.load(),
               // Events
               parser.events.load(),
               // History
               parser.history.countries.load(),
               parser.history.states.load(),
+              parser.history.divisions.templates.load(),
+              // Interface
+              parser.interface.sprites.load(),
+              // Localisations
+              parser.i18n.load(),
               // Map
               parser.map.continents.load(),
               parser.map.provinces.load(),
