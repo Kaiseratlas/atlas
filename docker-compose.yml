@@ -1,5 +1,25 @@
 version: "3.9"
-#
-#services:
-#  graphql:
+
+services:
+  database:
+    container_name: 'kaiseratlas-database'
+    image: postgres:13.5-alpine3.14
+    restart: always
+    tty: true
+    environment:
+      - POSTGRES_PASSWORD=kaiseratlas
+      - POSTGRES_USER=kaiseratlas
+      - POSTGRES_DB=kaiseratlas
+  graphql:
+    build:
+      context: packages/graphql
+    container_name: 'kaiseratlas-graphql'
+    depends_on:
+      - database
+    restart: always
+    tty: true
+    environment:
+      - DATABASE_URL=postgres://kaiseratlas:kaiseratlas@database:5432/kaiseratlas
+    ports:
+      - "3001:3000"
 #  web:
