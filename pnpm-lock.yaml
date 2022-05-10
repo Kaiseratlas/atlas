@@ -14,12 +14,14 @@ importers:
 
   packages/graphql:
     specifiers:
+      '@elastic/elasticsearch': ^8.2.0-patch.1
       '@kaiseratlas/parser': ^0.1.0
       '@nestjs/apollo': ^10.0.8
       '@nestjs/cli': ^8.0.0
       '@nestjs/common': ^8.0.0
       '@nestjs/config': ^2.0.0
       '@nestjs/core': ^8.0.0
+      '@nestjs/elasticsearch': ^8.1.0
       '@nestjs/graphql': ^10.0.8
       '@nestjs/platform-express': ^8.0.0
       '@nestjs/schematics': ^8.0.0
@@ -55,11 +57,13 @@ importers:
       typescript: ^4.3.5
       webpack: ^5.0.0
     dependencies:
+      '@elastic/elasticsearch': 8.2.0-patch.1
       '@kaiseratlas/parser': 0.1.0
       '@nestjs/apollo': 10.0.8_920d38b7dee7c84f7f6aaadd66755acb
       '@nestjs/common': 8.4.4_e7ea248743279784063e3708d703abc5
       '@nestjs/config': 2.0.0_7670df531e7a1503cdbe395599f41db7
       '@nestjs/core': 8.4.4_b63c269346792a9d57cfab86d23050d2
+      '@nestjs/elasticsearch': 8.1.0_fd468461c84d7a21f8b4cab5044b0737
       '@nestjs/graphql': 10.0.8_0582406225b3ef2db1c0775ed56f9d18
       '@nestjs/platform-express': 8.4.4_a78378ec5f3cecc3c353ed91b578f3e6
       '@nestjs/typeorm': 8.0.3_5565c6793a20156d0e1b2452a26558b0
@@ -114,11 +118,14 @@ importers:
       eslint-config-next: 12.1.4
       eslint-config-prettier: ^8.5.0
       graphql: ^16.3.0
+      konva: ^8.3.8
       next: 12.1.4
       prettier: ^2.6.2
       react: 18.0.0
       react-dom: 18.0.0
+      react-konva: ^18.1.0
       typescript: 4.6.3
+      use-image: ^1.0.12
     dependencies:
       '@apollo/client': 3.5.10_graphql@16.3.0+react@18.0.0
       '@emotion/react': 11.9.0_@types+react@18.0.1+react@18.0.0
@@ -130,9 +137,12 @@ importers:
       '@mui/x-data-grid': 5.8.0_@mui+material@5.6.1+react@18.0.0
       eslint-config-prettier: 8.5.0_eslint@8.13.0
       graphql: 16.3.0
+      konva: 8.3.8
       next: 12.1.4_react-dom@18.0.0+react@18.0.0
       react: 18.0.0
       react-dom: 18.0.0_react@18.0.0
+      react-konva: 18.1.0_c75619329f75bdfcdaf40659bf309146
+      use-image: 1.0.12_react-dom@18.0.0+react@18.0.0
     devDependencies:
       '@types/node': 17.0.23
       '@types/react': 18.0.1
@@ -683,6 +693,30 @@ packages:
         optional: true
     dependencies:
       '@date-io/core': 2.13.1
+    dev: false
+
+  /@elastic/elasticsearch/8.2.0-patch.1:
+    resolution: {integrity: sha512-ROx9WLPoRrJ/NvT3NEz/4ZhzvGRmB1dSvhkNyuQ+LoHSR2kh4CFqFmxoFtJmWN1uqbw8WvQ0AmMCyLbDI04IVA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@elastic/transport': 8.2.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@elastic/transport/8.2.0:
+    resolution: {integrity: sha512-H/HmefMNQfLiBSVTmNExu2lYs5EzwipUnQB53WLr17RCTDaQX0oOLHcWpDsbKQSRhDAMPPzp5YZsZMJxuxPh7A==}
+    engines: {node: '>=14'}
+    dependencies:
+      debug: 4.3.4
+      hpagent: 1.0.0
+      ms: 2.1.3
+      secure-json-parse: 2.4.0
+      tslib: 2.4.0
+      undici: 5.1.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@emotion/babel-plugin/11.9.2:
@@ -2264,6 +2298,18 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /@nestjs/elasticsearch/8.1.0_fd468461c84d7a21f8b4cab5044b0737:
+    resolution: {integrity: sha512-Ub5p5/D006017SCbygSbStvJ3yt8xYiT5jN/Rbt42d8bkQcr5xhY0iaPfFHPFA1s2Bc6QlVBKbguo++mIhFenQ==}
+    peerDependencies:
+      '@elastic/elasticsearch': ^7.4.0 || ^8.0.0
+      '@nestjs/common': ^6.0.0 || ^7.0.0 || ^8.0.0
+      rxjs: ^6.2.1 || ^7.2.0
+    dependencies:
+      '@elastic/elasticsearch': 8.2.0-patch.1
+      '@nestjs/common': 8.4.4_e7ea248743279784063e3708d703abc5
+      rxjs: 7.5.5
     dev: false
 
   /@nestjs/graphql/10.0.8_0582406225b3ef2db1c0775ed56f9d18:
@@ -6170,6 +6216,11 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
+  /hpagent/1.0.0:
+    resolution: {integrity: sha512-SCleE2Uc1bM752ymxg8QXYGW0TWtAV4ZW3TqH1aOnyi6T6YW2xadCcclm5qeVjvMvfQ2RKNtZxO7uVb9CTPt1A==}
+    engines: {node: '>=14'}
+    dev: false
+
   /html-encoding-sniffer/2.0.1:
     resolution: {integrity: sha512-D5JbOMBIR/TVZkubHT+OyT2705QvogUW4IBn6nHd756OwieSF9aDYFj4dv6HHEVGYbHaLETa3WggZYWWMyy3ZQ==}
     engines: {node: '>=10'}
@@ -7302,6 +7353,10 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
     dev: true
+
+  /konva/8.3.8:
+    resolution: {integrity: sha512-Y6ckWvsZQEpD2r6catM/O2CKP+ajrP3ijalFZ6TZOwdbx+opb/tXDjGAt5OA2kNOyj8mZgl4ZKkqWRdg7HUKmA==}
+    dev: false
 
   /language-subtag-registry/0.3.21:
     resolution: {integrity: sha512-L0IqwlIXjilBVVYKFT37X9Ih11Um5NEl9cbJIuU/SwP/zEEAbBPOnEeeuxVMf45ydWQRDQN3Nqc96OgbH1K+Pg==}
@@ -8897,6 +8952,31 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
+  /react-konva/18.1.0_c75619329f75bdfcdaf40659bf309146:
+    resolution: {integrity: sha512-Nhp82+EusN5Qrj2r+LmbKMA+OzdBVwIU34qLBM3Lei6svkVHEMiKYY2NxB0YkYWecV60P7rqfLu9ZaSMp7+Dpg==}
+    peerDependencies:
+      konva: ^8.0.1 || ^7.2.5
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+    dependencies:
+      konva: 8.3.8
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+      react-reconciler: 0.28.0_react@18.0.0
+      scheduler: 0.22.0
+    dev: false
+
+  /react-reconciler/0.28.0_react@18.0.0:
+    resolution: {integrity: sha512-sGIHDOpgVjRYgsi8NgosDnbkDvvkYFFSF900ZUhUw0+lSBEA5n76TcKFaVkfYMIuYm+7W6mT8Q673DLBfuTxcQ==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^18.1.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.0.0
+      scheduler: 0.22.0
+    dev: false
+
   /react-transition-group/4.4.2_react-dom@18.0.0+react@18.0.0:
     resolution: {integrity: sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==}
     peerDependencies:
@@ -9280,6 +9360,12 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
+  /scheduler/0.22.0:
+    resolution: {integrity: sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: false
+
   /schema-utils/3.1.1:
     resolution: {integrity: sha512-Y5PQxS4ITlC+EahLuXaY86TXfR7Dc5lw294alXOq86JAHCihAIZfqv8nNCWvaEJvaC51uN9hbLGeV0cFBdH+Fw==}
     engines: {node: '>= 10.13.0'}
@@ -9287,6 +9373,10 @@ packages:
       '@types/json-schema': 7.0.11
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
+
+  /secure-json-parse/2.4.0:
+    resolution: {integrity: sha512-Q5Z/97nbON5t/L/sH6mY2EacfjVGwrCcSi5D3btRO2GZ8pf1K1UN7Z9H5J57hjVU2Qzxr1xO+FmBhOvEkzCMmg==}
+    dev: false
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
@@ -10139,6 +10229,10 @@ packages:
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
 
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: false
+
   /tsutils/3.21.0_typescript@4.6.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
@@ -10351,6 +10445,11 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
+  /undici/5.1.1:
+    resolution: {integrity: sha512-CmK9JzLSMGx+2msOao8LhkKn3J7eKo2M50v0KZQ2XbiHcGqLS1HiIj01ceIm3jbUYlspw/FTSb6nMdSNyvVyaQ==}
+    engines: {node: '>=12.18'}
+    dev: false
+
   /unique-filename/1.1.1:
     resolution: {integrity: sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ==}
     dependencies:
@@ -10391,6 +10490,16 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
+
+  /use-image/1.0.12_react-dom@18.0.0+react@18.0.0:
+    resolution: {integrity: sha512-h6tCbHSvZOyrAKGkj4LTAyOUcMtL6NFyQdmP1M2spuClZrmyPe6nfB/NaFu135a2KKUt+7oGeUdvCiHcMdJerw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.0.0
+      react-dom: 18.0.0_react@18.0.0
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
@@ -10612,7 +10721,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
 
   /windows-release/4.0.0:

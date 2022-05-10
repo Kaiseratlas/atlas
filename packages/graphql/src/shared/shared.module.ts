@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import databaseConfig from '../config/database.config';
 import { RouterModule } from '@nestjs/core';
 import { ROUTES } from './routes.const';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { ElasticsearchConfigService } from './services/elasticsearch-config.service';
 
 @Global()
 @Module({
@@ -23,7 +25,11 @@ import { ROUTES } from './routes.const';
       driver: ApolloDriver,
       useClass: GqlConfigService,
     }),
+    ElasticsearchModule.registerAsync({
+      useClass: ElasticsearchConfigService,
+    }),
     RouterModule.register(ROUTES),
   ],
+  exports: [ElasticsearchModule],
 })
 export class SharedModule {}

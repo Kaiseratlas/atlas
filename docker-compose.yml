@@ -1,25 +1,50 @@
 version: "3.9"
 
 services:
-  database:
-    container_name: 'kaiseratlas-database'
-    image: postgres:13.5-alpine3.14
-    restart: always
-    tty: true
+  elasticsearch:
+    container_name: es-container
+    image: elasticsearch:8.2.0
     environment:
-      - POSTGRES_PASSWORD=kaiseratlas
-      - POSTGRES_USER=kaiseratlas
-      - POSTGRES_DB=kaiseratlas
-  graphql:
-    build:
-      context: packages/graphql
-    container_name: 'kaiseratlas-graphql'
-    depends_on:
-      - database
-    restart: always
-    tty: true
-    environment:
-      - DATABASE_URL=postgres://kaiseratlas:kaiseratlas@database:5432/kaiseratlas
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - es-net
     ports:
-      - "3001:3000"
+      - "9200:9200"
+  kibana:
+    container_name: kb-container
+    image: kibana:8.2.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - es-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+#  database:
+#    container_name: 'kaiseratlas-database'
+#    image: postgres:13.5-alpine3.14
+#    restart: always
+#    tty: true
+#    environment:
+#      - POSTGRES_PASSWORD=kaiseratlas
+#      - POSTGRES_USER=kaiseratlas
+#      - POSTGRES_DB=kaiseratlas
+#  graphql:
+#    build:
+#      context: packages/graphql
+#    container_name: 'kaiseratlas-gql-gateway'
+#    depends_on:
+#      - database
+#    restart: always
+#    tty: true
+#    environment:
+#      - DATABASE_URL=postgres://kaiseratlas:kaiseratlas@database:5432/kaiseratlas
+#    ports:
+#      - "3001:3000"
 #  web:
+
+networks:
+  es-net:
+    driver: bridge

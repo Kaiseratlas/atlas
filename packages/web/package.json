@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@kaiseratlas/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,9 +19,12 @@
     "@mui/x-data-grid": "^5.8.0",
     "eslint-config-prettier": "^8.5.0",
     "graphql": "^16.3.0",
+    "konva": "^8.3.8",
     "next": "12.1.4",
     "react": "18.0.0",
-    "react-dom": "18.0.0"
+    "react-dom": "18.0.0",
+    "react-konva": "^18.1.0",
+    "use-image": "^1.0.12"
   },
   "devDependencies": {
     "@types/node": "17.0.23",

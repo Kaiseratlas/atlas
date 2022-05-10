@@ -9,6 +9,12 @@ type ParserMap = Map<Product['alias'], Map<ProductVersion['version'], Parser>>;
 export class ParserService {
   private readonly parserMap: ParserMap = new Map();
 
+  getAll(): Parser[] {
+    return [...this.parserMap.values()].flatMap((versionMap) => [
+      ...versionMap.values(),
+    ]);
+  }
+
   get(productAlias: Product['alias'], version: ProductVersion['version']) {
     return this.parserMap.get(productAlias).get(version);
   }

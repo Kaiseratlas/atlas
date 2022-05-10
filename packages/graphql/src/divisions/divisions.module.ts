@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { DivisionsService } from './services/divisions.service';
 import * as resolvers from './resolvers';
 
 @Module({
