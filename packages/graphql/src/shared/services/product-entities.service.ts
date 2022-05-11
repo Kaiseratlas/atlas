@@ -40,6 +40,11 @@ export function ProductEntitiesService<T extends ProductEntity>(
       version: ProductVersion['version'],
     ): Promise<any> {
       const entities = await this.findAll(productAlias, version);
+
+      if (!entities.length) {
+        return;
+      }
+
       const dataset = await Promise.all(
         entities.map<any>(async (entity) => ({
           ...(await this.transform(entity)),

@@ -1,4 +1,4 @@
-import { Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { StrategicRegion } from '../models/strategic-region.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 
@@ -8,4 +8,10 @@ export class StrategicRegionsResolver extends ProductEntitiesResolver(
   {
     plural: 'strategicRegions',
   },
-) {}
+) {
+  @ResolveField(() => String, { name: 'name' })
+  async getName(@Parent() strategicRegion: StrategicRegion) {
+    const localisation = await strategicRegion.getName();
+    return localisation?.value;
+  }
+}

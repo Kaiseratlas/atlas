@@ -32,6 +32,7 @@ import { DivisionsModule } from './divisions/divisions.module';
 import { WarGoalsModule } from './war-goals/war-goals.module';
 import { FocusesModule } from './focuses/focuses.module';
 import { SearchModule } from './search/search.module';
+import { IdeasModule } from './ideas/ideas.module';
 
 @Module({
   imports: [
@@ -68,6 +69,7 @@ import { SearchModule } from './search/search.module';
     WarGoalsModule,
     FocusesModule,
     SearchModule,
+    IdeasModule,
   ],
 })
 export class AppModule {}

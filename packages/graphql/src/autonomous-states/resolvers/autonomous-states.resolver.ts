@@ -1,4 +1,4 @@
-import { Resolver } from '@nestjs/graphql';
+import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { AutonomyState } from '../models/autonomy-state.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 
@@ -8,4 +8,10 @@ export class AutonomousStatesResolver extends ProductEntitiesResolver(
   {
     plural: 'autonomousStates',
   },
-) {}
+) {
+  @ResolveField(() => String, { name: 'name' })
+  async getName(@Parent() autonomyState: AutonomyState) {
+    const l = await autonomyState.getName();
+    return l?.value;
+  }
+}

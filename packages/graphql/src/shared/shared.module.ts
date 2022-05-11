@@ -6,6 +6,7 @@ import { GqlConfigService } from './services/gql-config.service';
 import { TypeOrmConfigService } from './services/type-orm-config.service';
 import { ConfigModule } from '@nestjs/config';
 import databaseConfig from '../config/database.config';
+import elasticsearchConfig from '../config/elasticsearch.config';
 import { RouterModule } from '@nestjs/core';
 import { ROUTES } from './routes.const';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
@@ -16,7 +17,7 @@ import { ElasticsearchConfigService } from './services/elasticsearch-config.serv
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig],
+      load: [databaseConfig, elasticsearchConfig],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,

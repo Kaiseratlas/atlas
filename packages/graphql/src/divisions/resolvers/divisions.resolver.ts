@@ -1,9 +1,4 @@
-import {
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 import { Division } from '../models/division.model';
 import { Province } from '../../provinces/models/province.model';

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DecisionsResolver } from './resolvers/decisions.resolver';
-import { DecisionCategoriesResolver } from './resolvers/decision-categories.resolver';
+import * as services from './services/decisions.service';
+import * as resolvers from './resolvers';
 
 @Module({
-  providers: [DecisionsResolver, DecisionCategoriesResolver],
+  providers: [...Object.values(resolvers), ...Object.values(services)],
+  exports: Object.values(services),
 })
 export class DecisionsModule {}

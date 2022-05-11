@@ -2,49 +2,48 @@ version: "3.9"
 
 services:
   elasticsearch:
-    container_name: es-container
+    container_name: "kaiseratlas-es"
     image: elasticsearch:8.2.0
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
-    networks:
-      - es-net
+    restart: always
+    tty: true
     ports:
       - "9200:9200"
-  kibana:
-    container_name: kb-container
-    image: kibana:8.2.0
+  #  kibana:
+  #    container_name: kb-container
+  #    image: kibana:8.2.0
+  #    environment:
+  #      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #    networks:
+  #      - es-net
+  #    depends_on:
+  #      - elasticsearch
+  #    ports:
+  #      - "5601:5601"
+  database:
+    container_name: "kaiseratlas-database"
+    image: postgres:13.5-alpine3.14
+    restart: always
+    tty: true
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    networks:
-      - es-net
+      - POSTGRES_PASSWORD=kaiseratlas
+      - POSTGRES_USER=kaiseratlas
+      - POSTGRES_DB=kaiseratlas
+  graphql:
+    build:
+      context: packages/graphql
+    container_name: "kaiseratlas-gql-gateway"
+    command: bash -c 'while !</dev/tcp/database/5432; do sleep 1; done; pnpm typeorm migration:run && pnpm seed:run && while !</dev/tcp/elasticsearch/9200; do sleep 1; done; node dist/main'
     depends_on:
+      - database
       - elasticsearch
+    restart: always
+    tty: true
+    environment:
+      - DATABASE_URL=postgres://kaiseratlas:kaiseratlas@database:5432/kaiseratlas
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
-      - "5601:5601"
-#  database:
-#    container_name: 'kaiseratlas-database'
-#    image: postgres:13.5-alpine3.14
-#    restart: always
-#    tty: true
-#    environment:
-#      - POSTGRES_PASSWORD=kaiseratlas
-#      - POSTGRES_USER=kaiseratlas
-#      - POSTGRES_DB=kaiseratlas
-#  graphql:
-#    build:
-#      context: packages/graphql
-#    container_name: 'kaiseratlas-gql-gateway'
-#    depends_on:
-#      - database
-#    restart: always
-#    tty: true
-#    environment:
-#      - DATABASE_URL=postgres://kaiseratlas:kaiseratlas@database:5432/kaiseratlas
-#    ports:
-#      - "3001:3000"
+      - "3001:3000"
 #  web:
-
-networks:
-  es-net:
-    driver: bridge
