@@ -1,0 +1,6 @@
+fragment ProvinceFields on Province {
+  id
+  color
+  type
+  isCoastal
+}

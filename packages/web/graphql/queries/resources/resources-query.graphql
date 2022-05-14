@@ -1,0 +1,12 @@
+#import "../../fragments/resource-fields.graphql"
+
+query ResourcesQuery {
+  resources {
+    edges {
+      cursor
+      node {
+        ...ResourceFields
+      }
+    }
+  }
+}

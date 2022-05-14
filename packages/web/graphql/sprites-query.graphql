@@ -1,7 +1,0 @@
-query SpritesQuery {
-  sprites {
-    id
-    textureFile
-    noOfFrames
-  }
-}

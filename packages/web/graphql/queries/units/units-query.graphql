@@ -1,0 +1,12 @@
+#import "../../fragments/unit-fields.graphql"
+
+query UnitsQuery {
+  units {
+    edges {
+      cursor
+      node {
+        ...UnitFields
+      }
+    }
+  }
+}

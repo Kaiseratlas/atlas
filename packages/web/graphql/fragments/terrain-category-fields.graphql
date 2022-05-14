@@ -1,0 +1,16 @@
+fragment TerrainCategoryFields on TerrainCategory {
+  id
+  name
+  description
+  isWater
+  color
+  movementCost
+  combatWidth
+  combatSupportWidth
+  aiTerrainImportanceFactor
+  matchValue
+  soundType
+  enemyArmyBonusAirSuperiorityFactor
+  supplyFlowPenaltyFactor
+  truckAttritionFactor
+}

@@ -1,0 +1,7 @@
+fragment StateFields on State {
+  id
+  name
+  manpower
+  impassable
+  buildingsMaxLevelFactor
+}

@@ -1,0 +1,33 @@
+fragment BuildingFields on Building {
+  id
+  baseCost
+  baseCostConversion
+  perLevelExtraCost
+  maxLevel
+  value
+  iconFrame
+  showOnMap
+  showOnMapMeshes
+  isAlwaysShown
+  hasDestroyedMesh
+  hasSharesSlots
+  hasInfrastructureConstructionEffect
+  isProvincial
+  damageFactor
+  isOnlyCoastal
+  isDisabledInDMZ
+  isInfrastructure
+  isAirBase
+  isPort
+  isAntiAir
+  isRefinery
+  isRadar
+  isNuclearReactor
+  militaryProduction
+  generalProduction
+  navalProduction
+  landFort
+  navalFort
+  rocketProduction
+  rocketLaunchCapacity
+}

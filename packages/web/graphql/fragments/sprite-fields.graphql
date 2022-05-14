@@ -1,0 +1,5 @@
+fragment SpriteFields on Sprite {
+  id
+  textureFile
+  noOfFrames
+}

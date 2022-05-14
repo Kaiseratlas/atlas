@@ -1,0 +1,7 @@
+#import "../../fragments/resource-fields.graphql"
+
+query ResourceQuery($id: ID!) {
+  resource(id: $id) {
+    ...ResourceFields
+  }
+}

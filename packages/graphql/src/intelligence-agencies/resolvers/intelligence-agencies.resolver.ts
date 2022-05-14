@@ -26,11 +26,6 @@ export class IntelligenceAgenciesResolver extends ProductEntitiesResolver(
     super(parserService);
   }
 
-  @Query(() => [IntelligenceAgency], { name: 'intelligenceAgencies' })
-  getIntelligenceAgencies(): Promise<IntelligenceAgency[]> {
-    return this.parser.common.IA.load();
-  }
-
   @ResolveField(() => String, { name: 'emblemUrl', nullable: true })
   async getEmblemUrl(
     @Context('req') req: Request,

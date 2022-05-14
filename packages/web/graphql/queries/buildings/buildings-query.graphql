@@ -1,0 +1,12 @@
+#import "../../fragments/building-fields.graphql"
+
+query BuildingsQuery {
+  buildings {
+    edges {
+      cursor
+      node {
+        ...BuildingFields
+      }
+    }
+  }
+}

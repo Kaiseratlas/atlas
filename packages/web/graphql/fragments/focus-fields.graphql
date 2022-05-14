@@ -1,0 +1,12 @@
+fragment FocusFields on Focus {
+  id
+  name
+  description
+  iconUrl
+  x
+  y
+  cost
+  availableIfCapitulated
+  cancelIfInvalid
+  continueIfInvalid
+}

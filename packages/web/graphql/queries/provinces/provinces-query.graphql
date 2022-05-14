@@ -1,0 +1,24 @@
+#import "../../fragments/continent-fields.graphql"
+#import "../../fragments/province-fields.graphql"
+#import "../../fragments/state-fields.graphql"
+#import "../../fragments/terrain-category-fields.graphql"
+
+query ProvincesQuery {
+  provinces {
+    edges {
+      cursor
+      node {
+        ...ProvinceFields
+        terrainCategory {
+          ...TerrainCategoryFields
+        }
+        state {
+          ...StateFields
+        }
+        continent {
+          ...ContinentFields
+        }
+      }
+    }
+  }
+}

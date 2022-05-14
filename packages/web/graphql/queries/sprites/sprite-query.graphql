@@ -1,0 +1,7 @@
+#import "../../fragments/state-fields.graphql"
+
+query SpriteQuery($id: ID!) {
+  sprite(id: $id) {
+    ...SpriteFields
+  }
+}

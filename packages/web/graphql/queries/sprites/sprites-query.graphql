@@ -1,0 +1,12 @@
+#import "../../fragments/state-fields.graphql"
+
+query SpritesQuery {
+  sprites {
+    edges {
+      cursor
+      node {
+        ...SpriteFields
+      }
+    }
+  }
+}

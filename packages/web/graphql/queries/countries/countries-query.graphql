@@ -1,0 +1,13 @@
+query CountriesQuery {
+  countries {
+    edges {
+      cursor
+      node {
+        tag
+        formalName
+        currentFlag
+        manpower
+      }
+    }
+  }
+}

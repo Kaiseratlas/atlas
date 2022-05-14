@@ -1,0 +1,12 @@
+#import "../../fragments/ability-fields.graphql"
+
+query AbilitiesQuery {
+  abilities {
+    edges {
+      cursor
+      node {
+        ...AbilityFields
+      }
+    }
+  }
+}

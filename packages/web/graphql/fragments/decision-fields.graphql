@@ -1,0 +1,5 @@
+fragment DecisionFields on Resource {
+  id
+  name
+  description
+}

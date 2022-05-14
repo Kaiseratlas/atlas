@@ -1,0 +1,12 @@
+#import "../../fragments/decision-fields.graphql"
+
+query DecisionsQuery {
+  decisions {
+    edges {
+      cursor
+      node {
+        ...DecisionFields
+      }
+    }
+  }
+}

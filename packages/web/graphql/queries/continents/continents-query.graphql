@@ -1,0 +1,12 @@
+#import "../../fragments/continent-fields.graphql"
+
+query ContinentsQuery {
+  continents {
+    edges {
+      cursor
+      node {
+        ...ContinentFields
+      }
+    }
+  }
+}

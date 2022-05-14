@@ -26,7 +26,7 @@ export class Unit extends Parser.Unit {
   readonly combatWidth: number;
   @Field(() => Float, { nullable: true })
   readonly maxStrength: number;
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   readonly maxOrganisation: number;
   @Field(() => Float, { nullable: true })
   readonly defaultMorale: number;
@@ -38,6 +38,6 @@ export class Unit extends Parser.Unit {
   readonly suppression: number;
   @Field(() => Float, { nullable: true })
   readonly weight: number;
-  @Field(() => Float)
+  @Field(() => Float, { nullable: true })
   readonly supplyConsumption: number;
 }

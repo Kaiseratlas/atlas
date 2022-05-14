@@ -1,0 +1,26 @@
+#import "../../fragments/state-fields.graphql"
+
+query States {
+  states {
+    edges {
+      cursor
+      node {
+        ...StateFields
+        category {
+          id
+          name
+        }
+        controller {
+          tag
+          currentFlag
+          formalName
+        }
+        coreOf {
+          tag
+          currentFlag
+          name
+        }
+      }
+    }
+  }
+}

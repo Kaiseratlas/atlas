@@ -1,0 +1,5 @@
+fragment AbilityFields on Ability {
+  id
+  name
+  description
+}

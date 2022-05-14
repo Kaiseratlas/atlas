@@ -1,0 +1,12 @@
+#import "../../fragments/terrain-category-fields.graphql"
+
+query TerrainCategories {
+  terrainCategories {
+    edges {
+      cursor
+      node {
+        ...TerrainCategoryFields
+      }
+    }
+  }
+}

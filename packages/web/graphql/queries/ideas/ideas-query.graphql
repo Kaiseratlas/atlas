@@ -1,0 +1,15 @@
+query IdeasQuery {
+  ideas {
+    edges {
+      cursor
+      node {
+        id
+        name
+        description
+        iconUrl
+        cost
+        removalCost
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+#import "../../fragments/province-fields.graphql"
+#import "../../fragments/state-fields.graphql"
+
+query StateQuery($id: ID!) {
+  state(id: $id) {
+    ...StateFields
+    category {
+      id
+      name
+    }
+    controller {
+      tag
+      currentFlag
+      name
+    }
+    coreOf {
+      tag
+      currentFlag
+      name
+    }
+    provinces {
+      ...ProvinceFields
+      state {
+        id
+        name
+      }
+      continent {
+        id
+        name
+      }
+    }
+  }
+}

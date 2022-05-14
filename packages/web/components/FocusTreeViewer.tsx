@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useQuery } from '@apollo/client';
-import FocusTreeQuery from '../graphql/queries/focus-tree-query.graphql';
+import FocusTreeQuery from '../graphql/queries/focuses/trees/focus-tree-query.graphql';
 import { Group, Image, Layer, Sprite, Stage, Text } from 'react-konva';
 import useImage from 'use-image';
 

@@ -1,0 +1,7 @@
+fragment ResourceFields on Resource {
+  id
+  name
+  description
+  CIC
+  convoys
+}

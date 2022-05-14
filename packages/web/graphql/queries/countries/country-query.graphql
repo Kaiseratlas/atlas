@@ -1,0 +1,9 @@
+query CountryQuery($tag: ID!) {
+  country(id: $tag) {
+    tag
+    formalName
+    name
+    manpower
+    researchSlots
+  }
+}

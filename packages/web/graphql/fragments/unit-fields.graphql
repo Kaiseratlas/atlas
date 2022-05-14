@@ -1,0 +1,18 @@
+fragment UnitFields on Unit {
+  id
+  name
+  description
+  abbreviation
+  active
+  aiPriority
+  combatWidth
+  defaultMorale
+  manpower
+  maxOrganisation
+  maxStrength
+  priority
+  supplyConsumption
+  suppression
+  trainingTime
+  weight
+}
