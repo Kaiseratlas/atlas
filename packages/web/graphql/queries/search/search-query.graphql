@@ -1,0 +1,30 @@
+#import "../../fragments/focus-fields.graphql"
+
+query SearchQuery($term: String!) {
+  search(term: $term) {
+    ... on Focus {
+      ...FocusFields
+    }
+#    ... on Resource {
+#      id
+#      name
+#      description
+#    }
+#    ... on Sprite {
+#      id
+#    }
+#    ... on State {
+#      id
+#      name
+#    }
+#    ... on Country {
+#      tag
+#      name
+#      formalName
+#    }
+#    ... on Continent {
+#      id
+#      name
+#    }
+  }
+}
