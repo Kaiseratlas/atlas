@@ -1,0 +1,4 @@
+fragment IntelligenceAgencyFields on IntelligenceAgency {
+  names
+  emblemUrl
+}

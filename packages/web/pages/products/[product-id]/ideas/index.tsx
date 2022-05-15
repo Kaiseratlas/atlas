@@ -1,18 +1,11 @@
 import { NextPage } from 'next';
-import { useQuery } from '@apollo/client';
 import IdeasQuery from '../../../../graphql/queries/ideas/ideas-query.graphql';
 import React from 'react';
 import { Column, useTable } from 'react-table';
+import useAppQuery from '../../../../use-app-query';
 
 const Ideas: NextPage<any> = () => {
-  const { data } = useQuery(IdeasQuery, {
-    context: {
-      headers: {
-        'X-Product-Name': 'kaiserreich',
-        'X-Product-Version': '0.20.1',
-      },
-    },
-  });
+  const { data } = useAppQuery(IdeasQuery);
 
   const columns = React.useMemo<Column[]>(
     () => [

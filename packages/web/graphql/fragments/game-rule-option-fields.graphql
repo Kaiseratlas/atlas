@@ -1,0 +1,6 @@
+fragment GameRuleOptionFields on GameRuleOption {
+  name
+  description
+  text
+  allowAchievements
+}

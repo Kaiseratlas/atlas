@@ -1,0 +1,12 @@
+#import "../../fragments/intelligence-agency-fields.graphql"
+
+query IntelligenceAgenciesQuery {
+  intelligenceAgencies {
+    edges {
+      cursor
+      node {
+        ...IntelligenceAgencyFields
+      }
+    }
+  }
+}

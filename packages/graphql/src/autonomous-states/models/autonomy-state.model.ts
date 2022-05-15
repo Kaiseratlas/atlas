@@ -1,5 +1,5 @@
 import * as Parser from '@kaiseratlas/parser';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class AutonomyState extends Parser.AutonomyState {
@@ -11,10 +11,10 @@ export class AutonomyState extends Parser.AutonomyState {
   readonly isPuppet: boolean;
   @Field()
   readonly useOverlordColor: boolean;
-  @Field(() => Int)
+  @Field(() => Float)
   readonly minFreedomLevel: number;
-  @Field(() => Int)
+  @Field(() => Float)
   readonly peaceConferenceInitialFreedom: number;
-  @Field(() => Int)
+  @Field(() => Float)
   readonly manpowerInfluence: number;
 }

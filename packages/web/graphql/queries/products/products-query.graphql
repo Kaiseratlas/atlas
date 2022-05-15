@@ -1,0 +1,12 @@
+#import "../../fragments/product-fields.graphql"
+
+query ProductsQuery {
+  products {
+    edges {
+      cursor
+      node {
+        ...ProductFields
+      }
+    }
+  }
+}

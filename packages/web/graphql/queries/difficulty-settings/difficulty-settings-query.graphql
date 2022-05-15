@@ -1,0 +1,16 @@
+#import "../../fragments/country-fields"
+#import "../../fragments/difficulty-setting-fields"
+
+query DifficultySettingsQuery {
+  DifficultySettings {
+    edges {
+      cursor
+      node {
+        ...DifficultySettingFields
+        countries {
+          ...CountryFields
+        }
+      }
+    }
+  }
+}

@@ -4,11 +4,11 @@ import useAppQuery from '../../../../use-app-query';
 import React from 'react';
 import { Column, useTable } from 'react-table';
 import { useRouter } from 'next/router';
-import { Button, Checkbox, Tag } from '@blueprintjs/core';
+import { Button, ButtonGroup, Checkbox, Tag } from '@blueprintjs/core';
 import Link from 'next/link';
 
 const Provinces: NextPage<any> = () => {
-  const { data, error } = useAppQuery(ProvincesQuery);
+  const { data, error, refetch } = useAppQuery(ProvincesQuery);
   const router = useRouter();
 
   const columns = React.useMemo<Column[]>(
@@ -73,7 +73,7 @@ const Provinces: NextPage<any> = () => {
         ),
       },
     ],
-    [],
+    [router.query],
   );
 
   const tableInstance = useTable({
@@ -120,6 +120,27 @@ const Provinces: NextPage<any> = () => {
           })}
         </tbody>
       </table>
+      <ButtonGroup minimal>
+        <Button
+          icon="caret-left"
+          onClick={async () => {
+            const before = data?.provinces.edges[0].cursor;
+            await refetch({ last: 10, before, first: null, after: null });
+          }}
+        >
+          Prev
+        </Button>
+        <Button
+          rightIcon="caret-right"
+          onClick={async () => {
+            const after =
+              data?.provinces.edges[data.provinces.edges.length - 1].cursor;
+            await refetch({ first: 10, after, last: null, before: null });
+          }}
+        >
+          Next
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

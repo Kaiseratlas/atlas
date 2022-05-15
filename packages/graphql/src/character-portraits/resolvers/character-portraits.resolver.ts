@@ -1,6 +1,7 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { CharacterPortrait } from '../../characters/models/character-portrait.model';
 import { CharacterPortraitsService } from '../services/character-portraits.service';
+import { Request } from 'express';
 
 @Resolver(() => CharacterPortrait)
 export class CharacterPortraitsResolver {
@@ -9,11 +10,18 @@ export class CharacterPortraitsResolver {
   ) {}
 
   @ResolveField(() => String, { name: 'large', nullable: true })
-  getLargeUrl(@Parent() characterPortrait: CharacterPortrait | null) {
+  getLargeUrl(
+    @Context('req') req: Request,
+    @Parent() characterPortrait: CharacterPortrait | null,
+  ) {
     if (!characterPortrait) {
       return null;
     }
+    const productName = req.get('x-product-name');
+    const productVersion = req.get('x-product-version');
     return this.characterPortraitsService.getUrl(
+      productName,
+      productVersion,
       characterPortrait.character,
       characterPortrait.type,
       'large',
@@ -21,11 +29,18 @@ export class CharacterPortraitsResolver {
   }
 
   @ResolveField(() => String, { name: 'small', nullable: true })
-  getSmallUrl(@Parent() characterPortrait: CharacterPortrait | null) {
+  getSmallUrl(
+    @Context('req') req: Request,
+    @Parent() characterPortrait: CharacterPortrait | null,
+  ) {
     if (!characterPortrait) {
       return null;
     }
+    const productName = req.get('x-product-name');
+    const productVersion = req.get('x-product-version');
     return this.characterPortraitsService.getUrl(
+      productName,
+      productVersion,
       characterPortrait.character,
       characterPortrait.type,
       'small',

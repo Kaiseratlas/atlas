@@ -1,0 +1,12 @@
+#import "../../fragments/game-rule-fields.graphql"
+
+query GameRulesQuery {
+  gameRules(first: 1000) {
+    edges {
+      cursor
+      node {
+        ...GameRuleFields
+      }
+    }
+  }
+}

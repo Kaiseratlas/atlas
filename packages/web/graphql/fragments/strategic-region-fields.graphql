@@ -1,0 +1,4 @@
+fragment StrategicRegionFields on StrategicRegion {
+  id
+  name
+}

@@ -1,0 +1,17 @@
+#import "../../fragments/strategic-region-fields.graphql"
+
+query StrategicRegionsQuery(
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+) {
+  strategicRegions(first: $first, after: $after, last: $last, before: $before) {
+    edges {
+      cursor
+      node {
+        ...StrategicRegionFields
+      }
+    }
+  }
+}

@@ -1,66 +1,15 @@
 import type { NextPage } from 'next';
-import { Avatar, Chip, Link, Typography } from '@mui/material';
 import CountriesQuery from '../../../../graphql/queries/countries/countries-query.graphql';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 import useAppQuery from '../../../../use-app-query';
 import { Column, useTable } from 'react-table';
 import CountryLink from '../../../../components/CountryLink';
 import { useRouter } from 'next/router';
-import { BreadcrumbProps, Breadcrumbs } from '@blueprintjs/core';
-
-const columns: GridColDef[] = [
-  {
-    field: 'tag',
-    headerName: 'Tag',
-    width: 100,
-    headerAlign: 'center',
-    align: 'center',
-  },
-  {
-    field: 'name',
-    headerName: 'Name',
-    minWidth: 300,
-    flex: 1,
-    renderCell: ({ row }) => (
-      <>
-        <Chip
-          sx={{ border: 'none' }}
-          variant="outlined"
-          avatar={
-            <Avatar
-              imgProps={{
-                sx: {
-                  height: 'auto',
-                  border: '1px solid #eaecf0',
-                },
-              }}
-              variant="square"
-              alt={row.tag}
-              src={row.currentFlag}
-            />
-          }
-          label={
-            <Link href={`/countries/${row.tag}`}>
-              <a>{row.name}</a>
-            </Link>
-          }
-        />
-      </>
-    ),
-  },
-
-  {
-    field: 'manpower',
-    headerName: 'Population',
-    type: 'number',
-    minWidth: 150,
-  },
-];
+import { BreadcrumbProps, Breadcrumbs, Button, ButtonGroup } from '@blueprintjs/core';
 
 const Countries: NextPage<any> = () => {
   const router = useRouter();
-  const { data, error } = useAppQuery(CountriesQuery);
+  const { data, error, refetch } = useAppQuery(CountriesQuery);
 
   const BREADCRUMBS: BreadcrumbProps[] = [
     { href: '/products', text: 'Products' },
@@ -148,6 +97,27 @@ const Countries: NextPage<any> = () => {
           })}
         </tbody>
       </table>
+      <ButtonGroup minimal>
+        <Button
+          icon="caret-left"
+          onClick={async () => {
+            const before = data?.countries.edges[0].cursor;
+            await refetch({ last: 10, before, first: null, after: null });
+          }}
+        >
+          Prev
+        </Button>
+        <Button
+          rightIcon="caret-right"
+          onClick={async () => {
+            const after =
+              data?.countries.edges[data.countries.edges.length - 1].cursor;
+            await refetch({ first: 10, after, last: null, before: null });
+          }}
+        >
+          Next
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

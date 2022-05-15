@@ -3,8 +3,8 @@
 #import "../../fragments/state-fields.graphql"
 #import "../../fragments/terrain-category-fields.graphql"
 
-query ProvincesQuery {
-  provinces {
+query ProvincesQuery($first: Int, $after: String, $last: Int, $before: String) {
+  provinces(first: $first, after: $after, last: $last, before: $before) {
     edges {
       cursor
       node {

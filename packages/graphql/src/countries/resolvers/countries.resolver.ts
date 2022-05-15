@@ -1,6 +1,6 @@
 import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Country } from '../models/country.model';
-import { Int, Query } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
 import { CountryFlag } from '../../country-flags/models/country-flag.model';
 import { CountryFlagsService } from '../../country-flags/services/country-flags.service';
 import { State } from '../../states/models/state.model';
@@ -8,6 +8,7 @@ import { Character } from '../../characters/models/character.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 import { ParserService } from '../../parser';
 import { Request } from 'express';
+import { Idea } from '../../ideas/models/idea.model';
 
 @Resolver(() => Country)
 export class CountriesResolver extends ProductEntitiesResolver(Country, {
@@ -19,6 +20,12 @@ export class CountriesResolver extends ProductEntitiesResolver(Country, {
     private readonly countryFlagsService: CountryFlagsService,
   ) {
     super(parserService);
+  }
+
+  @ResolveField(() => [Idea], { name: 'ideas' })
+  async getIdeas(@Parent() country: Country) {
+    const history = await country.getHistory();
+    return history.getIdeas();
   }
 
   @ResolveField(() => String, { name: 'currentTag' })

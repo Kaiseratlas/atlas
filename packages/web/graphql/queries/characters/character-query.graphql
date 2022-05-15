@@ -1,0 +1,37 @@
+#import "../../fragments/character-fields.graphql"
+
+query CharacterQuery($id: ID!) {
+  character(id: $id) {
+    ...CharacterFields
+    roles {
+      ... on CountryLeader {
+        ideology {
+          id
+          name
+        }
+        description
+      }
+      ... on CorpsCommander {
+        skill
+        attackSkill
+        defenseSkill
+        logisticsSkill
+        planningSkill
+      }
+      ... on FieldMarshal {
+        skill
+        attackSkill
+        defenseSkill
+        planningSkill
+        logisticsSkill
+      }
+      ... on NavyLeader {
+        skill
+        attackSkill
+        defenseSkill
+        maneuveringSkill
+        coordinationSkill
+      }
+    }
+  }
+}

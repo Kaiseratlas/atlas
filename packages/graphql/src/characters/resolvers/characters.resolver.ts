@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { Character } from '../models/character.model';
-import { CharacterRole } from '../unions/character-role.union';
+import { CharacterRoleUnion } from '../unions/character-role.union';
 import { CharacterPortraits } from '../models/character-portraits.model';
 import { ProductEntitiesResolver } from '../../shared/resolvers';
 
@@ -17,9 +17,8 @@ export class CharactersResolver extends ProductEntitiesResolver(Character, {
     return localisation.value;
   }
 
-  @ResolveField(() => [CharacterRole], { name: 'roles' })
+  @ResolveField(() => [CharacterRoleUnion], { name: 'roles' })
   getRoles(@Parent() character: Character) {
-    return [];
     return character.roles;
   }
 

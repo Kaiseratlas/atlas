@@ -1,0 +1,5 @@
+fragment DifficultySettingFields on DifficultySetting {
+  key
+  name
+  multiplier
+}

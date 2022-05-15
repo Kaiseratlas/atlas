@@ -11,8 +11,9 @@ import {
   FormGroup,
   NumericInput,
 } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
 
-const CountryInfo: NextPage<any> = ({ country, ideologies }) => {
+const CountryInfo: NextPage<any> = ({ country }) => {
   const router = useRouter();
   console.log('router', router.query);
 
@@ -31,12 +32,23 @@ const CountryInfo: NextPage<any> = ({ country, ideologies }) => {
     },
   ];
 
+  console.log('country', country);
+
   return (
     <>
       <Breadcrumbs items={BREADCRUMBS} />
+      <img src={country.currentFlag} alt={country.tag} />
       <h1 className="bp4-heading">{country.formalName}</h1>
-      <p>Country</p>
-      <h3 className="bp4-heading">Details</h3>
+      {/*<p>Country</p>*/}
+      <h2 className="bp4-heading">Ideas</h2>
+      {country.ideas.map((idea: any) => {
+        return (
+          <Tooltip2 key={idea.id} content={idea.name} position="bottom">
+            <img src={idea.iconUrl} alt={idea.id} />
+          </Tooltip2>
+        );
+      })}
+      <h2 className="bp4-heading">Details</h2>
       <FormGroup label="Population" labelFor="text-input">
         <NumericInput
           id="id"

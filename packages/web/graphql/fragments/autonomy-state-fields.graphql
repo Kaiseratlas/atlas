@@ -1,0 +1,10 @@
+fragment AutonomyStateFields on AutonomyState {
+  id
+  name
+  isDefault
+  isPuppet
+  manpowerInfluence
+  minFreedomLevel
+  peaceConferenceInitialFreedom
+  useOverlordColor
+}

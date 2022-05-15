@@ -68,12 +68,14 @@ export function ProductEntitiesResolver<T extends ProductEntity>(
         slicedEdges = edges.slice(afterIndex + 1).slice(0, first);
       } else if (last) {
         const beforeIndex = edges.findIndex((b) => b.cursor === before);
+        console.log('beforeIndex', beforeIndex);
         slicedEdges = edges
           .slice()
           .reverse()
           .slice(beforeIndex === -1 ? -beforeIndex - 1 : -beforeIndex)
           .slice(0, last)
           .reverse();
+        console.log('slicedEdges', slicedEdges);
       }
 
       const pageInfo = new PageInfo({

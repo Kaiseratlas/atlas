@@ -1,0 +1,14 @@
+#import "./game-rule-group-fields.graphql"
+#import "./game-rule-option-fields.graphql"
+
+fragment GameRuleFields on GameRule {
+  id
+  name
+  iconUrl
+  group {
+    ...GameRuleGroupFields
+  }
+  options {
+    ...GameRuleOptionFields
+  }
+}

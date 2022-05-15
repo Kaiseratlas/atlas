@@ -1,0 +1,17 @@
+#import "../../fragments/technology-fields.graphql"
+
+query TechnologiesQuery(
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+) {
+  technologies(first: $first, after: $after, last: $last, before: $before) {
+    edges {
+      cursor
+      node {
+        ...TechnologyFields
+      }
+    }
+  }
+}

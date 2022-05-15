@@ -1,0 +1,13 @@
+fragment TechnologyFields on Technology {
+  id
+  name
+  description
+  researchCost
+  startYear
+  isDoctrine
+  showEffectAsDescription
+  categories {
+    id
+    name
+  }
+}

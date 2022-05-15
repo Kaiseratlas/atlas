@@ -1,6 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
-import { CountryLeader } from './models/country-leader.model';
-import { Ideology } from '../ideologies/models/ideology.model';
+import { CountryLeader } from '../models/country-leader.model';
+import { Ideology } from '../../ideologies/models/ideology.model';
 
 @Resolver(() => CountryLeader)
 export class CountryLeadersResolver {
@@ -10,7 +10,8 @@ export class CountryLeadersResolver {
   }
 
   @ResolveField(() => String, { name: 'description', nullable: true })
-  getDescription(@Parent() countryLeader: CountryLeader) {
-    return countryLeader.getDescription();
+  async getDescription(@Parent() countryLeader: CountryLeader) {
+    const l = await countryLeader.getDescription();
+    return l?.value;
   }
 }

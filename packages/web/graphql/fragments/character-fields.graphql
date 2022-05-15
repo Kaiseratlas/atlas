@@ -1,0 +1,18 @@
+fragment CharacterFields on Character {
+  id
+  name
+  portraits {
+    civilian {
+      large
+      small
+    }
+    army {
+      large
+      small
+    }
+    navy {
+      large
+      small
+    }
+  }
+}

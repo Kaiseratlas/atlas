@@ -1,7 +1,7 @@
-#import "../../fragments/state-fields.graphql"
+#import "../../fragments/sprite-fields.graphql"
 
-query SpritesQuery {
-  sprites {
+query SpritesQuery($first: Int, $after: String, $last: Int, $before: String) {
+  sprites(first: $first, after: $after, last: $last, before: $before) {
     edges {
       cursor
       node {

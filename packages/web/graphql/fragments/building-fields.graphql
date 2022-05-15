@@ -1,5 +1,8 @@
 fragment BuildingFields on Building {
   id
+  name
+  description
+  plural
   baseCost
   baseCostConversion
   perLevelExtraCost

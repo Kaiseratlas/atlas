@@ -12,7 +12,7 @@ export class Technology extends Parser.Technology {
   readonly isDoctrine: boolean;
   @Field(() => Float)
   readonly researchCost: number;
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   readonly startYear: number;
   @Field()
   readonly showEffectAsDescription: boolean;

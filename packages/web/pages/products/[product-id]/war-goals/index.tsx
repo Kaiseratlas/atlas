@@ -1,18 +1,11 @@
 import { NextPage } from 'next';
-import { useQuery } from '@apollo/client';
-import IdeasQuery from '../../../../graphql/queries/ideas/ideas-query.graphql';
+import WarGoalsQuery from '../../../../graphql/queries/war-goals/war-goals-query.graphql';
 import React from 'react';
 import { Column, useTable } from 'react-table';
+import useAppQuery from '../../../../use-app-query';
 
 const Ideas: NextPage<any> = () => {
-  const { data } = useQuery(IdeasQuery, {
-    context: {
-      headers: {
-        'X-Product-Name': 'kaiserreich',
-        'X-Product-Version': '0.20.1',
-      },
-    },
-  });
+  const { data } = useAppQuery(WarGoalsQuery);
 
   const columns = React.useMemo<Column[]>(
     () => [
@@ -25,15 +18,35 @@ const Ideas: NextPage<any> = () => {
         accessor: 'node.name',
       },
       {
-        Header: 'Cost',
-        accessor: 'node.cost',
+        Header: 'Generate Base Cost',
+        accessor: 'node.generateBaseCost',
+      },
+      {
+        Header: 'Generate Per State Cost',
+        accessor: 'node.generatePerStateCost',
+      },
+      {
+        Header: 'Take States Cost',
+        accessor: 'node.takeStatesCost',
+      },
+      {
+        Header: 'Take States Limit',
+        accessor: 'node.takeStatesLimit',
+      },
+      {
+        Header: 'Threat',
+        accessor: 'node.threat',
+      },
+      {
+        Header: 'Expire',
+        accessor: 'node.expire',
       },
     ],
     [],
   );
   const tableInstance = useTable({
     columns,
-    data: data?.ideas.edges ?? [],
+    data: data?.warGoals.edges ?? [],
   });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;

@@ -1,0 +1,10 @@
+.sidebar {
+  display: flex;
+  height: calc(100vh - 50px);
+  min-width: 400px;
+  position: fixed;
+}
+
+.tabs {
+  width: 100%;
+}

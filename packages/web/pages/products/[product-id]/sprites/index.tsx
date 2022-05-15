@@ -1,18 +1,14 @@
 import { NextPage } from 'next';
 import SpritesQuery from '../../../../graphql/queries/sprites/sprites-query.graphql';
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import { Column, useTable } from 'react-table';
+import useAppQuery from '../../../../use-app-query';
+import { useRouter } from 'next/router';
+import { Button, ButtonGroup } from '@blueprintjs/core';
 
 const Sprites: NextPage<any> = () => {
-  const { data } = useQuery(SpritesQuery, {
-    context: {
-      headers: {
-        'X-Product-Name': 'kaiserreich',
-        'X-Product-Version': '0.20.1',
-      },
-    },
-  });
+  const router = useRouter();
+  const { data, refetch } = useAppQuery(SpritesQuery);
 
   const columns = React.useMemo<Column[]>(
     () => [
@@ -61,7 +57,18 @@ const Sprites: NextPage<any> = () => {
             {rows.map((row) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() =>
+                    router.push({
+                      pathname: '/products/[product-id]/sprites/[sprite-id]',
+                      query: {
+                        ...router.query,
+                        'sprite-id': row.values['node.id'],
+                      },
+                    })
+                  }
+                >
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
@@ -72,6 +79,27 @@ const Sprites: NextPage<any> = () => {
             })}
           </tbody>
         </table>
+        <ButtonGroup minimal>
+          <Button
+            icon="caret-left"
+            onClick={async () => {
+              const before = data?.sprites.edges[0].cursor;
+              await refetch({ last: 10, before, first: null, after: null });
+            }}
+          >
+            Prev
+          </Button>
+          <Button
+            rightIcon="caret-right"
+            onClick={async () => {
+              const after =
+                data?.sprites.edges[data.sprites.edges.length - 1].cursor;
+              await refetch({ first: 10, after, last: null, before: null });
+            }}
+          >
+            Next
+          </Button>
+        </ButtonGroup>
       </div>
     </>
   );

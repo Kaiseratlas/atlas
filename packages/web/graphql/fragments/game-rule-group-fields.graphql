@@ -1,0 +1,4 @@
+fragment GameRuleGroupFields on GameRuleGroup {
+  id
+  name
+}

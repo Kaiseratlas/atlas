@@ -5,13 +5,13 @@ import React from 'react';
 import useAppQuery from '../../../../use-app-query';
 import { Column, useTable } from 'react-table';
 import Link from 'next/link';
-import { Checkbox } from '@blueprintjs/core';
+import { Button, ButtonGroup, Checkbox } from '@blueprintjs/core';
 import Image from 'next/image';
 import CountryLink from '../../../../components/CountryLink';
 
 const States: NextPage<any> = () => {
   const router = useRouter();
-  const { data, error } = useAppQuery(StatesQuery);
+  const { data, error, refetch } = useAppQuery(StatesQuery);
   console.log('data', data, error);
   const columns = React.useMemo<Column[]>(
     () => [
@@ -78,7 +78,7 @@ const States: NextPage<any> = () => {
     <>
       <h1 className="bp4-heading">States</h1>
       <table
-        className="bp4-html-table bp4-html-table-bordered bp4-html-table-striped bp4-interactive"
+        className="bp4-html-table bp4-html-table-bordered bp4-html-table-striped"
         {...getTableProps()}
         style={{ width: '100%' }}
       >
@@ -106,6 +106,27 @@ const States: NextPage<any> = () => {
           })}
         </tbody>
       </table>
+      <ButtonGroup minimal>
+        <Button
+          icon="caret-left"
+          onClick={async () => {
+            const before = data?.states.edges[0].cursor;
+            await refetch({ last: 10, before, first: null, after: null });
+          }}
+        >
+          Prev
+        </Button>
+        <Button
+          rightIcon="caret-right"
+          onClick={async () => {
+            const after =
+              data?.states.edges[data.states.edges.length - 1].cursor;
+            await refetch({ first: 10, after, last: null, before: null });
+          }}
+        >
+          Next
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

@@ -1,4 +1,4 @@
-fragment DecisionFields on Resource {
+fragment DecisionFields on Decision {
   id
   name
   description

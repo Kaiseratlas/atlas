@@ -1,0 +1,8 @@
+fragment CountryFields on Country {
+  tag
+  formalName
+  name
+  manpower
+#  researchSlots // TODO: fix [2, 2]
+  currentFlag
+}

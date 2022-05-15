@@ -41,7 +41,7 @@ const Resources: NextPage<any> = ({ resources }) => {
 
   return (
     <>
-      <h1 className="bp4-heading">Ideas</h1>
+      <h1 className="bp4-heading">Resources</h1>
       <table
         className="bp4-html-table bp4-html-table-bordered bp4-html-table-striped bp4-interactive"
         {...getTableProps()}

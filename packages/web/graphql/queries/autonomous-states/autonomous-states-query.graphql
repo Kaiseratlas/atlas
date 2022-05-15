@@ -1,0 +1,12 @@
+#import "../../fragments/autonomy-state-fields.graphql"
+
+query AutonomousStatesQuery {
+  autonomousStates {
+    edges {
+      cursor
+      node {
+        ...AutonomyStateFields
+      }
+    }
+  }
+}

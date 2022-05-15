@@ -22,11 +22,14 @@ export class GameRulesResolver extends ProductEntitiesResolver(GameRule, {
     return localisation.value;
   }
 
-  @ResolveField(() => String, { name: 'iconUrl' })
+  @ResolveField(() => String, { name: 'iconUrl', nullable: true })
   async getIcon(@Context('req') req: Request, @Parent() gameRule: GameRule) {
     const productName = req.get('x-product-name');
     const productVersion = req.get('x-product-version');
     const icon = await gameRule.getIcon();
+    if (!icon) {
+      return null;
+    }
     return this.spritesService.getUrl(productName, productVersion, icon);
   }
 }

@@ -1,7 +1,8 @@
+#import "../../fragments/country-fields.graphql"
 #import "../../fragments/state-fields.graphql"
 
-query States {
-  states {
+query States($first: Int, $after: String, $last: Int, $before: String) {
+  states(first: $first, after: $after, last: $last, before: $before) {
     edges {
       cursor
       node {
@@ -11,14 +12,10 @@ query States {
           name
         }
         controller {
-          tag
-          currentFlag
-          formalName
+          ...CountryFields
         }
         coreOf {
-          tag
-          currentFlag
-          name
+          ...CountryFields
         }
       }
     }

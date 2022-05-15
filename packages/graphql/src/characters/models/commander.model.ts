@@ -1,8 +1,8 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import Parser from '@kaiseratlas/parser';
+import * as Parser from '@kaiseratlas/parser';
 
-@ObjectType()
-export abstract class Commander {
+@ObjectType({ isAbstract: true })
+export abstract class Commander extends Parser.Commander {
   @Field(() => Int)
   readonly skill: number;
   @Field(() => Int)

@@ -8,6 +8,7 @@ const SpriteInfo: NextPage<any> = ({ sprite }) => {
   return (
     <div>
       <h1 className="bp4-heading">{sprite.id}</h1>
+      <img src={sprite.previewUrl} alt={sprite.id} />
       <FormGroup label="ID" labelFor="text-input">
         <InputGroup id="id" readOnly value={sprite.id} large />
       </FormGroup>
@@ -28,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     },
     variables: {
-      id: params?.id,
+      id: params?.['sprite-id'],
     },
   });
 
